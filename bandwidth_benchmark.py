@@ -31,7 +31,12 @@ def _():
 
     from tiled.client import from_uri
 
-    return BytesIO, ThreadPoolExecutor, from_uri, h5py, mo, np, os, plt, threading, time
+    # Reuse the ingress benchmark's Server-Timing capture (stdlib-only) so egress
+    # gets the same wall = app;dur + (network + client) decomposition. Requires the
+    # notebook to run from the repo root so `regbench` is importable.
+    from regbench.instruments import CallCollector, percentile
+
+    return BytesIO, CallCollector, ThreadPoolExecutor, from_uri, h5py, mo, np, os, percentile, plt, threading, time
 
 
 @app.cell
@@ -60,7 +65,7 @@ def _(from_uri, mo, os):
         f"**{len(all_keys):,}** entities in `{DATASET}`"
         + (" _(test mode)_" if TEST_MODE else "")
     )
-    return API_KEY, ARTIFACT, DATASET, TEST_MODE, TILED_URL, all_keys, ds
+    return API_KEY, ARTIFACT, DATASET, TEST_MODE, TILED_URL, all_keys, client, ds
 
 
 @app.cell(hide_code=True)
@@ -69,36 +74,50 @@ def _(mo):
     ## §1 — Batch-size sweep
 
     We sweep `batch_size` over a grid and issue `N_REPS` independent bulk-export
-    calls per size: `ds.export(..., format="application/x-hdf5")`.  Wall-clock time
-    includes the HTTP transfer **and** HDF5 parse.
+    calls per size: `ds.export(..., format="application/x-hdf5")`.
 
-    **Key question:** where does throughput plateau as batch size grows?  The three
-    signatures to watch for:
+    **Decomposition (new).** A single wall-clock number can't tell you *why* egress is
+    slow, so — mirroring the ingress benchmark — every export is split into layers:
 
-    | Pattern | Meaning |
-    |---------|---------|
-    | Throughput still rising | Not yet saturated — push harder |
-    | Throughput flat, latency stable | Bandwidth ceiling reached |
-    | p99 diverges from p50 | Queue buildup — back off |
+    | Layer | How it's measured |
+    |-------|-------------------|
+    | `app` — server read + HDF5 re-encode | `Server-Timing: app;dur` header (via `CallCollector`) |
+    | `net` — TLS + network + receive | transfer time − `app;dur` |
+    | `decode` — client HDF5 parse + `np.stack` | timed separately from transfer |
+
+    Two byte figures are reported so they can't be confused: **wire** MB/s (bytes on the
+    HTTP socket, `_buf.tell()`) over transfer time, and **decoded** MB/s (`nbytes` of the
+    stacked array) over wall time. If the server gzips the container these diverge.
+
+    **Key question:** as batch size grows, which layer dominates? If `app` dominates, the
+    ceiling is server-side encode and parallelism won't reach GB/s; if `net` dominates on a
+    single stream, it's bandwidth-delay-product-limited and only concurrency helps; if
+    `decode` dominates, the client CPU is the wall.
     """)
     return
 
 
 @app.cell
-def _(ARTIFACT, BytesIO, TEST_MODE, all_keys, ds, h5py, mo, np, time):
+def _(ARTIFACT, BytesIO, CallCollector, TEST_MODE, all_keys, client, ds, h5py, mo, np, time):
     # ── Configuration ──────────────────────────────────────────────────────────
     BATCH_SIZES = [1, 5, 10] if TEST_MODE else [1, 5, 10, 20, 40, 80, 100, 200, 220, 230, 240]
     N_REPS      = 2 if TEST_MODE else 5      # repetitions per batch size (for IQR)
     MAX_WAIT_S  = 120.0  # hard abort: skip batch sizes slower than this
 
+    # Server-Timing capture attaches to the Tiled client's shared httpx.Client and reads
+    # `app;dur` off every export response — the layer-splitter from the ingress benchmark.
+    _coll = CallCollector()
+
+    def _median(xs):
+        return float(np.median(xs)) if xs else float("nan")
+
     # ── Warmup: prime TCP connection and server-side caches ────────────────────
+    # No guard: a warmup failure means the connection/key is broken, so fail loud here
+    # rather than limp into a sweep that would error on every batch.
     print("Warmup call ...")
-    try:
-        _warmup_buf = BytesIO()
-        ds.export(_warmup_buf, fields=all_keys[:1], format="application/x-hdf5")
-        print("Warmup done.")
-    except Exception as _e:
-        print(f"Warmup failed (non-fatal): {_e}")
+    _warmup_buf = BytesIO()
+    ds.export(_warmup_buf, fields=all_keys[:1], format="application/x-hdf5")
+    print("Warmup done.")
 
     # ── Sweep ──────────────────────────────────────────────────────────────────
     print(f"\nStarting batch-size sweep: {BATCH_SIZES} ({N_REPS} reps each) ...")
@@ -109,8 +128,8 @@ def _(ARTIFACT, BytesIO, TEST_MODE, all_keys, ds, h5py, mo, np, time):
             print(f"  skip batch_size={_bs}: only {len(all_keys)} entities available")
             continue
 
-        _lats      = []
-        _nbytes    = None
+        _xfer, _decode, _wall, _app = [], [], [], []
+        _wire_bytes = _dec_bytes = None
         _had_error = False
 
         for _rep in range(N_REPS):
@@ -118,12 +137,17 @@ def _(ARTIFACT, BytesIO, TEST_MODE, all_keys, ds, h5py, mo, np, time):
             _off  = (_rep * _bs) % max(1, len(all_keys) - _bs)
             _keys = all_keys[_off : _off + _bs]
 
-            _t0 = time.perf_counter()
-            try:
+            with _coll.attached(client):
+                # transfer = server work + network + receive (buffer filled)
+                _t0 = time.perf_counter()
                 _buf = BytesIO()
                 ds.export(_buf, fields=_keys, format="application/x-hdf5")
-                _wire_bytes = _buf.tell()  # actual bytes transferred over HTTP
+                _t_xfer = time.perf_counter() - _t0
+                _nwire = _buf.tell()  # actual bytes transferred over HTTP
+
+                # decode = client HDF5 parse + np.stack, timed on its own
                 _buf.seek(0)
+                _t1 = time.perf_counter()
                 with h5py.File(_buf, "r") as _f:
                     _arrs = [
                         np.asarray(_f[k][ARTIFACT])
@@ -135,54 +159,60 @@ def _(ARTIFACT, BytesIO, TEST_MODE, all_keys, ds, h5py, mo, np, time):
                         _had_error = True
                         break
                     _X = np.stack(_arrs)
-                _elapsed = time.perf_counter() - _t0
+                _t_dec = time.perf_counter() - _t1
 
-                if _nbytes is None:
-                    _nbytes = _wire_bytes  # wire bytes, not decompressed array size
-
-                if _elapsed > MAX_WAIT_S:
-                    print(
-                        f"  batch={_bs} rep={_rep}: "
-                        f"{_elapsed:.1f}s > limit — aborting this size"
-                    )
-                    _had_error = True
-                    break
-
-                _lats.append(_elapsed)
-
-            except Exception as _e:
-                print(f"  batch={_bs} rep={_rep}: ERROR — {_e}")
+            _wall_rep = _t_xfer + _t_dec
+            if _wall_rep > MAX_WAIT_S:
+                print(f"  batch={_bs} rep={_rep}: {_wall_rep:.1f}s > limit — aborting this size")
                 _had_error = True
                 break
 
-        if not _lats:
+            # Sum app;dur across the GET(s) this export issued (ms). Missing header → 0.
+            _app_ms = sum(s.app_ms for s in _coll.filter(method="GET") if s.app_ms is not None)
+            _xfer.append(_t_xfer)
+            _decode.append(_t_dec)
+            _wall.append(_wall_rep)
+            _app.append(_app_ms / 1000.0)  # → seconds, same clock domain as _xfer
+            if _wire_bytes is None:
+                _wire_bytes = _nwire
+                _dec_bytes = int(_X.nbytes)
+
+        if not _wall:
             continue
 
-        _arr = np.array(_lats)
-        _p50 = float(np.percentile(_arr, 50))
-        _p95 = float(np.percentile(_arr, 95))
-        _p99 = float(np.percentile(_arr, 99))
-        _mb  = (_nbytes or 0) / 1e6
+        _p50      = float(np.percentile(_wall, 50))
+        _xfer_p50 = _median(_xfer)
+        _dec_p50  = _median(_decode)
+        _app_p50  = _median(_app)
+        # network+recv on the wire = transfer − server-side app work
+        _net_p50  = max(0.0, _xfer_p50 - _app_p50)
+        _mb_wire  = (_wire_bytes or 0) / 1e6
+        _mb_dec   = (_dec_bytes or 0) / 1e6
 
         batch_results.append(
             {
-                "batch_size":     _bs,
-                "n_reps":         len(_lats),
-                "p50_s":          _p50,
-                "p95_s":          _p95,
-                "p99_s":          _p99,
-                "entities_per_s": _bs / _p50,
-                "mb_per_s":       _mb / _p50,
-                "mb_per_batch":   _mb,
-                "had_error":      _had_error,
+                "batch_size":       _bs,
+                "n_reps":           len(_wall),
+                "p50_s":            _p50,
+                "p95_s":            float(np.percentile(_wall, 95)),
+                "p99_s":            float(np.percentile(_wall, 99)),
+                "app_s":            _app_p50,
+                "net_s":            _net_p50,
+                "decode_s":         _dec_p50,
+                "entities_per_s":   _bs / _p50,
+                "mb_wire_per_s":    _mb_wire / _xfer_p50 if _xfer_p50 else float("nan"),
+                "mb_decoded_per_s": _mb_dec / _p50,
+                "mb_wire":          _mb_wire,
+                "mb_decoded":       _mb_dec,
+                "had_error":        _had_error,
             }
         )
 
         print(
-            f"  batch={_bs:4d}  "
-            f"p50={_p50:.2f}s  p95={_p95:.2f}s  "
-            f"p50/ent={_p50/_bs:.3f}s  p95/ent={_p95/_bs:.3f}s  "
-            f"ent/s={_bs/_p50:.1f}  MB/s={_mb/_p50:.1f}"
+            f"  batch={_bs:4d}  wall={_p50:.2f}s  "
+            f"app={_app_p50:.2f}s  net={_net_p50:.2f}s  decode={_dec_p50:.2f}s  "
+            f"wireMB/s={(_mb_wire/_xfer_p50 if _xfer_p50 else float('nan')):.1f}  "
+            f"decMB/s={_mb_dec/_p50:.1f}"
         )
 
     print(f"\nSweep complete — {len(batch_results)} batch sizes measured.")
@@ -198,18 +228,21 @@ def _(batch_results, mo):
         _rows = "\n".join(
             f"| {r['batch_size']} "
             f"| {r['p50_s']:.2f} "
-            f"| {r['p95_s']:.2f} "
-            f"| {r['p99_s']:.2f} "
+            f"| {r['app_s']:.2f} "
+            f"| {r['net_s']:.2f} "
+            f"| {r['decode_s']:.2f} "
             f"| {r['entities_per_s']:.1f} "
-            f"| {r['mb_per_s']:.1f} "
-            f"| {r['mb_per_batch']:.1f} |"
+            f"| {r['mb_wire_per_s']:.1f} "
+            f"| {r['mb_decoded_per_s']:.1f} |"
             for r in batch_results
         )
         mo.md(
             f"""### Batch-size sweep results
 
-    | Batch | p50 (s) | p95 (s) | p99 (s) | ent/s | MB/s | MB/batch |
-    |------:|--------:|--------:|--------:|------:|-----:|---------:|
+    `wall = app + net + decode`.  wire MB/s is over transfer time; decoded MB/s over wall.
+
+    | Batch | wall p50 (s) | app (s) | net (s) | decode (s) | ent/s | wire MB/s | dec MB/s |
+    |------:|-------------:|--------:|--------:|-----------:|------:|----------:|---------:|
     {_rows}
     """
         )
@@ -221,15 +254,16 @@ def _(batch_results, mo, plt):
     if not batch_results:
         _out = mo.md("_Run the sweep cell to generate plots._")
     else:
-        _bs_ax   = [r["batch_size"]     for r in batch_results]
-        _ep      = [r["entities_per_s"] for r in batch_results]
-        _mbps    = [r["mb_per_s"]       for r in batch_results]
-        _p50     = [r["p50_s"]          for r in batch_results]
-        _p95     = [r["p95_s"]          for r in batch_results]
-        _p99     = [r["p99_s"]          for r in batch_results]
-        _p50_ent = [p / bs for p, bs in zip(_p50, _bs_ax)]
-        _p95_ent = [p / bs for p, bs in zip(_p95, _bs_ax)]
-        _p99_ent = [p / bs for p, bs in zip(_p99, _bs_ax)]
+        _bs_ax   = [r["batch_size"]       for r in batch_results]
+        _ep      = [r["entities_per_s"]   for r in batch_results]
+        _mb_wire = [r["mb_wire_per_s"]    for r in batch_results]
+        _mb_dec  = [r["mb_decoded_per_s"] for r in batch_results]
+        _app     = [r["app_s"]            for r in batch_results]
+        _net     = [r["net_s"]            for r in batch_results]
+        _decode  = [r["decode_s"]         for r in batch_results]
+        _p50     = [r["p50_s"]            for r in batch_results]
+        _p95     = [r["p95_s"]            for r in batch_results]
+        _p99     = [r["p99_s"]            for r in batch_results]
 
         _fig, _axes = plt.subplots(2, 2, figsize=(14, 8))
 
@@ -240,29 +274,34 @@ def _(batch_results, mo, plt):
         _axes[0, 0].set_xscale("log")
         _axes[0, 0].grid(True, alpha=0.3)
 
-        _axes[0, 1].plot(_bs_ax, _mbps, "o-", color="darkorange")
+        _axes[0, 1].plot(_bs_ax, _mb_wire, "o-", color="darkorange", label="wire (transfer)")
+        _axes[0, 1].plot(_bs_ax, _mb_dec, "s--", color="firebrick", label="decoded (wall)")
         _axes[0, 1].set_xlabel("Batch size")
         _axes[0, 1].set_ylabel("MB / s")
         _axes[0, 1].set_title("Throughput — MB/s")
         _axes[0, 1].set_xscale("log")
+        _axes[0, 1].legend()
         _axes[0, 1].grid(True, alpha=0.3)
 
-        _axes[1, 0].plot(_bs_ax, _p50, "o-", label="p50")
-        _axes[1, 0].plot(_bs_ax, _p95, "s--", label="p95")
-        _axes[1, 0].plot(_bs_ax, _p99, "^:", label="p99")
+        # The money plot: where does wall time actually go, layer by layer?
+        _axes[1, 0].stackplot(
+            _bs_ax, _app, _net, _decode,
+            labels=["app (server)", "net", "decode (client)"],
+            colors=["#4c72b0", "#dd8452", "#55a868"], alpha=0.85,
+        )
         _axes[1, 0].set_xlabel("Batch size")
-        _axes[1, 0].set_ylabel("Batch latency (s)")
-        _axes[1, 0].set_title("Batch latency — absolute")
+        _axes[1, 0].set_ylabel("Wall time p50 (s)")
+        _axes[1, 0].set_title("Layer decomposition — app + net + decode")
         _axes[1, 0].set_xscale("log")
-        _axes[1, 0].legend()
+        _axes[1, 0].legend(loc="upper left")
         _axes[1, 0].grid(True, alpha=0.3)
 
-        _axes[1, 1].plot(_bs_ax, _p50_ent, "o-", label="p50/ent")
-        _axes[1, 1].plot(_bs_ax, _p95_ent, "s--", label="p95/ent")
-        _axes[1, 1].plot(_bs_ax, _p99_ent, "^:", label="p99/ent")
+        _axes[1, 1].plot(_bs_ax, _p50, "o-", label="p50")
+        _axes[1, 1].plot(_bs_ax, _p95, "s--", label="p95")
+        _axes[1, 1].plot(_bs_ax, _p99, "^:", label="p99")
         _axes[1, 1].set_xlabel("Batch size")
-        _axes[1, 1].set_ylabel("Latency per entity (s)")
-        _axes[1, 1].set_title("Batch latency — normalised per entity")
+        _axes[1, 1].set_ylabel("Batch latency (s)")
+        _axes[1, 1].set_title("Batch latency — absolute")
         _axes[1, 1].set_xscale("log")
         _axes[1, 1].legend()
         _axes[1, 1].grid(True, alpha=0.3)
