@@ -11,7 +11,7 @@
 
 import marimo
 
-__generated_with = "0.23.8"
+__generated_with = "0.23.14"
 app = marimo.App(width="medium")
 
 
@@ -26,6 +26,7 @@ def _():
     from concurrent.futures import ThreadPoolExecutor
 
     import h5py
+    import httpx
     import numpy as np
     import matplotlib.pyplot as plt
 
@@ -36,11 +37,24 @@ def _():
     # notebook to run from the repo root so `regbench` is importable.
     from regbench.instruments import CallCollector, percentile
 
-    return BytesIO, CallCollector, ThreadPoolExecutor, from_uri, h5py, mo, np, os, percentile, plt, threading, time
+    return (
+        BytesIO,
+        CallCollector,
+        ThreadPoolExecutor,
+        from_uri,
+        h5py,
+        httpx,
+        mo,
+        np,
+        os,
+        plt,
+        threading,
+        time,
+    )
 
 
 @app.cell
-def _(from_uri, mo, os):
+def _(from_uri, httpx, mo, os):
     TILED_URL = os.environ.get(
         "TILED_URL", "https://lcls-data-portal.slac.stanford.edu/tiled-test"
     )
@@ -49,8 +63,11 @@ def _(from_uri, mo, os):
     ARTIFACT = "rixs_spectrum"
     TEST_MODE = "test" in mo.cli_args()
 
+    # Tiled's default read timeout is 30 s — large batches legitimately take longer
+    CLIENT_TIMEOUT = httpx.Timeout(5.0, connect=10.0, read=300.0)
+
     print(f"Connecting to {TILED_URL} ...")
-    client   = from_uri(TILED_URL, api_key=API_KEY)
+    client   = from_uri(TILED_URL, api_key=API_KEY, timeout=CLIENT_TIMEOUT)
     ds       = client[DATASET]
     print(f"Fetching entity list for '{DATASET}' ...")
     all_keys = list(ds.keys())
@@ -65,7 +82,79 @@ def _(from_uri, mo, os):
         f"**{len(all_keys):,}** entities in `{DATASET}`"
         + (" _(test mode)_" if TEST_MODE else "")
     )
-    return API_KEY, ARTIFACT, DATASET, TEST_MODE, TILED_URL, all_keys, client, ds
+    return (
+        API_KEY,
+        ARTIFACT,
+        CLIENT_TIMEOUT,
+        DATASET,
+        TEST_MODE,
+        TILED_URL,
+        all_keys,
+        client,
+        ds,
+    )
+
+
+@app.cell
+def _(BytesIO, h5py, httpx, np, time):
+    # Two proxy limits cap a single export request: ~8 KB of URI (one ~35-char
+    # `field=` param per key → 414 past ~220 keys) and an upstream timeout that
+    # returns 504 when server-side encode stalls (~0.22 s/entity median, but the
+    # shared test server has multi-x tail stalls).  Split every export into small
+    # chunks, retry a stalled chunk after a backoff, and stitch the results back
+    # together — accumulating transfer and decode time separately so the layer
+    # decomposition stays valid.  Only the successful attempt counts toward
+    # transfer time; failed attempts are reported, not measured.
+    MAX_FIELDS_PER_REQUEST = 25
+    CHUNK_ATTEMPTS = 3
+    RETRY_BACKOFF_S = 10.0  # long enough for a transient server stall to clear
+
+    def fetch_batch(node, keys, artifact):
+        """Export `keys` from `node` in URL-safe chunks.
+
+        Returns (stacked array or None, wire_bytes, transfer_s, decode_s).
+        """
+        arrs = []
+        wire_bytes = 0
+        t_xfer = t_dec = 0.0
+        for _i in range(0, len(keys), MAX_FIELDS_PER_REQUEST):
+            _chunk = keys[_i : _i + MAX_FIELDS_PER_REQUEST]
+            for _try in range(CHUNK_ATTEMPTS):
+                _buf = BytesIO()
+                _t0 = time.perf_counter()
+                try:
+                    node.export(_buf, fields=_chunk, format="application/x-hdf5")
+                except (httpx.HTTPStatusError, httpx.TransportError) as _e:
+                    _code = getattr(getattr(_e, "response", None), "status_code", None)
+                    # 4xx is a real request problem — retrying won't heal it
+                    if (_code is not None and _code < 500) or _try == CHUNK_ATTEMPTS - 1:
+                        raise
+                    print(
+                        f"    chunk retry {_try + 1}/{CHUNK_ATTEMPTS - 1} "
+                        f"in {RETRY_BACKOFF_S:.0f}s: {str(_e).split('?', 1)[0][:120]}"
+                    )
+                    time.sleep(RETRY_BACKOFF_S * (_try + 1))
+                    continue
+                t_xfer += time.perf_counter() - _t0
+                break
+            wire_bytes += _buf.tell()
+            _buf.seek(0)
+            _t1 = time.perf_counter()
+            with h5py.File(_buf, "r") as _f:
+                arrs.extend(
+                    np.asarray(_f[k][artifact])
+                    for k in _chunk
+                    if k in _f and artifact in _f[k]
+                )
+            t_dec += time.perf_counter() - _t1
+        if not arrs:
+            return None, wire_bytes, t_xfer, t_dec
+        _t1 = time.perf_counter()
+        X = np.stack(arrs)
+        t_dec += time.perf_counter() - _t1
+        return X, wire_bytes, t_xfer, t_dec
+
+    return (fetch_batch,)
 
 
 @app.cell(hide_code=True)
@@ -98,11 +187,21 @@ def _(mo):
 
 
 @app.cell
-def _(ARTIFACT, BytesIO, CallCollector, TEST_MODE, all_keys, client, ds, h5py, mo, np, time):
+def _(
+    ARTIFACT,
+    CallCollector,
+    TEST_MODE,
+    all_keys,
+    client,
+    ds,
+    fetch_batch,
+    mo,
+    np,
+):
     # ── Configuration ──────────────────────────────────────────────────────────
     BATCH_SIZES = [1, 5, 10] if TEST_MODE else [1, 5, 10, 20, 40, 80, 100, 200, 220, 230, 240]
     N_REPS      = 2 if TEST_MODE else 5      # repetitions per batch size (for IQR)
-    MAX_WAIT_S  = 120.0  # hard abort: skip batch sizes slower than this
+    MAX_WAIT_S  = 200.0  # hard abort: skip batch sizes slower than this
 
     # Server-Timing capture attaches to the Tiled client's shared httpx.Client and reads
     # `app;dur` off every export response — the layer-splitter from the ingress benchmark.
@@ -115,8 +214,7 @@ def _(ARTIFACT, BytesIO, CallCollector, TEST_MODE, all_keys, client, ds, h5py, m
     # No guard: a warmup failure means the connection/key is broken, so fail loud here
     # rather than limp into a sweep that would error on every batch.
     print("Warmup call ...")
-    _warmup_buf = BytesIO()
-    ds.export(_warmup_buf, fields=all_keys[:1], format="application/x-hdf5")
+    fetch_batch(ds, all_keys[:1], ARTIFACT)
     print("Warmup done.")
 
     # ── Sweep ──────────────────────────────────────────────────────────────────
@@ -137,29 +235,20 @@ def _(ARTIFACT, BytesIO, CallCollector, TEST_MODE, all_keys, client, ds, h5py, m
             _off  = (_rep * _bs) % max(1, len(all_keys) - _bs)
             _keys = all_keys[_off : _off + _bs]
 
-            with _coll.attached(client):
-                # transfer = server work + network + receive (buffer filled)
-                _t0 = time.perf_counter()
-                _buf = BytesIO()
-                ds.export(_buf, fields=_keys, format="application/x-hdf5")
-                _t_xfer = time.perf_counter() - _t0
-                _nwire = _buf.tell()  # actual bytes transferred over HTTP
-
-                # decode = client HDF5 parse + np.stack, timed on its own
-                _buf.seek(0)
-                _t1 = time.perf_counter()
-                with h5py.File(_buf, "r") as _f:
-                    _arrs = [
-                        np.asarray(_f[k][ARTIFACT])
-                        for k in _keys
-                        if k in _f and ARTIFACT in _f[k]
-                    ]
-                    if not _arrs:
-                        print(f"  batch={_bs} rep={_rep}: no arrays found — check ARTIFACT key '{ARTIFACT}'")
-                        _had_error = True
-                        break
-                    _X = np.stack(_arrs)
-                _t_dec = time.perf_counter() - _t1
+            try:
+                with _coll.attached(client):
+                    # transfer = server work + network + receive; decode = h5py parse
+                    # + np.stack.  fetch_batch accumulates each across URL-safe chunks.
+                    _X, _nwire, _t_xfer, _t_dec = fetch_batch(ds, _keys, ARTIFACT)
+            except Exception as _e:
+                # Truncate: httpx errors embed the full multi-KB request URL
+                print(f"  batch={_bs} rep={_rep}: ERROR — {str(_e).split('?', 1)[0][:200]}")
+                _had_error = True
+                break
+            if _X is None:
+                print(f"  batch={_bs} rep={_rep}: no arrays found — check ARTIFACT key '{ARTIFACT}'")
+                _had_error = True
+                break
 
             _wall_rep = _t_xfer + _t_dec
             if _wall_rep > MAX_WAIT_S:
@@ -223,7 +312,7 @@ def _(ARTIFACT, BytesIO, CallCollector, TEST_MODE, all_keys, client, ds, h5py, m
 @app.cell
 def _(batch_results, mo):
     if not batch_results:
-        mo.md("_No results yet._")
+        _out = mo.md("_No results yet._")
     else:
         _rows = "\n".join(
             f"| {r['batch_size']} "
@@ -236,7 +325,7 @@ def _(batch_results, mo):
             f"| {r['mb_decoded_per_s']:.1f} |"
             for r in batch_results
         )
-        mo.md(
+        _out = mo.md(
             f"""### Batch-size sweep results
 
     `wall = app + net + decode`.  wire MB/s is over transfer time; decoded MB/s over wall.
@@ -246,11 +335,13 @@ def _(batch_results, mo):
     {_rows}
     """
         )
+    _out
     return
 
 
 @app.cell
 def _(batch_results, mo, plt):
+
     if not batch_results:
         _out = mo.md("_Run the sweep cell to generate plots._")
     else:
@@ -341,7 +432,19 @@ def _(mo):
 
 
 @app.cell
-def _(ARTIFACT, BytesIO, CallCollector, TEST_MODE, all_keys, client, ds, h5py, mo, np, time):
+def _(
+    ARTIFACT,
+    BytesIO,
+    CallCollector,
+    TEST_MODE,
+    all_keys,
+    client,
+    ds,
+    h5py,
+    mo,
+    np,
+    time,
+):
     RAW_PROBE_N = 5 if TEST_MODE else 40
     RAW_REPS    = 2 if TEST_MODE else 5
 
@@ -475,7 +578,21 @@ def _(mo):
 
 
 @app.cell
-def _(API_KEY, ARTIFACT, DATASET, BytesIO, ThreadPoolExecutor, TILED_URL, all_keys, from_uri, h5py, mo, np, threading, time):
+def _(
+    API_KEY,
+    ARTIFACT,
+    CLIENT_TIMEOUT,
+    DATASET,
+    TILED_URL,
+    ThreadPoolExecutor,
+    all_keys,
+    fetch_batch,
+    from_uri,
+    mo,
+    np,
+    threading,
+    time,
+):
     CONCURRENCY_LEVELS = [1, 2, 4, 8]
     FIXED_BATCH        = 20
     _N_TOTAL           = min(200, len(all_keys))  # 10 batches of FIXED_BATCH
@@ -490,22 +607,18 @@ def _(API_KEY, ARTIFACT, DATASET, BytesIO, ThreadPoolExecutor, TILED_URL, all_ke
 
     def _get_ds():
         if not hasattr(_local, "ds"):
-            _local.ds = from_uri(TILED_URL, api_key=API_KEY)[DATASET]
+            _local.ds = from_uri(
+                TILED_URL, api_key=API_KEY, timeout=CLIENT_TIMEOUT
+            )[DATASET]
         return _local.ds
 
     def _fetch(keys):
-        _buf = BytesIO()
-        _get_ds().export(_buf, fields=keys, format="application/x-hdf5")
-        _buf.seek(0)
-        with h5py.File(_buf, "r") as _f:
-            _arrs = [
-                np.asarray(_f[k][ARTIFACT])
-                for k in keys
-                if k in _f and ARTIFACT in _f[k]
-            ]
-            if not _arrs:
-                return np.empty((0,))
-            return np.stack(_arrs)
+        try:
+            _X, _, _, _ = fetch_batch(_get_ds(), keys, ARTIFACT)
+        except Exception as _e:
+            print(f"  fetch error ({len(keys)} keys): {str(_e).split('?', 1)[0][:200]}")
+            return np.empty((0,))
+        return _X if _X is not None else np.empty((0,))
 
     conc_results = []
 
@@ -583,7 +696,7 @@ def _(mo):
 
 
 @app.cell
-def _(ARTIFACT, BytesIO, all_keys, ds, h5py, mo, np, time):
+def _(ARTIFACT, all_keys, ds, fetch_batch, mo, time):
     SUSTAINED_BATCH = 40
     _MAX_ENTITIES   = min(500, len(all_keys))  # cap so it doesn't run forever
 
@@ -599,19 +712,14 @@ def _(ARTIFACT, BytesIO, all_keys, ds, h5py, mo, np, time):
 
     for _i, _bk in enumerate(_batches_s):
         _t0 = time.perf_counter()
-        _buf = BytesIO()
-        ds.export(_buf, fields=_bk, format="application/x-hdf5")
-        _buf.seek(0)
-        with h5py.File(_buf, "r") as _f:
-            _arrs = [
-                np.asarray(_f[k][ARTIFACT])
-                for k in _bk
-                if k in _f and ARTIFACT in _f[k]
-            ]
-            if not _arrs:
-                print(f"  batch {_i}: no arrays found — check ARTIFACT key '{ARTIFACT}'")
-                continue
-            _X = np.stack(_arrs)
+        try:
+            _X, _, _, _ = fetch_batch(ds, _bk, ARTIFACT)
+        except Exception as _e:
+            print(f"  batch {_i}: ERROR — {str(_e).split('?', 1)[0][:200]}")
+            continue
+        if _X is None:
+            print(f"  batch {_i}: no arrays found — check ARTIFACT key '{ARTIFACT}'")
+            continue
         _elapsed_b = time.perf_counter() - _t0
         _bytes_total += _X.nbytes
         sustained_per_batch.append(_elapsed_b)
