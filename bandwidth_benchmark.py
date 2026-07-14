@@ -317,6 +317,150 @@ def _(batch_results, mo, plt):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ## §1b — Raw-path probe  (array-level octet-stream vs container HDF5)
+
+    §1 measures the container→HDF5 export path, which forces the server to walk each
+    child, `read()` it from storage, and **re-encode it into an HDF5 container** — and the
+    client to **parse HDF5** back out. Reading at the *array* level
+    (`ds[key][artifact].read()`) transfers a raw `application/octet-stream` numpy buffer:
+    **no h5py on either end.**
+
+    This cell reads the same `RAW_PROBE_N` entities **both ways** and diffs the layers:
+
+    | Quantity | Meaning |
+    |----------|---------|
+    | `Δapp = app(hdf5) − app(raw)` | server-side HDF5 re-encode cost |
+    | `decode(hdf5)` | client-side h5py parse cost the raw path skips |
+    | `net(raw)` | inflated by *N* round-trips (raw = N requests vs HDF5's one); concurrency (§2) hides this |
+
+    Array navigation (`ds[key][artifact]`) is resolved **before** timing, so only data
+    transfer is measured. The raw path is run serially here for a clean per-layer diff — it
+    pays N×RTT that a concurrent client would amortize.
+    """)
+    return
+
+
+@app.cell
+def _(ARTIFACT, BytesIO, CallCollector, TEST_MODE, all_keys, client, ds, h5py, mo, np, time):
+    RAW_PROBE_N = 5 if TEST_MODE else 40
+    RAW_REPS    = 2 if TEST_MODE else 5
+
+    _coll = CallCollector()
+    _probe_keys = all_keys[:RAW_PROBE_N]
+
+    # Resolve array handles once, outside the timed region — excludes node navigation so
+    # only the data transfer is measured. Assumes every probe entity has ARTIFACT (uniform
+    # synthetic dataset); a missing key surfaces loudly rather than being silently skipped.
+    _handles = [ds[_k][ARTIFACT] for _k in _probe_keys]
+
+    def _app_s(coll):
+        # Sum Server-Timing app;dur (ms→s) across every GET this path issued.
+        return sum(s.app_ms for s in coll.filter(method="GET") if s.app_ms is not None) / 1000.0
+
+    _h_app, _h_net, _h_dec, _h_mb = [], [], [], []
+    _r_app, _r_net, _r_mb         = [], [], []
+
+    print(f"Raw-path probe: {RAW_PROBE_N} entities x {RAW_REPS} reps, both paths ...")
+    for _rep in range(RAW_REPS):
+        # ── Path A: container → HDF5 (one request for all N entities) ──
+        with _coll.attached(client):
+            _t0 = time.perf_counter()
+            _buf = BytesIO()
+            ds.export(_buf, fields=_probe_keys, format="application/x-hdf5")
+            _t_x = time.perf_counter() - _t0
+            _buf.seek(0)
+            _t1 = time.perf_counter()
+            with h5py.File(_buf, "r") as _f:
+                _X = np.stack([
+                    np.asarray(_f[_k][ARTIFACT])
+                    for _k in _probe_keys
+                    if _k in _f and ARTIFACT in _f[_k]
+                ])
+            _t_d = time.perf_counter() - _t1
+        _a = _app_s(_coll)
+        _h_app.append(_a)
+        _h_net.append(max(0.0, _t_x - _a))
+        _h_dec.append(_t_d)
+        _h_mb.append(_X.nbytes / 1e6)
+
+        # ── Path B: N array reads (octet-stream, serial). read() returns a materialized
+        #    numpy array, so client decode is a trivial buffer copy folded into transfer. ──
+        with _coll.attached(client):
+            _t0 = time.perf_counter()
+            _arrs = [_h.read() for _h in _handles]
+            _t_x = time.perf_counter() - _t0
+        _a = _app_s(_coll)
+        _r_app.append(_a)
+        _r_net.append(max(0.0, _t_x - _a))
+        _r_mb.append(sum(a.nbytes for a in _arrs) / 1e6)
+
+    _N = RAW_PROBE_N
+    _h_tot = float(np.median(_h_app) + np.median(_h_net) + np.median(_h_dec))
+    _r_tot = float(np.median(_r_app) + np.median(_r_net))
+    rawpath_results = {
+        "n": _N,
+        "hdf5": {
+            "app_ms":    1000 * float(np.median(_h_app)) / _N,
+            "net_ms":    1000 * float(np.median(_h_net)) / _N,
+            "decode_ms": 1000 * float(np.median(_h_dec)) / _N,
+            "mb_per_s":  float(np.median(_h_mb)) / _h_tot if _h_tot else float("nan"),
+        },
+        "raw": {
+            "app_ms":    1000 * float(np.median(_r_app)) / _N,
+            "net_ms":    1000 * float(np.median(_r_net)) / _N,
+            "decode_ms": 0.0,
+            "mb_per_s":  float(np.median(_r_mb)) / _r_tot if _r_tot else float("nan"),
+        },
+    }
+    rawpath_results["reencode_ms_per_entity"] = (
+        rawpath_results["hdf5"]["app_ms"] - rawpath_results["raw"]["app_ms"]
+    )
+
+    _hd, _rw = rawpath_results["hdf5"], rawpath_results["raw"]
+    print(f"  HDF5  app={_hd['app_ms']:.1f}ms/ent  net={_hd['net_ms']:.1f}  "
+          f"decode={_hd['decode_ms']:.1f}  → {_hd['mb_per_s']:.1f} MB/s")
+    print(f"  RAW   app={_rw['app_ms']:.1f}ms/ent  net={_rw['net_ms']:.1f}  "
+          f"decode=0.0  → {_rw['mb_per_s']:.1f} MB/s")
+    print(f"  Δapp (HDF5 re-encode) ≈ {rawpath_results['reencode_ms_per_entity']:.1f} ms/entity")
+
+    mo.md(
+        f"Raw-path probe complete — HDF5 re-encode ≈ "
+        f"**{rawpath_results['reencode_ms_per_entity']:.1f} ms/entity**, "
+        f"client h5py parse ≈ **{_hd['decode_ms']:.1f} ms/entity**."
+    )
+    return (rawpath_results,)
+
+
+@app.cell
+def _(plt, rawpath_results):
+    _r = rawpath_results
+    _paths  = ["HDF5 export", "Raw array"]
+    _app    = [_r["hdf5"]["app_ms"],    _r["raw"]["app_ms"]]
+    _net    = [_r["hdf5"]["net_ms"],    _r["raw"]["net_ms"]]
+    _decode = [_r["hdf5"]["decode_ms"], _r["raw"]["decode_ms"]]
+
+    _fig, _ax = plt.subplots(figsize=(7, 4))
+    _ax.bar(_paths, _app, label="app (server)", color="#4c72b0")
+    _ax.bar(_paths, _net, bottom=_app, label="net", color="#dd8452")
+    _ax.bar(
+        _paths, _decode,
+        bottom=[a + n for a, n in zip(_app, _net)],
+        label="decode (client)", color="#55a868",
+    )
+    _ax.set_ylabel("Time per entity (ms)")
+    _ax.set_title(f"Per-entity layer cost — HDF5 export vs raw array read (n={_r['n']})")
+    _ax.legend()
+    _ax.grid(True, axis="y", alpha=0.3)
+    plt.tight_layout()
+    plt.savefig("rawpath_probe.png", dpi=150, bbox_inches="tight")
+    print("Saved: rawpath_probe.png")
+    _fig
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## §2 — Concurrency sweep
 
     Fixed `batch_size = 20`.  We vary the number of parallel in-flight export
