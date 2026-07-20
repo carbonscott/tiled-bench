@@ -256,8 +256,14 @@ def _(
                 _had_error = True
                 break
 
-            # Sum app;dur across the GET(s) this export issued (ms). Missing header → 0.
-            _app_ms = sum(s.app_ms for s in _coll.filter(method="GET") if s.app_ms is not None)
+            # Sum app;dur across the successful GET(s) this export issued (ms). status_ok
+            # excludes failed retry attempts, whose app;dur isn't in _t_xfer either — so
+            # `net = transfer − app` stays balanced. Missing header → skipped.
+            _app_ms = sum(
+                s.app_ms
+                for s in _coll.filter(method="GET", status_ok=True)
+                if s.app_ms is not None
+            )
             _xfer.append(_t_xfer)
             _decode.append(_t_dec)
             _wall.append(_wall_rep)
@@ -457,8 +463,12 @@ def _(
     _handles = [ds[_k][ARTIFACT] for _k in _probe_keys]
 
     def _app_s(coll):
-        # Sum Server-Timing app;dur (ms→s) across every GET this path issued.
-        return sum(s.app_ms for s in coll.filter(method="GET") if s.app_ms is not None) / 1000.0
+        # Sum Server-Timing app;dur (ms→s) across the successful GET(s) this path issued.
+        return sum(
+            s.app_ms
+            for s in coll.filter(method="GET", status_ok=True)
+            if s.app_ms is not None
+        ) / 1000.0
 
     _h_app, _h_net, _h_dec, _h_mb = [], [], [], []
     _r_app, _r_net, _r_mb         = [], [], []

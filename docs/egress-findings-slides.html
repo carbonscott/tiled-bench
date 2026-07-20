@@ -1,0 +1,476 @@
+<title>Tiled Egress: Where the Bandwidth Goes</title>
+
+<style>
+  /* Committed single-theme: white. The deck is meant to be printed to PDF, pasted
+     into PowerPoint, and edited by others, so it stays white in every viewer theme. */
+  :root, :root[data-theme="dark"], :root[data-theme="light"] {
+    --paper:   #FFFFFF;
+    --ground:  #E8EBEF;
+    --panel:   #F3F5F8;
+    --ink:     #12181F;
+    --ink-2:   #4A5563;
+    --ink-3:   #7C8797;
+    --rule:    #D6DBE3;
+    --accent:  #2F5E9E;
+    --app:     #4C72B0;
+    --net:     #DD8452;
+    --decode:  #55A868;
+    --warn:    #B4552D;
+
+    --display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  .deck {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    min-height: 100vh;
+    padding: 1.25rem 1.25rem 4.5rem;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* One slide = one PowerPoint 16:9 widescreen page (13.333in x 7.5in) */
+  .slide {
+    display: none;
+    background: var(--paper);
+    width: 100%;
+    max-width: 68rem;
+    aspect-ratio: 16 / 9;
+    margin: 0 auto;
+    padding: 2.6% 3.4%;
+    border: 1px solid var(--rule);
+    flex-direction: column;
+    gap: 1.15%;
+    container-type: inline-size;
+  }
+  .slide.is-active { display: flex; }
+
+  /* type scales with the slide box so it fills a 16:9 frame at any size */
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 1.5cqw;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    display: flex;
+    gap: .7rem;
+    align-items: center;
+  }
+  .eyebrow::after { content: ""; height: 1px; background: var(--rule); flex: 1; }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 5.2cqw;
+    line-height: 1.05;
+    letter-spacing: -.02em;
+    text-wrap: balance;
+    margin: 0;
+  }
+  h2 {
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 1.6cqw;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 .5em;
+  }
+  .say {
+    font-size: 2.1cqw;
+    line-height: 1.4;
+    color: var(--ink-2);
+    max-width: 58ch;
+    margin: 0;
+  }
+  .say strong { color: var(--ink); }
+
+  .row { display: flex; gap: 2cqw; align-items: center; }
+  .grid { display: grid; gap: 1.6cqw; }
+  .g-2 { grid-template-columns: 1fr 1fr; }
+  .g-3 { grid-template-columns: repeat(3, 1fr); }
+  .push { margin-top: auto; }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    padding: 1.6cqw;
+  }
+
+  .stat {
+    font-family: var(--mono);
+    font-size: 6.4cqw;
+    font-weight: 600;
+    letter-spacing: -.03em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat s { font-size: .38em; text-decoration: none; color: var(--ink-3); }
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 1.4cqw;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-top: .5em;
+  }
+  .c-app { color: var(--app); }
+  .c-net { color: var(--net); }
+  .c-dec { color: var(--decode); }
+  .c-warn { color: var(--warn); }
+
+  .stripe { display: flex; height: 2.2cqw; }
+  .stripe span { display: block; }
+
+  .legend {
+    display: flex;
+    gap: 1.6cqw;
+    font-family: var(--mono);
+    font-size: 1.4cqw;
+    color: var(--ink-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .legend i { width: 1cqw; height: 1cqw; display: inline-block; margin-right: .5em; }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: var(--mono);
+    font-size: 1.5cqw;
+    font-variant-numeric: tabular-nums;
+  }
+  th, td {
+    text-align: right;
+    padding: .5em .7em;
+    border-bottom: 1px solid var(--rule);
+    white-space: nowrap;
+  }
+  th {
+    color: var(--ink-3);
+    font-weight: 500;
+    font-size: .85em;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  th:first-child, td:first-child { text-align: left; }
+  tbody tr:last-child td { border-bottom: 0; }
+  tr.is-fail td { color: var(--warn); }
+
+  .bar-row { display: grid; grid-template-columns: 8cqw 1fr 9cqw; gap: 1.2cqw; align-items: center; }
+  .bar-name { font-family: var(--mono); font-size: 1.5cqw; color: var(--ink-2); }
+  .bar-track { display: flex; height: 3.4cqw; background: var(--panel); }
+  .bar-seg { display: flex; align-items: center; padding-left: .5em; font-family: var(--mono); font-size: 1.3cqw; color: #fff; }
+  .bar-total { font-family: var(--mono); font-size: 1.5cqw; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+  ul { margin: 0; padding-left: 1.1em; }
+  li { font-size: 1.7cqw; line-height: 1.45; color: var(--ink-2); margin-bottom: .35em; }
+  li:last-child { margin-bottom: 0; }
+  li strong { color: var(--ink); }
+
+  code {
+    font-family: var(--mono);
+    font-size: .9em;
+    background: var(--panel);
+    padding: .05em .3em;
+  }
+
+  .pill {
+    font-family: var(--mono);
+    font-size: 1.2cqw;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    padding: .15em .5em;
+    border: 1px solid currentColor;
+  }
+  .p-meas { color: var(--decode); }
+  .p-pred { color: var(--net); }
+
+  .formula {
+    font-family: var(--mono);
+    font-size: 2.2cqw;
+    background: var(--panel);
+    border-left: 3px solid var(--accent);
+    padding: 1.3cqw 1.6cqw;
+  }
+
+  /* definitions sit with the equation: the last two slides depend on these terms */
+  .defs { margin: 1.2cqw 0 0; display: flex; flex-direction: column; gap: .7cqw; }
+  .defs > div { display: grid; grid-template-columns: 7.5cqw 1fr; gap: 1cqw; align-items: baseline; }
+  .defs dt { font-family: var(--mono); font-size: 1.55cqw; color: var(--accent); font-weight: 600; }
+  .defs dd {
+    margin: 0;
+    font-family: var(--body);
+    font-size: 1.55cqw;
+    line-height: 1.4;
+    color: var(--ink-2);
+  }
+  .defs dd b { color: var(--ink); font-weight: 600; }
+
+  .foot { font-family: var(--mono); font-size: 1.3cqw; color: var(--ink-3); }
+
+  /* nav, screen only */
+  .nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    display: flex; align-items: center; gap: 1rem;
+    padding: .6rem 1.5rem;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid var(--rule);
+    z-index: 10;
+  }
+  .rail { display: flex; gap: .4rem; flex: 1; }
+  .rail button {
+    flex: 1; height: 3px; border: 0; padding: 0;
+    background: var(--rule); cursor: pointer;
+    transition: background .18s ease;
+  }
+  .rail button.is-on { background: var(--accent); }
+  .rail button:hover { background: var(--ink-3); }
+  .rail button:focus-visible, .arrow:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .counter { font-family: var(--mono); font-size: .72rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .arrow {
+    font-family: var(--mono); background: transparent;
+    border: 1px solid var(--rule); color: var(--ink-2);
+    width: 28px; height: 28px; cursor: pointer; line-height: 1;
+  }
+  .arrow:hover { border-color: var(--accent); color: var(--accent); }
+  .hint { font-family: var(--mono); font-size: .68rem; color: var(--ink-3); }
+
+  /* Print to PDF at exactly PowerPoint 16:9 widescreen, one slide per page */
+  @page { size: 13.333in 7.5in; margin: 0; }
+  @media print {
+    .deck { background: #fff; padding: 0; }
+    .nav { display: none; }
+    .slide {
+      display: flex !important;
+      max-width: none;
+      width: 13.333in;
+      height: 7.5in;
+      aspect-ratio: auto;
+      border: 0;
+      break-after: page;
+      page-break-after: always;
+    }
+    .slide:last-of-type { break-after: auto; page-break-after: auto; }
+  }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="deck">
+
+  <!-- 1 -->
+  <section class="slide is-active">
+    <div class="eyebrow"><span>Tiled egress · SYNTHETIC_BENCHMARK · lcls-data-portal</span></div>
+    <h1>Egress rate is limited by server-side work, not bandwidth.</h1>
+    <p class="say">Bulk-exporting 100 entities over HTTPS takes <strong>22.03 s</strong>. The server accounts for <strong>20.39 s</strong> of it.</p>
+
+    <div class="row">
+      <div><div class="stat c-app">92<s>%</s></div><div class="stat-label">app · server</div></div>
+      <div><div class="stat c-net">7<s>%</s></div><div class="stat-label">net · wire</div></div>
+      <div><div class="stat c-dec">0.3<s>%</s></div><div class="stat-label">decode · client</div></div>
+    </div>
+
+    <div class="push">
+      <div class="stripe" role="img" aria-label="app 92.6%, net 7.1%, decode 0.3%">
+        <span style="width:92.6%;background:var(--app)"></span>
+        <span style="width:7.1%;background:var(--net)"></span>
+        <span style="width:0.3%;background:var(--decode)"></span>
+      </div>
+      <div class="legend" style="margin-top:.8cqw">
+        <span><i style="background:var(--app)"></i>app 20.39 s</span>
+        <span><i style="background:var(--net)"></i>net 1.56 s</span>
+        <span><i style="background:var(--decode)"></i>decode 0.07 s</span>
+        <span style="margin-left:auto">measured via <code>Server-Timing: app;dur</code></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide">
+    <div class="eyebrow"><span>§1 Batch sweep</span> <span class="pill p-meas">measured</span></div>
+    <h1>Bigger batches don't improve throughput.</h1>
+    <p class="say">Cost is paid <strong>per node</strong>, not per request. 100× the batch returns 18% more throughput.</p>
+
+    <table>
+      <thead>
+        <tr><th>Batch</th><th>Wall p50</th><th>app</th><th>net</th><th>decode</th><th>s / entity</th><th>ent/s</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>0.26 s</td><td>0.24</td><td>0.02</td><td>0.00</td><td>0.260</td><td>3.85</td></tr>
+        <tr><td>10</td><td>2.38 s</td><td>2.19</td><td>0.18</td><td>0.01</td><td>0.238</td><td>4.20</td></tr>
+        <tr><td>20</td><td>4.35 s</td><td>4.01</td><td>0.33</td><td>0.01</td><td>0.218</td><td>4.60</td></tr>
+        <tr><td>40</td><td>9.41 s</td><td>8.54</td><td>0.84</td><td>0.03</td><td>0.235</td><td>4.25</td></tr>
+        <tr><td>80</td><td>17.63 s</td><td>16.28</td><td>1.29</td><td>0.05</td><td>0.220</td><td>4.54</td></tr>
+        <tr><td>100</td><td>22.03 s</td><td>20.39</td><td>1.56</td><td>0.07</td><td>0.220</td><td>4.54</td></tr>
+        <tr class="is-fail"><td>200</td><td colspan="6">aborted: 236.9 s over the 200 s cap</td></tr>
+      </tbody>
+    </table>
+
+    <div class="grid g-2 push">
+      <div class="panel"><h2>Ceilings hit</h2>
+        <ul>
+          <li><strong>414</strong>: URI limit past ~220 keys</li>
+          <li><strong>504</strong>: ~53 s of server work per request</li>
+        </ul>
+      </div>
+      <div class="panel"><h2>Ruled out</h2>
+        <ul>
+          <li><strong>Client</strong>: decode ≤ 0.3% of wall</li>
+          <li><strong>Network</strong>: net a flat 7% sliver</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide">
+    <div class="eyebrow"><span>§1b Request type · 40 entities, two ways</span> <span class="pill p-meas">measured</span></div>
+    <h1>Array read beats export 1.8×.</h1>
+    <p class="say">Export re-encodes an HDF5 container <em>and</em> ships every artifact. An array read ships the one you asked for, raw.</p>
+
+    <div style="display:flex;flex-direction:column;gap:1.4cqw">
+      <div class="bar-row">
+        <span class="bar-name">HDF5 export</span>
+        <span class="bar-track">
+          <span class="bar-seg" style="width:92.36%;background:var(--app)">188.6</span>
+          <span class="bar-seg" style="width:7.35%;background:var(--net)"></span>
+          <span class="bar-seg" style="width:0.29%;background:var(--decode)"></span>
+        </span>
+        <span class="bar-total">204.2 ms/ent</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-name">Raw array</span>
+        <span class="bar-track" style="width:56.07%">
+          <span class="bar-seg" style="width:89.61%;background:var(--app)">102.6</span>
+          <span class="bar-seg" style="width:10.39%;background:var(--net)"></span>
+        </span>
+        <span class="bar-total">114.5 ms/ent</span>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span><i style="background:var(--app)"></i>app</span>
+      <span><i style="background:var(--net)"></i>net</span>
+      <span><i style="background:var(--decode)"></i>decode</span>
+    </div>
+
+    <div class="panel push">
+      <h2>Caveat</h2>
+      <p class="say" style="font-size:1.6cqw">
+        <code>fields=</code> selects entities, not artifacts, so the 86 ms gap mixes HDF5 encode with
+        reading the entity's other artifacts. <strong>The 1.8× is real; the attribution inside it isn't settled.</strong>
+      </p>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide">
+    <div class="eyebrow"><span>Scaling · data size</span> <span class="pill p-pred">projected</span></div>
+    <h1>Bytes per node set the rate.</h1>
+
+    <div class="formula">
+      rate ≈ bytes ÷ ( t_fixed + bytes ÷ B_eff )
+      <dl class="defs">
+        <div>
+          <dt>t_fixed</dt>
+          <dd>Cost per node whatever its size: lookup, file open, HDF5 header, request overhead. <b>≈ 0.10 to 0.20 s, measured.</b></dd>
+        </div>
+        <div>
+          <dt>B_eff</dt>
+          <dd>Rate for the bytes themselves: storage read, encode, wire. The ceiling a large array approaches. <b>Not yet measured.</b></dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="grid g-2">
+      <div class="panel">
+        <h2>GenericSpin · 10,000 entities</h2>
+        <div class="stat" style="font-size:2.8cqw">Array (200,)</div>
+        <p class="say" style="font-size:1.55cqw;margin-top:.5em"><strong>1.6 KB/node.</strong> t_fixed swamps the payload. Full traversal ≈ <strong>37 min</strong>.</p>
+      </div>
+      <div class="panel">
+        <h2>RIXS · 7 entities</h2>
+        <div class="stat" style="font-size:2.8cqw">Array (651, 487)</div>
+        <p class="say" style="font-size:1.55cqw;margin-top:.5em"><strong>2.54 MB/node, 1,585× more.</strong> t_fixed amortized. Only shape that nears the wire.</p>
+      </div>
+    </div>
+
+    <p class="say push" style="font-size:1.7cqw">Small nodes scale with array size alone. Large nodes approach <code>B_eff</code>, where GB/s lives. <strong>Measuring B_eff locates the crossover at bytes ≈ t_fixed × B_eff.</strong></p>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide">
+    <div class="eyebrow"><span>Scaling · layout</span> <span class="pill p-pred">predicted, not yet measured on egress</span></div>
+    <h1>Layout is the biggest untested lever.</h1>
+    <p class="say">It sets how many files the server opens per export, landing in <code>app</code>, which is 92% of wall.</p>
+
+    <div class="grid g-3">
+      <div class="panel"><h2 class="c-warn">per_entity</h2><p class="say" style="font-size:1.6cqw">One file per entity → <strong>N opens</strong>, no cache reuse. Worst.</p></div>
+      <div class="panel"><h2>grouped</h2><p class="say" style="font-size:1.6cqw">One file, one group each → <strong>one open</strong>, cache-warm.</p></div>
+      <div class="panel"><h2>batched</h2><p class="say" style="font-size:1.6cqw">Stacked on axis-0 → best locality <strong>if</strong> the adapter slices lazily.</p></div>
+    </div>
+
+    <div class="grid g-2 push">
+      <div class="panel">
+        <h2>Next, in order</h2>
+        <ul>
+          <li>Measure <strong>B_eff</strong>: one large array read</li>
+          <li>Sweep <strong>layout</strong> on egress: targets 92% of cost</li>
+          <li>Push <strong>concurrency</strong>: one stream is BDP-capped</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h2>For the data-management team</h2>
+        <p class="say" style="font-size:1.6cqw">Both numbers are right. GB/s is <strong>aggregate, co-located, large arrays</strong>: a B_eff number. This is <strong>one stream, small arrays, over a WAN</strong>: a bytes ÷ t_fixed number.</p>
+      </div>
+    </div>
+  </section>
+
+  <nav class="nav" aria-label="Slide navigation">
+    <span class="counter" id="counter">01 / 05</span>
+    <div class="rail" id="rail"></div>
+    <span class="hint">Print to PDF = 16:9 PPT slides</span>
+    <button class="arrow" id="prev" aria-label="Previous slide">‹</button>
+    <button class="arrow" id="next" aria-label="Next slide">›</button>
+  </nav>
+</div>
+
+<script>
+  (function () {
+    var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+    var rail = document.getElementById("rail");
+    var counter = document.getElementById("counter");
+    var i = 0;
+
+    var dots = slides.map(function (_, n) {
+      var b = document.createElement("button");
+      b.setAttribute("aria-label", "Go to slide " + (n + 1));
+      b.addEventListener("click", function () { go(n); });
+      rail.appendChild(b);
+      return b;
+    });
+
+    function pad(n) { return (n < 10 ? "0" : "") + n; }
+
+    function go(n) {
+      i = Math.max(0, Math.min(slides.length - 1, n));
+      slides.forEach(function (s, k) { s.classList.toggle("is-active", k === i); });
+      dots.forEach(function (d, k) { d.classList.toggle("is-on", k === i); });
+      counter.textContent = pad(i + 1) + " / " + pad(slides.length);
+    }
+
+    document.getElementById("prev").addEventListener("click", function () { go(i - 1); });
+    document.getElementById("next").addEventListener("click", function () { go(i + 1); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight" || e.key === "PageDown") { go(i + 1); }
+      if (e.key === "ArrowLeft" || e.key === "PageUp") { go(i - 1); }
+    });
+
+    go(0);
+  })();
+</script>
