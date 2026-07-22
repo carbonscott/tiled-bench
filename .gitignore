@@ -2,3 +2,5 @@ __pycache__/
 *.pyc
 *.png
 __marimo__/
+_egbench_ws/
+_bench_ws/

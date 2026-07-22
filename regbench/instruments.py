@@ -28,6 +28,7 @@ class Sample:
     status: int
     wall_ms: float | None   # client-observed round trip
     app_ms: float | None    # server Server-Timing app;dur
+    bytes: int | None = None  # Content-Length — wire bytes (None when chunked/absent)
 
 
 def _parse_server_timing(header: str | None) -> dict[str, float]:
@@ -72,6 +73,7 @@ class CallCollector:
             start = self._starts.pop(id(req), None)
         wall_ms = (end - start) * 1000 if start is not None else None
         app_ms = _parse_server_timing(response.headers.get("server-timing")).get("app")
+        clen = response.headers.get("content-length")
         self.samples.append(
             Sample(
                 method=req.method,
@@ -79,6 +81,7 @@ class CallCollector:
                 status=response.status_code,
                 wall_ms=wall_ms,
                 app_ms=app_ms,
+                bytes=int(clen) if clen else None,
             )
         )
 
