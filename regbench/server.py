@@ -4,11 +4,14 @@ A fresh SQLite catalog per launch (``--init``), RTT≈0, and a PID we can hand t
 later (see ``LocalTiledServer.pid``). This is the profiling home and the white-box target
 from BENCHMARK-PLAN.md.
 
-Launch line mirrors what the TCB tests assume a human runs:
-    tiled serve catalog <db> --init --api-key secret --port <p> --read <workspace>
+Launched via ``tiled serve config`` with a generated config file rather than the bare
+``tiled serve catalog`` CLI: the config form is the only way to pass
+``adapters_by_mimetype``, which maps the broker's private ``application/x-hdf5-broker``
+mimetype to :class:`tiled_catalog_broker.adapters.LazyHDF5ArrayAdapter`. Without that
+mapping, broker-mimetype nodes register fine but 500 on every read (no adapter).
 
-``--read <workspace>`` is required so the server will accept external HDF5 ``file://`` asset
-URIs living under that root; every synthetic dataset is created beneath it.
+``readable_storage`` must cover every HDF5 ``file://`` asset root; every synthetic
+dataset is created beneath the workspace, and the egress benchmark adds ``data-source/``.
 """
 
 import os
@@ -21,7 +24,15 @@ import urllib.request
 from contextlib import contextmanager
 from pathlib import Path
 
+import yaml
+
 DEFAULT_API_KEY = "secret"
+
+# Private mimetype → adapter, mirroring the shared-server admin config. Keep in sync
+# with tiled_catalog_broker.http_register (the registration-side default).
+BROKER_ADAPTERS = {
+    "application/x-hdf5-broker": "tiled_catalog_broker.adapters:LazyHDF5ArrayAdapter",
+}
 
 
 def _free_port() -> int:
@@ -106,18 +117,27 @@ def local_server(workspace: Path, api_key: str = DEFAULT_API_KEY, port: int | No
     port = port or _free_port()
     uri = f"http://127.0.0.1:{port}"
 
+    config = {
+        "trees": [{
+            "path": "/",
+            "tree": "catalog",
+            "args": {
+                "uri": f"sqlite:///{db_path}",
+                "init_if_not_exists": True,
+                "writable_storage": str(workspace),
+                "readable_storage": [str(workspace)] + [str(rp) for rp in read_paths or ()],
+                "adapters_by_mimetype": dict(BROKER_ADAPTERS),
+            },
+        }],
+    }
+    config_path = workspace / "server_config.yml"
+    config_path.write_text(yaml.safe_dump(config))
     cmd = [
-        _tiled_bin(), "serve", "catalog", str(db_path),
+        _tiled_bin(), "serve", "config", str(config_path),
         "--api-key", api_key,
         "--host", "127.0.0.1",
         "--port", str(port),
-        "--read", str(workspace),
-        "--write", str(workspace),
     ]
-    if not db_path.exists():
-        cmd.insert(4, "--init")
-    for rp in read_paths or ():
-        cmd += ["--read", str(rp)]
     # Route the server's per-request logging to a file in the workspace, not the console —
     # a single sweep is thousands of requests and would bury the harness output. The log stays
     # available for debugging a failed run.
