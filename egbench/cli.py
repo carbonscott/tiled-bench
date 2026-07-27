@@ -1,56 +1,42 @@
-"""egbench CLI — serve / datasets / run / sweep.
+"""egbench CLI — args in, measured JSON out.
 
-Data creation + registration are one-off agentic steps (recipe in
-docs/agent-runbook-egress-benchmark.md), not subcommands. Run under the TCB venv from
-the tiled-bench repo root so ``egbench`` and ``regbench`` import:
+One invocation = one measurement. Everything the harness can't measure (layout, stack
+size, mimetype, entity count) is something you read off the Tiled server and pass as a
+flag or record yourself; the harness never guesses. Reps and sweeps are a shell loop.
 
     PY=/sdf/data/lcls/ds/prj/prjmaiqmag01/results/cfitussi/tiled-catalog-broker/.venv/bin/python
-    "$PY" -m egbench.cli serve &          # persistent local server → server.json
-    "$PY" -m egbench.cli run --dataset EGRESS_PE_1M --method export_hdf5 --concurrency 4
+    "$PY" -m egbench.cli serve --read-path /sdf/.../data-source &
+    "$PY" -m egbench.cli run --dataset EGRESS_BAT_1M --artifact signal \\
+          --method artifact_read --concurrency 4 --n 200
+    {"wall_s": 12.41, "entities": 200, ...}
 """
 
 import argparse
-import itertools
 import json
 import os
 from pathlib import Path
 
-from .config import FetchConfig
-from .datasets import DATA_ROOT, DEFAULT_REMOTE_URL, REGISTRY
-from .report import CsvReporter
-from .runner import run_fetch
+from .methods import GROUP_FMT
+from .runner import run_direct, run_http
+
+DEFAULT_REMOTE_URL = "https://lcls-data-portal.slac.stanford.edu/tiled-test"
 
 
-def _resolve_target(args):
+def _target(args):
     """(url, api_key) for the chosen location. local reads the serve state file."""
     if args.location == "local":
         state = json.loads((Path(args.workspace) / "server.json").read_text())
         return state["uri"], state["api_key"]
-    url = args.url or os.environ.get("TILED_URL", DEFAULT_REMOTE_URL)
-    return url, args.api_key or os.environ.get("TILED_API_KEY", "")
-
-
-def _run_configs(cfgs, reps, args):
-    url, api_key = _resolve_target(args)
-    reporter = CsvReporter(args.out)
-    for cfg in cfgs:
-        for rep in range(reps):
-            res = run_fetch(cfg, url, api_key, rep)
-            reporter.append(res)
-            app = f"{100 * res.app_frac:.0f}%" if res.app_frac is not None else "-"
-            print(f"[run] {cfg.label()} rep{rep}: wall={res.wall_s:.2f}s  "
-                  f"{res.ent_per_s:.1f} ent/s  payload={res.payload_mbps:.1f} MB/s  "
-                  f"wire={res.wire_mbps:.1f} MB/s  app={app}  nav={res.nav_sum_s:.2f}s  "
-                  f"dec={res.decode_s:.2f}s  err={res.errors}", flush=True)
-    print(f"[done] appended to {args.out}")
+    return (args.url or os.environ.get("TILED_URL", DEFAULT_REMOTE_URL),
+            args.api_key or os.environ.get("TILED_API_KEY", ""))
 
 
 def _cmd_serve(args):
     from regbench.server import local_server
 
     ws = Path(args.workspace).resolve()
-    with local_server(workspace=ws, read_paths=[DATA_ROOT], fresh_db=args.fresh,
-                      port=args.port) as server:
+    with local_server(workspace=ws, read_paths=[Path(p) for p in args.read_path],
+                      fresh_db=args.fresh, port=args.port) as server:
         (ws / "server.json").write_text(json.dumps(
             {"uri": server.uri, "api_key": server.api_key, "pid": server.pid}))
         print(f"[serve] up at {server.uri} (pid {server.pid}) — "
@@ -61,46 +47,13 @@ def _cmd_serve(args):
             pass  # Ctrl-C is the normal shutdown; the context manager stops the server
 
 
-def _cmd_datasets(args):
-    for key, s in REGISTRY.items():
-        nfiles = len(s.files())
-        status = "on disk" if nfiles else "MISSING"
-        print(f"{key:30s} {s.layout:10s} n={s.n_entities:<5d} "
-              f"{s.mb_per_entity:9.3f} MB/ent  files={nfiles:<5d} {status:8s} {s.data_dir}")
-
-
 def _cmd_run(args):
-    cfg = FetchConfig(dataset_key=args.dataset, method=args.method, location=args.location,
-                      concurrency=args.concurrency, batch_size=args.batch,
-                      n_entities=args.n)
-    _run_configs([cfg], args.reps, args)
-
-
-def _cmd_sweep(args):
-    datasets = [x.strip() for x in args.datasets.split(",") if x.strip()]
-    methods = [x.strip() for x in args.methods.split(",") if x.strip()]
-    concs = [int(x) for x in args.concurrency.split(",") if x.strip()]
-    batches = [int(x) for x in args.batches.split(",") if x.strip()]
-    # batch_size only exists on the export path — pin it to one value elsewhere so the
-    # grid doesn't repeat identical raw_read/h5py_direct points per batch value.
-    cfgs = list(dict.fromkeys(
-        FetchConfig(dataset_key=d, method=m, location=args.location, concurrency=c,
-                    batch_size=b if m == "export_hdf5" else 1, n_entities=args.n)
-        for d, m, c, b in itertools.product(datasets, methods, concs, batches)
-    ))
-    print(f"[sweep] {len(cfgs)} configs × {args.reps} rep(s) → {args.out}")
-    _run_configs(cfgs, args.reps, args)
-
-
-def _add_target_args(p):
-    p.add_argument("--location", default="local", choices=("local", "remote"))
-    p.add_argument("--workspace", default="./_egbench_ws",
-                   help="local-server state dir (serve writes server.json here)")
-    p.add_argument("--url", default=None, help="remote Tiled URI (default: $TILED_URL)")
-    p.add_argument("--api-key", default=None, help="remote key (default: $TILED_API_KEY)")
-    p.add_argument("--out", default="./results/egress.csv", help="CSV to append rows to")
-    p.add_argument("--n", type=int, default=0, help="entities per run (0 = all)")
-    p.add_argument("--reps", type=int, default=3)
+    if args.method == "h5py_direct":
+        measured = run_direct(args)
+    else:
+        url, api_key = _target(args)
+        measured = run_http(args, url, api_key)
+    print(json.dumps(measured))
 
 
 def build_parser():
@@ -109,30 +62,50 @@ def build_parser():
 
     s = sub.add_parser("serve", help="run a persistent local Tiled server (foreground)")
     s.add_argument("--workspace", default="./_egbench_ws")
+    s.add_argument("--read-path", action="append", default=[],
+                   help="extra --read root the server may load HDF5 from (repeatable)")
     s.add_argument("--port", type=int, default=None)
     s.add_argument("--fresh", action="store_true",
                    help="wipe the catalog DB (default: keep registered datasets)")
     s.set_defaults(func=_cmd_serve)
 
-    d = sub.add_parser("datasets", help="list the dataset registry + on-disk status")
-    d.set_defaults(func=_cmd_datasets)
-
-    r = sub.add_parser("run", help="measure one config, append one CSV row per rep")
-    r.add_argument("--dataset", required=True, choices=sorted(REGISTRY))
+    r = sub.add_parser("run", help="measure one config, print measured JSON")
     r.add_argument("--method", required=True,
-                   choices=("export_hdf5", "raw_read", "h5py_direct"))
+                   choices=("container_export", "artifact_read", "raw_export",
+                            "asset_bytes", "h5py_direct"))
     r.add_argument("--concurrency", type=int, default=1)
-    r.add_argument("--batch", type=int, default=20, help="keys per export work-unit")
-    _add_target_args(r)
-    r.set_defaults(func=_cmd_run)
+    r.add_argument("--n", type=int, default=0,
+                   help="entities to fetch; 0 = all (required for batched/grouped direct)")
 
-    w = sub.add_parser("sweep", help="grid over datasets × methods × concurrency × batch")
-    w.add_argument("--datasets", required=True, help="comma-separated dataset keys")
-    w.add_argument("--methods", default="export_hdf5,raw_read")
-    w.add_argument("--concurrency", default="1")
-    w.add_argument("--batches", default="20")
-    _add_target_args(w)
-    w.set_defaults(func=_cmd_sweep)
+    r.add_argument("--dataset", help="top-level Tiled container key (HTTP methods)")
+    r.add_argument("--artifact",
+                   help="artifact node name, e.g. signal. Required for artifact_read, "
+                        "raw_export and asset_bytes. For container_export it is optional: "
+                        "omit to decode every artifact of each entity ('I want the whole "
+                        "entity'), name one to decode only that ('the server sent four, I "
+                        "needed one') — the wire cost is the same either way")
+    r.add_argument("--export-batch", type=int, default=20,
+                   help="entity keys per export work-unit; container_export only. "
+                        "Requests are chunked <=25 keys regardless (proxy 414 limit)")
+    r.add_argument("--download-dir",
+                   help="raw_export only: write the asset here instead of holding it in "
+                        "RAM. Needed for files too big to buffer (EGRESS_BAT_16M is 4.3 GB)")
+
+    r.add_argument("--location", default="local", choices=("local", "remote"))
+    r.add_argument("--workspace", default="./_egbench_ws",
+                   help="local-server state dir (serve writes server.json here)")
+    r.add_argument("--url", default=None, help="remote Tiled URI (default: $TILED_URL)")
+    r.add_argument("--api-key", default=None, help="remote key (default: $TILED_API_KEY)")
+
+    r.add_argument("--data-dir", help="dir of *.h5 files (h5py_direct)")
+    r.add_argument("--h5-path", help="HDF5 dataset path (h5py_direct, raw_export)")
+    r.add_argument("--layout", choices=("per_entity", "batched", "grouped"),
+                   help="how entities map onto files (h5py_direct, raw_export). For "
+                        "raw_export this sets the request count: 1 for a shared file, "
+                        "N for per_entity")
+    r.add_argument("--group-fmt", default=GROUP_FMT,
+                   help="entity group path template (grouped layout)")
+    r.set_defaults(func=_cmd_run)
     return p
 
 
