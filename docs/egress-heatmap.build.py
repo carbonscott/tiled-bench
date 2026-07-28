@@ -18,7 +18,8 @@ import csv, json, re, statistics
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-RESULTS = REPO / "results"
+RESULTS = REPO / "results" / "stock-2026-07"   # frozen stock-era CSVs
+BROKER = REPO / "results" / "broker"           # 2026-07-27 broker campaign
 PAGE = REPO / "docs" / "egress-heatmap.html"
 
 PROBES = {  # probe name -> (glob, n_processes)
@@ -74,8 +75,46 @@ def base_record(rows, src):
     return rec
 
 
+def read_broker_rows(path):
+    """Broker-campaign CSVs (results/broker/step*.csv): axes + measured values
+    only — rates are derived here, never stored (runbook §5)."""
+    with open(path) as f:
+        for r in csv.DictReader(f):
+            wall = float(r["wall_s"] or 0)
+            ents = float(r["entities"] or 0)
+            conc = int(r["concurrency"] or 1)
+            out = {
+                "dataset_key": r["dataset_key"], "method": r["method"],
+                "location": r["location"], "concurrency": conc,
+                "batch_size": int(float(r["export_batch"] or 0)) or 1,
+                "n_entities": int(float(r["n_entities"] or 0)),
+                "layout": r.get("layout", ""),
+                "mb_per_entity": float(r["mb_per_entity"] or 0),
+            }
+            for k in ("wall_s", "entities", "errors", "payload_mb",
+                      "req_p50_ms", "req_p95_ms", "req_p99_ms", "app_p50_ms",
+                      "app_sum_s", "net_sum_s", "nav_sum_s", "decode_s"):
+                v = r.get(k)
+                out[k] = float(v) if v not in ("", None) else 0.0
+            wire = float(r["wire_mb"] or 0)
+            out["payload_mbps"] = out["payload_mb"] / wall if wall else 0.0
+            out["wire_mbps"] = wire / wall if wall else 0.0
+            out["ent_per_s"] = ents / wall if wall else 0.0
+            out["app_frac"] = out["app_sum_s"] / (wall * conc) if wall else 0.0
+            yield out
+
+
 def build_records():
     records = []
+    for f in sorted(BROKER.glob("*.csv")):
+        groups = {}
+        for r in read_broker_rows(f):
+            key = (r["dataset_key"], r["method"], r["location"],
+                   r["concurrency"], r["batch_size"], r["n_entities"])
+            groups.setdefault(key, []).append(r)
+        for rows in groups.values():
+            records.append(base_record(rows, "broker/" + f.stem))
+
     for f in sorted(RESULTS.glob("*.csv")):
         if f.name.startswith("mp_") or f.name == "smoke.csv":
             continue
