@@ -56,14 +56,41 @@ def med(rows, k):
     return statistics.median(r[k] for r in rows)
 
 
+# The stock-era campaign named the same two operations differently. Canonicalise so the
+# Method axis shows five operations, not seven, and the campaign field keeps the two
+# populations distinguishable (they must never be averaged together).
+METHOD_ALIASES = {"export_hdf5": "container_export", "raw_read": "artifact_read"}
+
+
+def registration(r0, src):
+    """How the data under test was registered -- the axis that must never be averaged
+    across. Read from the recorded mimetype, not the source file: the step-6 control ran
+    during the broker campaign against a stock-registered dataset. h5py_direct bypasses
+    the server entirely, so registration cannot affect it."""
+    if r0["method"] == "h5py_direct":
+        return "n/a (no server)"
+    mt = r0.get("mimetype") or ""
+    if mt:
+        return "broker" if "broker" in mt else "stock"
+    return "broker" if src.startswith("broker/") else "stock"
+
+
 def base_record(rows, src):
     r0 = rows[0]
     rec = {
-        "dataset": r0["dataset_key"], "method": r0["method"],
+        "dataset": r0["dataset_key"].replace("_BROKER", ""),
+        "reg": registration(r0, src),
+        "method": METHOD_ALIASES.get(r0["method"], r0["method"]),
         "location": r0["location"], "conc": r0["concurrency"],
-        "batch": r0["batch_size"], "n": r0["n_entities"], "nproc": 1,
+        "batch": r0["batch_size"], "n": r0["n_entities"],
+        "nproc": r0.get("nproc", 1),
         "layout": r0["layout"], "mb_ent": r0["mb_per_entity"],
         "reps": len(rows), "src": src,
+        # Entities in the backing file. Lets the page plot "how much of the file did you
+        # ask for", which is where whole-file download overtakes per-entity fetching.
+        "stack": int(float(r0.get("stack_size") or 0)),
+        "arts": int(float(r0.get("n_artifacts") or 0)),
+        "mb_art": float(r0.get("mb_per_artifact") or 0),
     }
     for k in NUM:
         rec[k] = round(med(rows, k), 4)
@@ -90,17 +117,37 @@ def read_broker_rows(path):
                 "n_entities": int(float(r["n_entities"] or 0)),
                 "layout": r.get("layout", ""),
                 "mb_per_entity": float(r["mb_per_entity"] or 0),
+                "stack_size": r.get("stack_size", ""),
+                "mimetype": r.get("mimetype", ""),
+                "n_artifacts": r.get("n_artifacts", ""),
+                "mb_per_artifact": r.get("mb_per_artifact", ""),
             }
+            # Step 4 recorded process fan-out in the concurrency column, flagged only in
+            # `note`. Left alone, 8 summed processes render as 8 threads in one process --
+            # the highest rate on the chart, and wrong. Move it to the process axis.
+            m = re.match(r"(\d+)-processes-aggregate", r.get("note", "") or "")
+            if m:
+                out["nproc"] = int(m.group(1))
+                out["concurrency"] = conc = 1
             for k in ("wall_s", "entities", "errors", "payload_mb",
                       "req_p50_ms", "req_p95_ms", "req_p99_ms", "app_p50_ms",
                       "app_sum_s", "net_sum_s", "nav_sum_s", "decode_s"):
                 v = r.get(k)
                 out[k] = float(v) if v not in ("", None) else 0.0
             wire = float(r["wire_mb"] or 0)
+            # asset_bytes/raw_export decode nothing, so the harness reports payload_mb=0.
+            # The useful data is still what you asked for, so impute it -- otherwise these
+            # methods are invisible on a payload-rate chart and the crossover with
+            # container_export can't be seen at all.
+            if not out["payload_mb"] and out["entities"]:
+                out["payload_mb"] = out["entities"] * out["mb_per_entity"]
             out["payload_mbps"] = out["payload_mb"] / wall if wall else 0.0
             out["wire_mbps"] = wire / wall if wall else 0.0
             out["ent_per_s"] = ents / wall if wall else 0.0
-            out["app_frac"] = out["app_sum_s"] / (wall * conc) if wall else 0.0
+            # Denominator is total worker-time, so it must count every parallel stream --
+            # threads within a process AND the process fan-out.
+            streams = conc * out.get("nproc", 1)
+            out["app_frac"] = out["app_sum_s"] / (wall * streams) if wall else 0.0
             yield out
 
 
@@ -109,8 +156,11 @@ def build_records():
     for f in sorted(BROKER.glob("*.csv")):
         groups = {}
         for r in read_broker_rows(f):
-            key = (r["dataset_key"], r["method"], r["location"],
-                   r["concurrency"], r["batch_size"], r["n_entities"])
+            # nproc belongs in the key: the step-4 process aggregates are rewritten to
+            # concurrency=1, so without it they merge with the true single-process runs
+            # and the median silently blends 1-process and 8-process results.
+            key = (r["dataset_key"], r["method"], r["location"], r["concurrency"],
+                   r.get("nproc", 1), r["batch_size"], r["n_entities"])
             groups.setdefault(key, []).append(r)
         for rows in groups.values():
             records.append(base_record(rows, "broker/" + f.stem))
