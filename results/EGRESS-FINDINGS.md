@@ -25,7 +25,7 @@ winner at the measured config, remote, c=1 unless stated.
 | 1 | Plot one artifact, interactively | any, artifact ≈ entity (single/uniform) | `container_export` naming the artifact | `artifact_read` 3.5–6× slower (~190 ms vs ~35–55 ms/fetch) | export wire-waste = artifact count (§step 2): fine at 1–4 artifacts, think twice at 16 |
 | 1 | Plot one **small** artifact of a mixed entity (16.7 MB primary + 64 KB aux) | any | `artifact_read` | `container_export` 1.7× slower and moves **259×** the bytes | the only serial cell artifact_read wins |
 | 2 | Whole entity, cache it | per_entity / batched / grouped | `container_export` (omit `--artifact`) | `artifact_read` 9–13×, growing with artifact count | 1 art: 9.4×; 4: 12×; 16: 13× |
-| 3 | Batch of k entities → ML pipeline | batched | k ≲ 45% of file: `container_export`; above: `asset_bytes` whole file | crossing wrong way costs up to 13× (k=1000: 170 s read vs 12.7 s file) | **crossover k ≈ 430/1000 vs export, k ≈ 67/1000 vs artifact_read** (1 MB entities, 1 GB file) |
+| 3 | Batch of k entities → ML pipeline | batched / grouped | below the crossover fraction: `container_export`; above: `asset_bytes` whole file. **Crossover ≈ 23–66% of the file depending on entity size and artifact count** (table in step 3) | crossing wrong way costs up to 13× (k=1000: 170 s read vs 12.7 s file) | 1 MB×1 art: 43%; 16.8 MB: 66%; 1 MB×4 arts: 23%; grouped ≈ batched (41%). vs `artifact_read` the whole file wins from 2–7% on multi-artifact/1 MB files |
 | 3 | Batch of k | per_entity | `container_export`; scale with concurrency c≈8–16, then processes | `artifact_read` ~6× at c=1, converges at c≥8 (both plateau ~140 MB/s) | on-cluster: `h5py_direct` is 8–10× the whole-process HTTP plateau |
 | 4 | Whole dataset | batched / grouped | `asset_bytes` / `raw_export` (one file = one GET; 83–90 MB/s single stream) | `container_export` 2.1–2.7× slower serially | `raw_export` ≈ `asset_bytes` (+5% at c=1, nil across processes) |
 | 4 | Whole dataset | per_entity | `container_export` at c=8 (140 MB/s), or N processes × raw download (8 procs → 224 MB/s) | serial anything: 3–7×; thread scaling caps at ~145 MB/s/process (GIL) | `raw_export` cannot thread at all (upstream bug, below) — scale by process |
@@ -36,12 +36,16 @@ Rules of thumb a user can carry:
   Its per-entity cost is ~35 ms at 1 MB (25-key chunked requests amortize per-request
   overhead); `artifact_read` pays a flat ~190 ms/entity navigation tax (2 metadata GETs +
   1 data GET), `asset_bytes`/`raw_export` on per_entity pay ~250 ms (3 nav requests + GET).
-- **Batched crossover:** fetching a subset of a batched file by entity costs
-  ~27–190 ms/entity; pulling the whole backing file moves everything at wire speed.
-  With 1 MB entities in a 1 GB file the lines cross at **k ≈ 430 (~45% of the file)**
-  against `container_export`, k ≈ 67 against `artifact_read`. The fraction, not the
-  absolute k, is the portable number: whole-file wins when you want ≳ 45% of the file
-  (and sooner if you'd otherwise use `artifact_read`).
+- **Shared-file crossover (batched and grouped alike):** fetching a subset by entity
+  costs per-entity time; pulling the whole backing file moves everything at wire speed.
+  The crossover *fraction* is the portable number, and it moves with two knobs:
+  **entity size pushes it up** (export amortizes overhead better on big entities:
+  66% at 16.8 MB/entity vs 43% at 1 MB), **artifact count pulls it down** (23% at
+  4 artifacts — export pays per artifact, the file doesn't). Working rule: single-artifact
+  ~1 MB entities → whole file above ~40%; big (≥16 MB) entities → export until ~2/3;
+  multi-artifact → whole file already above ~1/4. If your fallback is `artifact_read`
+  rather than export, the whole file wins from 2–7% on 1 MB/multi-artifact files
+  (45% at 16.8 MB).
 - **One Python process tops out ~145 MB/s** (c=8–16 plateau, `app_frac` ≤ 0.13 — the
   client is the ceiling, not the server). Need more: fan out processes (8 → 224 MB/s
   measured on raw downloads; the stock-era campaign sustained ~580 MB/s at 8 procs).
@@ -91,12 +95,28 @@ remote, c=1, k = 1 … 1000 (medians, seconds):
 | 1000 | 27.2 | 170.5 | 12.7 | 34.5 | 195.7 | 236.3 |
 
 - `asset_bytes` on batched is **flat** (whole 1.05 GB file at ~83 MB/s regardless of k) —
-  measured at k ∈ {1, 50, 1000} only, deliberately: the flatness is structural.
-- Interpolated crossovers: **k ≈ 433 vs `container_export`** (the operative one),
-  k ≈ 67 vs `artifact_read`.
+  measured at 2–3 k-points per dataset, deliberately: the flatness is structural.
 - On per_entity there is no crossover: every method scales with k and `container_export`
   leads at every point (export ~34 ms/ent; whole-file download of per-entity files is the
   worst of all — nav per file plus no amortization).
+
+The full crossover picture (2026-07-28 ladders; every shared-file dataset, interpolated
+between measured k-points; high-k points 1–2 reps by transfer budget, noted per row):
+
+| Dataset | File | `asset_bytes` flat | crossover vs `container_export` | vs `artifact_read` |
+|---|---|---|---|---|
+| `EGRESS_BAT_1M_BROKER` (1000 × 1 MB, 1 art) | 1.05 GB | 12.7 s | k ≈ 433 (**43%**) | k ≈ 67 (7%) |
+| `EGRESS_BAT_16M_BROKER` (256 × 16.8 MB, 1 art) | 4.3 GB | 52.9 s | k ≈ 170 (**66%**) | k ≈ 116 (45%) |
+| `EGRESS_BAT_4X256K` (1000 × 1 MB, 4 arts) | 1.05 GB | 13.0 s | k ≈ 232 (**23%**) | k ≈ 19 (2%) |
+| `EGRESS_GRP_1M_BROKER` (1000 × 1 MB, grouped) | 1.05 GB | 13.7 s | k ≈ 406 (**41%**) | k ≈ 67 (7%) |
+
+- **Grouped ≈ batched** (41% vs 43%, and matching per-entity costs) — the whole
+  crossover story transfers to grouped layout unchanged.
+- **PE_MIXED bulk ranking** (per_entity 17 MB mixed entities, whole-entity fetch):
+  `container_export` < `asset_bytes`-per-file < `artifact_read` at every k
+  (k=256: 90 s vs 118 s vs 257 s). Downloading the backing files is a respectable
+  second (1.3× export) and 2.2× better than per-artifact reads — but on per_entity
+  layout the export stays the recommendation at any k.
 
 ## Step 4 — `raw_export` vs `asset_bytes` (the client-library question)
 
