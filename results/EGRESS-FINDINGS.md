@@ -176,6 +176,51 @@ proxy, which 504'd on every chunk stock, now delivers 839 MB in ~16 s. Stock als
 **per_entity** container export: 60 ms/ent stock vs 36 ms/ent broker remote (~1.7×) —
 mimetype is not a batched-only concern.
 
+## Step 7 — ceilings from a dedicated client node (2026-07-28)
+
+Everything above was measured from a busy interactive node. Step 7 re-ran the reference
+cells and pushed for the server's actual ceilings from an exclusive milano node
+(sdfmilan015, 120 cores, `--exclusive`, job 33461448). Rows:
+`step7-control.csv`, `step7-ceiling.csv`; flamegraphs: `results/profiles/*.svg`.
+
+**Control — were the interactive-node numbers depressed?** Modestly, and more under
+concurrency: c=1 cells improved 5–10% (PE_1M export 7.26→6.56 s), but the c=16 PE_16M
+points improved 22–33% (artifact_read 3.67→2.85 s, export 4.07→2.72 s). **The
+single-process plateau re-baselines from ~145 to ~190 MB/s** on a quiet node — the
+prior cap was part client-host contention. Serial conclusions and every ranking in the
+recommendation table are unchanged (deltas ≪ the 2–13× method gaps).
+
+**Three distinct ceilings found:**
+
+| Ceiling | Value | Evidence |
+|---|---|---|
+| Request path | **~135 req/s (~44 ent/s)** aggregate, regardless of parallelism | artifact_read on 64 KB entities: flat from 32 → 256 client streams while server-side `app;dur` p50 inflates 142→329 ms and p95 hits 6.9 s — requests queue *inside* the server |
+| Bulk egress (wire + server streaming) | **≥ 940 MB/s, not yet saturated** | 16 processes streaming the same cache-hot 1.05 GB file: 316→514→857–941 MB/s at P=4→8→16, near-linear |
+| One client process | ~190 MB/s (quiet node) | c=16 control points; GIL, see profiles |
+
+The **request-path ceiling is the important one**: it is low, it is server-side
+serialization (latency inflation with zero throughput gain — a saturated internal
+resource, not CPU; the Prometheus dashboard showing single-digit utilization is
+consistent), and it back-pressures everything built on per-entity requests. The
+"bandwidth" ladder over distinct per-entity files saturated at ~470 MB/s *because of
+it* — 3 requests per entity (2 metadata + 1 data) means 64 processes were pushing the
+request path, not the wire; the whole-file streams (1 request each) sailed past to
+940+. For capacity planning: tiled-test as configured serves ~135 interactive
+requests/s total, shared among all users — worth a look at server worker/DB-pool
+configuration before concluding hardware is the limit.
+
+**Client-side profiles (py-spy, on-node):** the c=16 `artifact_read` plateau is
+GIL-bound in response-body handling — 54% of wall samples in
+`tiled/client/array.py:_get_slice → httpx Response.read`, and the `--gil` profile shows
+~35% of GIL-held time in that same stack (SSL decrypt + chunk assembly hold the GIL;
+socket *waits* release it, which is why threads help up to c≈8 and then stop).
+`container_export` at c=8 is the same shape (71% in `iter_bytes`/httpcore read; h5py
+decode is minor). Two upstream-worthy observations: (1) `.read()` on an array client
+routes through a full dask task graph even for a whole-array fetch — pure overhead
+visible as a 54%-deep stack; (2) response streaming could release the GIL more (e.g.
+`recv_into` a preallocated buffer) — but the practical client answer remains: scale by
+process, ~190 MB/s each.
+
 ## Storage floor (step 0, context for all of the above)
 
 Warm `h5py_direct`, local: 1.2–1.5 GB/s for ≥16 MB contiguous reads; ~0.4–0.5 GB/s for
