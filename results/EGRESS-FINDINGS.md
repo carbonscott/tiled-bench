@@ -205,7 +205,8 @@ consistent), and it back-pressures everything built on per-entity requests. The
 "bandwidth" ladder over distinct per-entity files saturated at ~470 MB/s *because of
 it* — 3 requests per entity (2 metadata + 1 data) means 64 processes were pushing the
 request path, not the wire; the whole-file streams (1 request each) sailed past to
-940+. For capacity planning: tiled-test as configured serves ~135 interactive
+940+. (The P=64 rung is single-rep, 485 MB/s — its second rep lost one shard and was
+discarded per the guardrail, not averaged in.) For capacity planning: tiled-test as configured serves ~135 interactive
 requests/s total, shared among all users — worth a look at server worker/DB-pool
 configuration before concluding hardware is the limit.
 
