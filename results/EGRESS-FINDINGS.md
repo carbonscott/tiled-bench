@@ -252,12 +252,18 @@ Reading:
 - The throughput gain is real but sub-linear (1.45×, not 2×), and peak effective
   in-flight only moved ~19 → ~21: the serialized resource was never just worker count —
   something behind the workers (DB connection pool, event loop, catalog) still binds.
-- The reliability regression is the headline. The 500s were reproduced and captured:
-  server-side `500 Internal Server Error` on `/asset/bytes` under ~16 concurrent
-  streams (13/14 healed by client retries, which is why serial users see latency, not
-  errors). Correlation IDs are in the server logs — worth pulling the actual exception;
-  16 workers × connection-pool size vs Postgres limits is the first suspect, the
-  0.2.14.dev18 upgrade itself the second.
+- The reliability regression is the headline, and the server logs **confirmed the root
+  cause**: asyncpg `TooManyConnectionsError: remaining connection slots are reserved
+  for roles with the SUPERUSER attribute` — Postgres `max_connections` exhausted.
+  16 workers × (catalog_pool_size 5 + catalog_max_overflow 10) = 240 potential
+  connections vs ~100-slot CNPG Postgres. Two failure levels: requests 500 when a
+  worker can't get a slot, and a **restarting pod can't even boot** (`tiled catalog
+  init` at startup dies with `DatabaseInitializationError`), so under overload the
+  fleet partially crash-loops — which is why throughput *collapsed* rather than
+  plateaued, and why the measured 1.45× understates a healthy 16-worker fleet.
+  Fix: make `workers × (pool_size + max_overflow) ≤ max_connections − reserved`
+  (e.g. pool 4 + overflow 2 → 96), and/or raise `max_connections`, and/or a
+  PgBouncer pooler in front. Re-run the request ladder after.
 - Cold-start note: the first rung after the pod restart was an outlier (95 MB/s /
   7 ent/s first reps) — fresh caches; medians absorb it.
 - Net for users right now: single-client work is somewhat *worse* than before the
