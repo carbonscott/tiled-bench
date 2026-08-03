@@ -198,15 +198,24 @@ recommendation table are unchanged (deltas ≪ the 2–13× method gaps).
 | Bulk egress (wire + server streaming) | **≥ 940 MB/s, not yet saturated** | 16 processes streaming the same cache-hot 1.05 GB file: 316→514→857–941 MB/s at P=4→8→16, near-linear |
 | One client process | ~190 MB/s (quiet node) | c=16 control points; GIL, see profiles |
 
-The **request-path ceiling is the important one**: it is low, it is server-side
-serialization (latency inflation with zero throughput gain — a saturated internal
-resource, not CPU; the Prometheus dashboard showing single-digit utilization is
-consistent), and it back-pressures everything built on per-entity requests. The
-"bandwidth" ladder over distinct per-entity files saturated at ~470 MB/s *because of
-it* — 3 requests per entity (2 metadata + 1 data) means 64 processes were pushing the
-request path, not the wire; the whole-file streams (1 request each) sailed past to
-940+. (The P=64 rung is single-rep, 485 MB/s — its second rep lost one shard and was
-discarded per the guardrail, not averaged in.) For capacity planning: tiled-test as configured serves ~135 interactive
+**The three ceilings are one resource: ~19 concurrent request-processing slots.**
+Little's law at the request ladder's onset: 135.8 req/s × 142 ms = **19.3 in flight** —
+past that, offered streams only queue (in-flight grows to ~35 at 256 streams, `app;dur`
+inflates, completions/s *fall*). "135 req/s" is just what 19 slots deliver when each
+request holds a slot ~140 ms. Every workload's ceiling = 19 ÷ (slot-seconds per unit):
+
+- 64 KB `artifact_read` (3 requests ≈ 0.42 slot-s/entity) → ~45 ent/s ≈ 135 req/s;
+- 16.8 MB per-entity `asset_bytes` (2 nav + 1 streaming GET ≈ 0.6 slot-s/entity)
+  → ~30 ent/s ≈ **the ~470–485 MB/s "bandwidth" plateau** — slot-limited, not wire-limited
+  (P=64 rung single-rep, 485 MB/s; second rep lost a shard and was discarded);
+- 1.05 GB whole-file streams (1 slot held ~20 s at ~54–79 MB/s each, only 0.8 req/s)
+  → 16 × 59 ≈ **941 MB/s with ~3 slots to spare**; model ceiling ≈ 19 × per-stream rate
+  ≈ 1.0–1.1 GB/s, consistent with no plateau observed.
+
+The ~19 matches the stock-era "~18 concurrent worker threads" observation — likely
+uvicorn/anyio workers or a DB/adapter thread pool. Raising that one deployment knob
+lifts every ceiling except the wire; the Prometheus dashboard showing single-digit
+utilization is consistent (a saturated thread pool, not CPU). For capacity planning: tiled-test as configured serves ~135 interactive
 requests/s total, shared among all users — worth a look at server worker/DB-pool
 configuration before concluding hardware is the limit.
 
