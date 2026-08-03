@@ -231,6 +231,39 @@ visible as a 54%-deep stack; (2) response streaming could release the GIL more (
 `recv_into` a preallocated buffer) — but the practical client answer remains: scale by
 process, ~190 MB/s each.
 
+## Step 7b — after the worker scale-up (2026-08-03): faster aggregate, worse behavior
+
+The deployment was scaled 8 → 16 workers — and, it turns out, **also upgraded to tiled
+0.2.14.dev18** (was 0.2.10b5.dev3), so the two axes changed together and nothing below
+can be attributed to worker count alone. Same milano-exclusive job (34091273); rows in
+`step7-{control,ceiling}-workers16.csv`. Rows with `errors > 0` are **kept** in the CSV
+(the errors are the finding) but excluded from every rate quoted here.
+
+| Measure | workers 8 / 0.2.10b5 | workers 16 / 0.2.14.dev18 |
+|---|---|---|
+| Request-path ceiling | ~135 req/s, flat under any overload | **~195 req/s peak (1.45×)** at 64 streams — then *collapses* to ~112 at 256 streams |
+| Overload behavior | graceful: latency inflates, zero errors | **sheds load: HTTP 500s** on `/asset/bytes` and metadata from ~16 concurrent streams up; 42% throughput collapse; P=64 rung aborted |
+| Whole-file streams | 941 MB/s @ 16 streams, clean | 583 @ 8 clean; **1.2–1.5 GB/s @ 32** but every ≥16-stream rep dropped ~1 stream to 500s |
+| Distinct-file (per-entity) ladder | clean to P=64, ~470–485 MB/s | **no clean rung at P ≥ 8** — every rep lost 1–14 entities to 500s |
+| Serial controls | — | **7–24% slower** (e.g. PE_1M export 6.56→8.06 s); the 8-proc control +150%, inflated by the tiled client's transparent retry-with-backoff against intermittent nav 500s |
+
+Reading:
+
+- The throughput gain is real but sub-linear (1.45×, not 2×), and peak effective
+  in-flight only moved ~19 → ~21: the serialized resource was never just worker count —
+  something behind the workers (DB connection pool, event loop, catalog) still binds.
+- The reliability regression is the headline. The 500s were reproduced and captured:
+  server-side `500 Internal Server Error` on `/asset/bytes` under ~16 concurrent
+  streams (13/14 healed by client retries, which is why serial users see latency, not
+  errors). Correlation IDs are in the server logs — worth pulling the actual exception;
+  16 workers × connection-pool size vs Postgres limits is the first suspect, the
+  0.2.14.dev18 upgrade itself the second.
+- Cold-start note: the first rung after the pod restart was an outlier (95 MB/s /
+  7 ent/s first reps) — fresh caches; medians absorb it.
+- Net for users right now: single-client work is somewhat *worse* than before the
+  scale-up; aggregate multi-process work is faster but must tolerate retries. The
+  pre-scale-up recommendation table is unchanged (method rankings are unaffected).
+
 ## Storage floor (step 0, context for all of the above)
 
 Warm `h5py_direct`, local: 1.2–1.5 GB/s for ≥16 MB contiguous reads; ~0.4–0.5 GB/s for
