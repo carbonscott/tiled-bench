@@ -231,9 +231,9 @@ visible as a 54%-deep stack; (2) response streaming could release the GIL more (
 `recv_into` a preallocated buffer) — but the practical client answer remains: scale by
 process, ~190 MB/s each.
 
-## Step 7b — 16 workers behind PgBouncer (2026-08-09, tiled 0.2.14.dev18)
+## Step 7b — 16 workers behind PgBouncer (2026-08-03, tiled 0.2.14.dev18)
 
-Deployment history, briefly: the first 16-worker rollout (2026-08-03) connected workers
+Deployment history, briefly: the first 16-worker rollout (earlier on 2026-08-03) connected workers
 straight to Postgres; 16 × (pool 5 + overflow 10) = 240 potential connections vs a
 ~100-slot CNPG database produced asyncpg `TooManyConnectionsError` — client-visible
 500s under load and restarting pods crash-looping in `tiled catalog init`. Those
@@ -263,7 +263,7 @@ Reading:
 - **One residual defect**: mixed per-entity bulk (interleaved metadata + 16 MB asset
   streams, ≥16 processes) still draws server-side 500s — pure request load and pure
   streaming load don't. Suspect PgBouncer's own pool limits under long-held mixed
-  traffic; the correlation IDs from 2026-08-09 runs are in the server logs.
+  traffic; the correlation IDs from the 2026-08-03 runs are in the server logs.
 - Step-7b client profiles were skipped (py-spy hung wrapping the first run; the job was
   cancelled after measurements completed). The workers-8-era flamegraphs remain valid —
   client-side attribution doesn't depend on server deployment.
