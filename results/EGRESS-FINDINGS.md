@@ -271,13 +271,44 @@ Reading:
   consumers: fan out to ~8 processes for per-entity bulk (clean), up to 32 streams for
   whole-file bulk; expect retries above that.
 
-## Storage floor (step 0, context for all of the above)
+## Step 7c — raw-wire truth of the catalog path (2026-08-04)
 
-Warm `h5py_direct`, local: 1.2–1.5 GB/s for ≥16 MB contiguous reads; ~0.4–0.5 GB/s for
-1 MB-per-file; ~30 MB/s at 64 KB-per-file (open cost dominates). Cold-cache floors were
-not measurable (no root; every file had been touched this session) — all quoted floors
-are warm and therefore *upper* bounds on storage, which only strengthens the "client is
-the ceiling" attribution.
+Three probes that bypass the tiled client (raw httpx GETs) revise two earlier claims:
+
+- **`/healthz` (no catalog, no auth): 6,300+ req/s, p50 ~10 ms flat, zero errors** at
+  128 offered streams from 16 client processes — the proxy/TLS/uvicorn/routing fabric
+  has ~30× headroom over the catalog path and is exonerated. (First measurement of this
+  flat-lined at 2,160 req/s: that was the *client* — one Python process of sync httpx
+  threads caps at ~540 req/s. Scale load generators by process.)
+- **Catalog metadata GETs shed load as immediate 500s, and the tiled client's silent
+  retries have been masking it.** Raw error rate grows smoothly with offered streams —
+  1% @ 8, 3% @ 16, 7% @ 24, 12% @ 32, 21% @ 48, ~35% @ 64 — with first failures at
+  t≈0.5 s (not a sustained-load effect), while successful throughput saturates at
+  ~230 req/s. Step-7b's "zero errors through 512 streams" described *after-retry*
+  goodput, not the wire. The smooth (not stepped) error ramp says the server fails the
+  excess fast rather than queueing it; which resource does that — PgBouncer settings,
+  SQLAlchemy pool timeouts, or something else — is a server-log question (fresh
+  correlation IDs from 2026-08-04 12:50–13:20).
+- A 5.5-min sustained 64-stream window (12:50:45–12:56:17, for dashboard correlation
+  at 2-min bins) held ~175 ok/s, p50 ~258 ms, ~35% 500s throughout.
+
+## Storage: reference lines vs the filesystem (step 0 + cold-node probe)
+
+Two different numbers, both real:
+
+- **The benchmark reference line** (step 0): warm `h5py_direct`, one process —
+  1.2–1.5 GB/s for ≥16 MB contiguous reads, ~0.4–0.5 GB/s at 1 MB-per-file, ~30 MB/s at
+  64 KB-per-file (open cost dominates). This is a *client-side* bound (memcpy + h5py),
+  measured warm, and is the honest "what does plain h5py get a user" comparator for the
+  recommendation table. It is **not** a filesystem capability.
+- **The filesystem per-node rate** (cold probe, fresh milano node sdfmilan258,
+  2026-08-04): single process reading the 4.3 GB batched file cold: **2.0 GB/s**;
+  8 processes over disjoint cold 16 MB files: **2.3 GB/s aggregate**; cold 1-proc
+  per-file: 542 MB/s (vs 1.28 GB/s warm — the per-file open+first-touch tax). These are
+  lower bounds — phases ran ~1 s and include process spawn; Weka's per-node capability
+  is higher still. Practical reading: storage is never the binding constraint anywhere
+  in this benchmark; every HTTP-path ceiling sits ≥4× below what one node can pull
+  directly.
 
 ## Version drift (unknown #3, resolved)
 
