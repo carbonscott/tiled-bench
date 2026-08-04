@@ -231,44 +231,45 @@ visible as a 54%-deep stack; (2) response streaming could release the GIL more (
 `recv_into` a preallocated buffer) — but the practical client answer remains: scale by
 process, ~190 MB/s each.
 
-## Step 7b — after the worker scale-up (2026-08-03): faster aggregate, worse behavior
+## Step 7b — 16 workers behind PgBouncer (2026-08-09, tiled 0.2.14.dev18)
 
-The deployment was scaled 8 → 16 workers — and, it turns out, **also upgraded to tiled
-0.2.14.dev18** (was 0.2.10b5.dev3), so the two axes changed together and nothing below
-can be attributed to worker count alone. Same milano-exclusive job (34091273); rows in
-`step7-{control,ceiling}-workers16.csv`. Rows with `errors > 0` are **kept** in the CSV
-(the errors are the finding) but excluded from every rate quoted here.
+Deployment history, briefly: the first 16-worker rollout (2026-08-03) connected workers
+straight to Postgres; 16 × (pool 5 + overflow 10) = 240 potential connections vs a
+~100-slot CNPG database produced asyncpg `TooManyConnectionsError` — client-visible
+500s under load and restarting pods crash-looping in `tiled catalog init`. Those
+measurements characterized a broken deployment and were **deleted**. A PgBouncer pooler
+was then added; this section is the valid re-measurement (milano-exclusive job
+34104536; rows in `step7-{control,ceiling}-w16pool.csv`; the server also moved
+0.2.10b5.dev3 → 0.2.14.dev18 vs the workers-8 baseline, so version and workers remain
+confounded).
 
-| Measure | workers 8 / 0.2.10b5 | workers 16 / 0.2.14.dev18 |
+| Measure | workers 8, direct (0.2.10b5) | workers 16 + PgBouncer (0.2.14.dev18) |
 |---|---|---|
-| Request-path ceiling | ~135 req/s, flat under any overload | **~195 req/s peak (1.45×)** at 64 streams — then *collapses* to ~112 at 256 streams |
-| Overload behavior | graceful: latency inflates, zero errors | **sheds load: HTTP 500s** on `/asset/bytes` and metadata from ~16 concurrent streams up; 42% throughput collapse; P=64 rung aborted |
-| Whole-file streams | 941 MB/s @ 16 streams, clean | 583 @ 8 clean; **1.2–1.5 GB/s @ 32** but every ≥16-stream rep dropped ~1 stream to 500s |
-| Distinct-file (per-entity) ladder | clean to P=64, ~470–485 MB/s | **no clean rung at P ≥ 8** — every rep lost 1–14 entities to 500s |
-| Serial controls | — | **7–24% slower** (e.g. PE_1M export 6.56→8.06 s); the 8-proc control +150%, inflated by the tiled client's transparent retry-with-backoff against intermittent nav 500s |
+| Request-path ceiling | ~135 req/s, flat under overload | **~220 req/s peak (1.6×)** at 64 streams; graceful decline to ~120–125 at ≥256 streams, **zero errors through 512 streams** (p95 → 2.1 s) |
+| Whole-file streams | 941 MB/s @ 16, clean | **1.32 GB/s @ 32, clean** (per-stream 76→41 MB/s as P grows) |
+| Distinct-file (per-entity bulk) | clean to P=64, ~470–485 MB/s | clean only to P=8 (261 MB/s); **residual `/asset/bytes` 500s from P=16** (1.6–9% of units; reproduced) |
+| Single-client controls | baseline | parity within ±10% serially; c=16 points 16–24% slower (a lone hot client shares the backend with more workers now) |
 
 Reading:
 
-- The throughput gain is real but sub-linear (1.45×, not 2×), and peak effective
-  in-flight only moved ~19 → ~21: the serialized resource was never just worker count —
-  something behind the workers (DB connection pool, event loop, catalog) still binds.
-- The reliability regression is the headline, and the server logs **confirmed the root
-  cause**: asyncpg `TooManyConnectionsError: remaining connection slots are reserved
-  for roles with the SUPERUSER attribute` — Postgres `max_connections` exhausted.
-  16 workers × (catalog_pool_size 5 + catalog_max_overflow 10) = 240 potential
-  connections vs ~100-slot CNPG Postgres. Two failure levels: requests 500 when a
-  worker can't get a slot, and a **restarting pod can't even boot** (`tiled catalog
-  init` at startup dies with `DatabaseInitializationError`), so under overload the
-  fleet partially crash-loops — which is why throughput *collapsed* rather than
-  plateaued, and why the measured 1.45× understates a healthy 16-worker fleet.
-  Fix: make `workers × (pool_size + max_overflow) ≤ max_connections − reserved`
-  (e.g. pool 4 + overflow 2 → 96), and/or raise `max_connections`, and/or a
-  PgBouncer pooler in front. Re-run the request ladder after.
-- Cold-start note: the first rung after the pod restart was an outlier (95 MB/s /
-  7 ent/s first reps) — fresh caches; medians absorb it.
-- Net for users right now: single-client work is somewhat *worse* than before the
-  scale-up; aggregate multi-process work is faster but must tolerate retries. The
-  pre-scale-up recommendation table is unchanged (method rankings are unaffected).
+- **Overload behavior is healthy again** for request-shaped and streaming load — the
+  pooler removed the errors-and-crash-loop failure mode; past the sweet spot the server
+  queues (latency inflates) instead of shedding.
+- **Doubling workers bought 1.6×, and peak effective in-flight is ~21 for the third
+  deployment in a row** (Little's law: 218 req/s × 98 ms). Worker count is not the
+  serialized resource; the next suspects are Postgres query capacity, the per-worker
+  event loop, or the ingress. Until that's found, adding workers buys diminishing
+  returns.
+- **One residual defect**: mixed per-entity bulk (interleaved metadata + 16 MB asset
+  streams, ≥16 processes) still draws server-side 500s — pure request load and pure
+  streaming load don't. Suspect PgBouncer's own pool limits under long-held mixed
+  traffic; the correlation IDs from 2026-08-09 runs are in the server logs.
+- Step-7b client profiles were skipped (py-spy hung wrapping the first run; the job was
+  cancelled after measurements completed). The workers-8-era flamegraphs remain valid —
+  client-side attribution doesn't depend on server deployment.
+- Recommendation-table impact: none for method rankings. For workload-3/4 aggregate
+  consumers: fan out to ~8 processes for per-entity bulk (clean), up to 32 streams for
+  whole-file bulk; expect retries above that.
 
 ## Storage floor (step 0, context for all of the above)
 
