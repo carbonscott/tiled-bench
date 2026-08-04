@@ -94,6 +94,11 @@ def base_record(rows, src):
     }
     for k in NUM:
         rec[k] = round(med(rows, k), 4)
+    # Mean server-side requests in flight (Little's law): app;dur summed per wall
+    # second. Independent of conc/nproc bookkeeping — both inputs are raw measured
+    # values — so it is trustworthy even on process-aggregate rows.
+    rec["inflight"] = round(statistics.median(
+        r["app_sum_s"] / r["wall_s"] for r in rows if r["wall_s"]), 1)
     rec["errors"] = max(r["errors"] for r in rows)
     rec["failed"] = rec["entities"] == 0 or rec["errors"] > 0
     if rec["mb_ent"] == 0:
