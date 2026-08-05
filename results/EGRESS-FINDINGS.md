@@ -231,19 +231,24 @@ visible as a 54%-deep stack; (2) response streaming could release the GIL more (
 `recv_into` a preallocated buffer) — but the practical client answer remains: scale by
 process, ~190 MB/s each.
 
-## Step 7b — 16 workers behind PgBouncer (2026-08-03, tiled 0.2.14.dev18)
+## Step 7b — 16 workers, direct to Postgres (2026-08-03, tiled 0.2.14.dev18)
+
+> **Provenance correction (2026-08-04, step 7d):** this run was believed to be behind a
+> PgBouncer pooler; the config map was never applied, so it actually measured 16 workers
+> **direct** to Postgres. The comparison below is 8-direct vs 16-direct. Its CSVs were
+> deleted with the earlier broken-rollout rows because the deployment state during the
+> run (e.g. `max_connections` value) cannot be established after the fact.
 
 Deployment history, briefly: the first 16-worker rollout (earlier on 2026-08-03) connected workers
 straight to Postgres; 16 × (pool 5 + overflow 10) = 240 potential connections vs a
 ~100-slot CNPG database produced asyncpg `TooManyConnectionsError` — client-visible
 500s under load and restarting pods crash-looping in `tiled catalog init`. Those
-measurements characterized a broken deployment and were **deleted**. A PgBouncer pooler
-was then added; this section is the valid re-measurement (milano-exclusive job
-34104536; rows in `step7-{control,ceiling}-w16pool.csv`; the server also moved
+measurements characterized a broken deployment and were **deleted**. This section is
+the re-measurement (milano-exclusive job 34104536; the server also moved
 0.2.10b5.dev3 → 0.2.14.dev18 vs the workers-8 baseline, so version and workers remain
 confounded).
 
-| Measure | workers 8, direct (0.2.10b5) | workers 16 + PgBouncer (0.2.14.dev18) |
+| Measure | workers 8, direct (0.2.10b5) | workers 16, direct (0.2.14.dev18) |
 |---|---|---|
 | Request-path ceiling | ~135 req/s, flat under overload | **~220 req/s peak (1.6×)** at 64 streams; graceful decline to ~120–125 at ≥256 streams, **zero errors through 512 streams** (p95 → 2.1 s) |
 | Whole-file streams | 941 MB/s @ 16, clean | **1.32 GB/s @ 32, clean** (per-stream 76→41 MB/s as P grows) |
@@ -291,6 +296,29 @@ Three probes that bypass the tiled client (raw httpx GETs) revise two earlier cl
   correlation IDs from 2026-08-04 12:50–13:20).
 - A 5.5-min sustained 64-stream window (12:50:45–12:56:17, for dashboard correlation
   at 2-min bins) held ~175 ok/s, p50 ~258 ms, ~35% 500s throughout.
+
+## Step 7d — pooler misconfiguration diagnosed (2026-08-04, server 0.2.15b1.dev14)
+
+When the pooler config map *was* actually applied (2026-08-04, with Postgres
+`max_connections` raised to 250 and the server rolled to 0.2.15b1.dev14), the ceiling
+job collapsed: throughput inverted with concurrency (238 MB/s at P=8 → 6–11 at P=32),
+processes stalling out. Probe signature: serial requests healthy (80–150 ms); under
+even 4-way concurrency some requests **hang ~60 s and then succeed** — queueing for a
+DB connection, not erroring.
+
+Mechanism: tiled workers hold persistent SQLAlchemy pools (5–15 connections each). In
+PgBouncer **session mode** every persistent client connection pins a Postgres backend,
+so 16 workers demand 80–240 pinned backends against a `default_pool_size` of ~20:
+first-come workers win permanently, everyone else queues on a ~60 s timer. The run was
+cancelled and its partial rows discarded — no valid measurements exist for a
+correctly-pooled deployment yet.
+
+Deployment options for the admin: (1) **revert to direct Postgres** — with
+`max_connections=250`, 16 × (5+10) = 240 fits (trim `catalog_max_overflow` to 5 for
+margin); (2) PgBouncer in `pool_mode=transaction` with `default_pool_size` ~30–50
+**and** `statement_cache_size=0` in tiled's SQLAlchemy `connect_args` (asyncpg prepared
+statements break under transaction pooling otherwise); (3) session mode requires
+`default_pool_size ≥ 240`, which defeats the pooler's purpose.
 
 ## Storage: reference lines vs the filesystem (step 0 + cold-node probe)
 
