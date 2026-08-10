@@ -315,10 +315,31 @@ correctly-pooled deployment yet.
 
 Deployment options for the admin: (1) **revert to direct Postgres** — with
 `max_connections=250`, 16 × (5+10) = 240 fits (trim `catalog_max_overflow` to 5 for
-margin); (2) PgBouncer in `pool_mode=transaction` with `default_pool_size` ~30–50
-**and** `statement_cache_size=0` in tiled's SQLAlchemy `connect_args` (asyncpg prepared
-statements break under transaction pooling otherwise); (3) session mode requires
-`default_pool_size ≥ 240`, which defeats the pooler's purpose.
+margin); (2) PgBouncer in `pool_mode=transaction` with `default_pool_size` ~30–50 —
+**only viable if PgBouncer ≥ 1.21 with `max_prepared_statements` set** (see below);
+(3) session mode requires `default_pool_size ≥ 240`, which defeats the pooler's purpose.
+
+**Correction / detail on option 2** (2026-08-10, verified against tiled source): "set
+`statement_cache_size=0` in tiled's connect args" — as this section originally said —
+is not actually possible and would not suffice anyway. Tiled hardcodes its engine
+creation (`tiled/server/connection_pool.py`: `create_async_engine(uri, poolclass=
+AsyncAdaptedQueuePool, pool_size, max_overflow, pool_pre_ping)`, no `connect_args`
+hook — same on current upstream `main`). And SQLAlchemy's asyncpg dialect issues a
+**named** prepared statement for *every* query (`connection.prepare()`, names
+enumerated per client connection), so under classic transaction pooling two client
+connections sharing a backend collide on `__asyncpg_stmt_N__` → instant
+DuplicatePreparedStatement / "prepared statement does not exist" 500s. Disabling
+asyncpg's own cache doesn't touch this layer; the SQLAlchemy-documented workaround
+(`prepared_statement_name_func` + `NullPool`) requires code changes tiled doesn't
+expose. So: **flipping `pool_mode=transaction` on an older PgBouncer will break
+tiled — the "transaction mode won't work with Tiled" warning is correct for that
+setup.** The one config-only path that makes option 2 work: PgBouncer **≥ 1.21** with
+`max_prepared_statements` > 0 (e.g. 200), which tracks named prepared statements at
+the protocol level and re-prepares them on whichever backend a transaction lands on.
+Optional hardening, config-map-only: append `?prepared_statement_cache_size=0` to the
+DSN (the dialect parses this from the URL) to cut prepared-statement churn. Run
+`tiled catalog init` / migrations direct against Postgres, never through the pooler.
+Given the caveats, option 1 remains the recommendation — it is the only zero-risk path.
 
 ## Storage: reference lines vs the filesystem (step 0 + cold-node probe)
 
