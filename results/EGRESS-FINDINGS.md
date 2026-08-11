@@ -347,8 +347,12 @@ Given the caveats, option 1 remains the recommendation — it is the only zero-r
 ## Step 7e — fixed deployment measured (2026-08-11, server 0.2.15b1.dev14, tag `w16fix0811`)
 
 An admin-side config fix landed 2026-08-11 (server build unchanged at
-`0.2.15b1.dev14+b7aafcd1`, so config-map only; exact topology — direct-Postgres revert
-vs repaired pooler — per admin report, not directly observable from the client).
+`0.2.15b1.dev14+b7aafcd1`, so config-map only). Per the admin (relayed 2026-08-11):
+the pooler was **kept and repaired by raising its connection limits** so tiled's
+persistent per-worker pools all fit — i.e. option 3 from step 7d (session mode with
+a large pool). This works; it just means the pooler is passing connections through
+rather than multiplexing them (Postgres `max_connections=250` remains the true
+backstop).
 Pre-flight passed for the first time since 08-03: serial 96–302 ms, 8-way concurrent
 catalog GETs all ≤ 407 ms, zero 60 s stragglers (the same probe three hours earlier
 hung 6 requests at exactly ~60 s). Full ceiling suite re-run on a milano exclusive
