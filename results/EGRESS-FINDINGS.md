@@ -299,6 +299,9 @@ Three probes that bypass the tiled client (raw httpx GETs) revise two earlier cl
 
 ## Step 7d — pooler misconfiguration diagnosed (2026-08-04, server 0.2.15b1.dev14)
 
+> **Resolved 2026-08-11** by an admin-side config fix — see step 7e for the
+> re-measured deployment.
+
 When the pooler config map *was* actually applied (2026-08-04, with Postgres
 `max_connections` raised to 250 and the server rolled to 0.2.15b1.dev14), the ceiling
 job collapsed: throughput inverted with concurrency (238 MB/s at P=8 → 6–11 at P=32),
@@ -340,6 +343,47 @@ Optional hardening, config-map-only: append `?prepared_statement_cache_size=0` t
 DSN (the dialect parses this from the URL) to cut prepared-statement churn. Run
 `tiled catalog init` / migrations direct against Postgres, never through the pooler.
 Given the caveats, option 1 remains the recommendation — it is the only zero-risk path.
+
+## Step 7e — fixed deployment measured (2026-08-11, server 0.2.15b1.dev14, tag `w16fix0811`)
+
+An admin-side config fix landed 2026-08-11 (server build unchanged at
+`0.2.15b1.dev14+b7aafcd1`, so config-map only; exact topology — direct-Postgres revert
+vs repaired pooler — per admin report, not directly observable from the client).
+Pre-flight passed for the first time since 08-03: serial 96–302 ms, 8-way concurrent
+catalog GETs all ≤ 407 ms, zero 60 s stragglers (the same probe three hours earlier
+hung 6 requests at exactly ~60 s). Full ceiling suite re-run on a milano exclusive
+node (sdfmilan212, job 34720886, 24 min):
+`results/broker/step7-{control,ceiling}-w16fix0811.csv`.
+
+**This is the best-behaved deployment of the campaign** — not because peak numbers
+moved much, but because the failure modes are gone:
+
+- **Control (guardrails 30/30 clean)**: serial and low-concurrency cells are
+  0.85–1.18× the workers-8 milano control — no population shift for ordinary use.
+  The fix cost nothing.
+- **Request-rate ladder (artifact_read 64K, P procs × 8 threads)**: peak goodput
+  **~230 req/s at P=8** (vs 135 on 8-direct, ~195 on 16-direct-with-500s). Beyond
+  P=8 goodput sags slightly (~170–190 req/s) while p50 latency inflates 209 ms →
+  1011 ms — pure queueing, **zero errors through P=32**. The first failure appears
+  only at P=64 (512 client threads): one connection dropped
+  (`RemoteProtocolError: server disconnected`), likely an ingress/connection cap,
+  not a 500 storm.
+- **The ~20-slot invariant survives a third deployment**: peak goodput occurs
+  exactly at measured in-flight ≈ 20 (P=8); at P=16–64 in-flight climbs to 40–80
+  but goodput does not — the extra "in-flight" is time queued inside the app
+  handler, not extra processing. Capacity planning rule unchanged: the server does
+  ~20 catalog-backed requests' worth of work at once; arrange clients to present
+  ≈20 concurrent requests and no more.
+- **Bandwidth ladder (16 MB asset_bytes fan-out)**: clean scaling with zero errors
+  246 → 462 → 625 → 715 → **1040 MB/s at P=128** (p50 only 58→97 ms). The previous
+  16-direct deployment 500'd at ≥16 concurrent streams; this one takes 128.
+- **Whole-file streams (1.05 GB × P)**: 304 / 559 / 896 / **1197 MB/s at P=4/8/16/32**,
+  zero errors — same fabric ceiling as before (~1.2 GB/s), now reached without
+  casualties.
+
+Guardrail exception: one P=64 request-ladder rep carries the dead process
+(`errors=1000`) — kept in the CSV, excluded from all claims above. Phase D
+(py-spy) remains skipped; workers-8 profiles are still the client-side reference.
 
 ## Storage: reference lines vs the filesystem (step 0 + cold-node probe)
 
