@@ -389,6 +389,45 @@ Guardrail exception: one P=64 request-ladder rep carries the dead process
 (`errors=1000`) — kept in the CSV, excluded from all claims above. Phase D
 (py-spy) remains skipped; workers-8 profiles are still the client-side reference.
 
+## Step 7f — memory ceiling found (2026-08-12 00:08–00:13 UTC, deliberate OOM probe)
+
+Streaming loads cannot exhaust server memory (chunked reads hold ~MB per request
+regardless of file size — that is why step 7e ran 128 concurrent streams without
+moving pod RSS). The one load shape that materializes large buffers server-side is
+**container export**: `tiled/serialization/container.py` builds the entire output
+HDF5 in RAM (`io.BytesIO`) before sending byte one — ≥ 4.3 GB per whole-dataset
+export of `EGRESS_BAT_16M_BROKER`, likely ~2× that at peak (buffer + send copy).
+
+Ladder (raw httpx, no CSV rows — failure-mode probe, driver
+`_egbench_ws/ceiling/oom_ladder.py`):
+
+| Concurrent 4.3 GB exports | Result |
+|---|---|
+| 1 | OK — 4296 MB in 68.6 s |
+| 2 | OK — both complete, 84–87 s |
+| 4 | **2 of 4 died** at 72.6/72.7 s; 2 completed in 85–88 s |
+
+The two failures died **simultaneously** (Δ = 0.1 s), mid-stream, ~1 MB into bodies
+whose `Content-Length` was already promised — the signature of one worker process
+being killed while flushing its buffer, taking both of its requests with it. The
+survivors presumably ran on other workers/pods. Interpretation: **the per-pod
+memory limit sits at roughly two concurrent whole-dataset exports (~9–17 GB)**;
+admin can confirm the exact number via the OOMKilled event (exit 137) at
+**2026-08-12 00:12:3x UTC (= 17:12 PDT 2026-08-11)**.
+
+Blast radius was strikingly small: health checks returned 200 in < 100 ms in the
+same second as the kills, and recovery needed no observable window — the remaining
+workers absorbed traffic while the killed one restarted. Memory is therefore a real
+but well-contained ceiling: it takes ≥ ~13 GB of *simultaneous export construction*
+to trigger, only export-shaped requests count toward it, and the failure mode is
+"those specific downloads die mid-stream", not an outage.
+
+Practical guidance: whole-dataset HDF5 export works (4.3 GB in ~69 s ≈ 63 MB/s,
+about half the single-stream `asset_bytes` rate) but is the server's most expensive
+request by an order of magnitude in memory terms — clients should not parallelize
+large exports, and anything above a few GB is better served by `asset_bytes`
+(whole-file download), which is faster *and* memory-flat.
+
 ## Storage: reference lines vs the filesystem (step 0 + cold-node probe)
 
 Two different numbers, both real:
