@@ -1,0 +1,39 @@
+ts,server_version,dataset,measure,wall_s,n,note
+2026-08-19T07:45:38+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,len(dataset),0.8892,1000,rep0
+2026-08-19T07:45:38+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,len(dataset),0.0,1000,rep1
+2026-08-19T07:45:38+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,len(dataset),0.0,1000,rep2
+2026-08-19T07:45:38+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,keys_first_100,0.4805,100,rep0
+2026-08-19T07:45:39+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,keys_first_100,0.1876,100,rep1
+2026-08-19T07:45:39+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,keys_first_100,0.0439,100,rep2
+2026-08-19T07:45:40+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,entity_metadata_get,1.0176,5,rep0
+2026-08-19T07:45:40+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,entity_metadata_get,0.2219,5,rep1
+2026-08-19T07:45:40+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,entity_metadata_get,0.1174,5,rep2
+2026-08-19T07:45:42+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,artifact_metadata_get,1.0521,1,rep0
+2026-08-19T07:45:43+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,artifact_metadata_get,1.2215,1,rep1
+2026-08-19T07:45:43+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,artifact_metadata_get,0.1104,1,rep2
+2026-08-19T07:45:46+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,route=sweep_full,2.8159,1000,
+2026-08-19T07:45:48+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,route=search_50pct,1.9667,500,p0>=499.5 expected~500
+2026-08-19T07:45:48+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,route=sweepfilter_50pct,0.0018,500,pandas filter only; add route=sweep_full for total
+2026-08-19T07:45:48+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,route=search_10pct,0.2221,100,p0>=899.1 expected~100
+2026-08-19T07:45:48+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,route=sweepfilter_10pct,0.0006,100,pandas filter only; add route=sweep_full for total
+2026-08-19T07:45:48+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,route=search_1pct,0.0693,10,p0>=989 expected~10
+2026-08-19T07:45:48+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,route=sweepfilter_1pct,0.0006,10,pandas filter only; add route=sweep_full for total
+2026-08-19T08:18:31+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,len(dataset),0.0416,1000,rep0
+2026-08-19T08:18:31+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,len(dataset),0.0,1000,rep1
+2026-08-19T08:18:31+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,len(dataset),0.0,1000,rep2
+2026-08-19T08:18:31+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,keys_first_100,0.0486,100,rep0
+2026-08-19T08:18:31+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,keys_first_100,0.0668,100,rep1
+2026-08-19T08:18:31+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,keys_first_100,0.0456,100,rep2
+2026-08-19T08:18:31+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,entity_metadata_get,0.0658,5,rep0
+2026-08-19T08:18:31+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,entity_metadata_get,0.1765,5,rep1
+2026-08-19T08:18:32+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,entity_metadata_get,0.1486,5,rep2
+2026-08-19T08:18:33+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,artifact_metadata_get,0.9352,1,rep0
+2026-08-19T08:18:33+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,artifact_metadata_get,0.0515,1,rep1
+2026-08-19T08:18:33+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,artifact_metadata_get,0.0498,1,rep2
+2026-08-19T08:18:35+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,route=sweep_full,2.6302,1000,
+2026-08-19T08:18:36+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,route=search_50pct,0.8786,500,p0>=499.5 expected~500
+2026-08-19T08:18:36+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,route=sweepfilter_50pct,0.0017,500,pandas filter only; add route=sweep_full for total
+2026-08-19T08:18:36+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,route=search_10pct,0.1665,100,p0>=899.1 expected~100
+2026-08-19T08:18:36+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,route=sweepfilter_10pct,0.0007,100,pandas filter only; add route=sweep_full for total
+2026-08-19T08:18:36+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,route=search_1pct,0.0556,10,p0>=989 expected~10
+2026-08-19T08:18:36+00:00,0.2.15b1.dev14+b7aafcd1,EGRESS_PE_1M_BROKER,route=sweepfilter_1pct,0.0005,10,pandas filter only; add route=sweep_full for total

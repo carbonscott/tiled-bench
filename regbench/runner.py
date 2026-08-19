@@ -6,6 +6,8 @@ skips. Captures wall-clock + counts today; per-call and ``app;dur`` percentiles 
 the instruments land at the ``_INSTRUMENT SEAM`` below.
 """
 
+import inspect
+import os
 import subprocess
 import time
 from pathlib import Path
@@ -38,6 +40,14 @@ def _tcb_sha() -> str:
     return proc.stdout.strip() if proc.returncode == 0 else ""
 
 
+def _server_version(client) -> str:
+    """The connected server's tiled version (About model or dict, version-dependent)."""
+    info = client.context.server_info
+    if hasattr(info, "library_version"):
+        return str(info.library_version)
+    return str(dict(info).get("library_version", ""))
+
+
 def _fresh_dataset_key(cfg: RunConfig, rep: int) -> str:
     """A never-before-seen key so every entity does real INSERT work (no SELECT-hit skips)."""
     return f"regbench_{cfg.label()}_r{rep}_{int(time.time() * 1000)}"
@@ -55,7 +65,19 @@ def run_registration(cfg: RunConfig, manifest: Manifest, client, rep: int) -> Ru
     result = RunResult.from_config(cfg, rep)
     result.tiled_version = tiled.__version__
     result.tcb_sha = _tcb_sha()
+    result.server_version = _server_version(client)
     result.dataset_key = _fresh_dataset_key(cfg, rep)
+
+    # Remote servers see the filesystem at a different mount (K8s pod); asset
+    # URIs must use the server-side path or every later read is refused. The
+    # TILED_HOST_DATA_ROOT → TILED_SERVER_DATA_ROOT pair comes from .env.test
+    # (same convention tcb inspect uses to fill data.server_base_dir).
+    server_base_dir = None
+    if cfg.location == "remote":
+        host_root = os.environ.get("TILED_HOST_DATA_ROOT")
+        server_root = os.environ.get("TILED_SERVER_DATA_ROOT")
+        if host_root and server_root and manifest.base_dir.startswith(host_root):
+            server_base_dir = server_root + manifest.base_dir[len(host_root):]
 
     # Clear TCB's per-file HDF5 shape/dtype cache so each run pays the layer-1 probe fresh
     # (a warm cache from a prior rep would hide the very cost we want to attribute). This
@@ -69,19 +91,36 @@ def run_registration(cfg: RunConfig, manifest: Manifest, client, rep: int) -> Ru
     # A CallCollector attached to the client's shared httpx client records every HTTP call
     # register_dataset_http fires (all threads share one client), giving per-call wall latency
     # and the server's `Server-Timing: app;dur`. register_dataset_http needs no changes.
+    # The dataset_key is always fresh (see _fresh_dataset_key), so the per-entity
+    # existence GET is a guaranteed 404 round-trip. Optimized TCB branches expose
+    # assume_new to skip it; pass it only when the installed TCB has the parameter
+    # so this one runner drives both the before and after code states.
+    kwargs = {}
+    if "assume_new" in inspect.signature(register_dataset_http).parameters:
+        kwargs["assume_new"] = True
+
     collector = CallCollector()
     with collector.attached(client):
         t0 = time.perf_counter()
-        register_dataset_http(
-            client,
-            manifest.ent_df,
-            manifest.art_df,
-            base_dir=manifest.base_dir,
-            label=cfg.label(),
-            dataset_key=result.dataset_key,
-            dataset_metadata=manifest.dataset_metadata,
-            max_workers=cfg.max_workers,
-        )
+        # A rep that dies mid-registration (e.g. the 500→retry→409 race) must
+        # still produce a CSV row — the entity-count shortfall below flags it
+        # for the guardrail, and analysis excludes flagged rows. Letting the
+        # exception propagate would kill the whole sweep instead of one rep.
+        try:
+            register_dataset_http(
+                client,
+                manifest.ent_df,
+                manifest.art_df,
+                base_dir=manifest.base_dir,
+                label=cfg.label(),
+                dataset_key=result.dataset_key,
+                dataset_metadata=manifest.dataset_metadata,
+                server_base_dir=server_base_dir,
+                max_workers=cfg.max_workers,
+                **kwargs,
+            )
+        except Exception as e:
+            print(f"[warn] rep failed mid-registration: {type(e).__name__}: {e}")
         result.wall_s = time.perf_counter() - t0
 
     _fill_call_metrics(result, collector)

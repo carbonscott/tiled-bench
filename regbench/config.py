@@ -87,6 +87,10 @@ class RunResult:
     app_dur_p50_ms: float | None = None
     app_dur_p95_ms: float | None = None
 
+    # --- deployment provenance: the server changed 4x under the egress campaign;
+    # a row without its server version cannot be compared across populations ---
+    server_version: str = ""
+
     @classmethod
     def from_config(cls, cfg: RunConfig, rep: int) -> "RunResult":
         return cls(
