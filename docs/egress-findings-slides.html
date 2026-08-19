@@ -1,4 +1,4 @@
-<title>Tiled Egress: Where the Bandwidth Goes</title>
+<title>Tiled Egress: Findings from the 2026 Benchmark Campaign</title>
 
 <style>
   /* Committed single-theme: white. The deck is meant to be printed to PDF, pasted
@@ -49,7 +49,6 @@
   }
   .slide.is-active { display: flex; }
 
-  /* type scales with the slide box so it fills a 16:9 frame at any size */
   .eyebrow {
     font-family: var(--mono);
     font-size: 1.5cqw;
@@ -65,7 +64,7 @@
   h1 {
     font-family: var(--display);
     font-weight: 600;
-    font-size: 5.2cqw;
+    font-size: 4.6cqw;
     line-height: 1.05;
     letter-spacing: -.02em;
     text-wrap: balance;
@@ -81,10 +80,10 @@
     margin: 0 0 .5em;
   }
   .say {
-    font-size: 2.1cqw;
+    font-size: 2cqw;
     line-height: 1.4;
     color: var(--ink-2);
-    max-width: 58ch;
+    max-width: 64ch;
     margin: 0;
   }
   .say strong { color: var(--ink); }
@@ -103,7 +102,7 @@
 
   .stat {
     font-family: var(--mono);
-    font-size: 6.4cqw;
+    font-size: 6cqw;
     font-weight: 600;
     letter-spacing: -.03em;
     line-height: 1;
@@ -112,7 +111,7 @@
   .stat s { font-size: .38em; text-decoration: none; color: var(--ink-3); }
   .stat-label {
     font-family: var(--mono);
-    font-size: 1.4cqw;
+    font-size: 1.35cqw;
     letter-spacing: .1em;
     text-transform: uppercase;
     color: var(--ink-3);
@@ -123,29 +122,16 @@
   .c-dec { color: var(--decode); }
   .c-warn { color: var(--warn); }
 
-  .stripe { display: flex; height: 2.2cqw; }
-  .stripe span { display: block; }
-
-  .legend {
-    display: flex;
-    gap: 1.6cqw;
-    font-family: var(--mono);
-    font-size: 1.4cqw;
-    color: var(--ink-2);
-    font-variant-numeric: tabular-nums;
-  }
-  .legend i { width: 1cqw; height: 1cqw; display: inline-block; margin-right: .5em; }
-
   table {
     border-collapse: collapse;
     width: 100%;
     font-family: var(--mono);
-    font-size: 1.5cqw;
+    font-size: 1.45cqw;
     font-variant-numeric: tabular-nums;
   }
   th, td {
     text-align: right;
-    padding: .5em .7em;
+    padding: .45em .65em;
     border-bottom: 1px solid var(--rule);
     white-space: nowrap;
   }
@@ -157,17 +143,19 @@
     text-transform: uppercase;
   }
   th:first-child, td:first-child { text-align: left; }
+  td.wrap, th.wrap { white-space: normal; text-align: left; }
   tbody tr:last-child td { border-bottom: 0; }
   tr.is-fail td { color: var(--warn); }
+  td b, td strong { color: var(--ink); }
 
-  .bar-row { display: grid; grid-template-columns: 8cqw 1fr 9cqw; gap: 1.2cqw; align-items: center; }
-  .bar-name { font-family: var(--mono); font-size: 1.5cqw; color: var(--ink-2); }
-  .bar-track { display: flex; height: 3.4cqw; background: var(--panel); }
-  .bar-seg { display: flex; align-items: center; padding-left: .5em; font-family: var(--mono); font-size: 1.3cqw; color: #fff; }
-  .bar-total { font-family: var(--mono); font-size: 1.5cqw; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .bar-row { display: grid; grid-template-columns: 11cqw 1fr 10cqw; gap: 1.2cqw; align-items: center; }
+  .bar-name { font-family: var(--mono); font-size: 1.45cqw; color: var(--ink-2); }
+  .bar-track { display: flex; height: 3cqw; background: var(--panel); }
+  .bar-seg { display: flex; align-items: center; padding-left: .5em; font-family: var(--mono); font-size: 1.25cqw; color: #fff; }
+  .bar-total { font-family: var(--mono); font-size: 1.45cqw; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
   ul { margin: 0; padding-left: 1.1em; }
-  li { font-size: 1.7cqw; line-height: 1.45; color: var(--ink-2); margin-bottom: .35em; }
+  li { font-size: 1.62cqw; line-height: 1.42; color: var(--ink-2); margin-bottom: .32em; }
   li:last-child { margin-bottom: 0; }
   li strong { color: var(--ink); }
 
@@ -177,6 +165,7 @@
     background: var(--panel);
     padding: .05em .3em;
   }
+  .panel code, td code { background: #fff; }
 
   .pill {
     font-family: var(--mono);
@@ -187,30 +176,27 @@
     border: 1px solid currentColor;
   }
   .p-meas { color: var(--decode); }
-  .p-pred { color: var(--net); }
+  .p-warn { color: var(--warn); }
 
-  .formula {
-    font-family: var(--mono);
-    font-size: 2.2cqw;
+  /* campaign timeline */
+  .tl { display: flex; flex-direction: column; gap: .55cqw; }
+  .tl > div {
+    display: grid;
+    grid-template-columns: 9cqw 16cqw 1fr;
+    gap: 1.2cqw;
+    align-items: baseline;
+    padding: .55cqw .8cqw;
     background: var(--panel);
     border-left: 3px solid var(--accent);
-    padding: 1.3cqw 1.6cqw;
   }
+  .tl > div.is-broken { border-left-color: var(--warn); }
+  .tl .d { font-family: var(--mono); font-size: 1.4cqw; color: var(--ink-3); }
+  .tl .p { font-family: var(--mono); font-size: 1.4cqw; font-weight: 600; color: var(--accent); }
+  .tl > div.is-broken .p { color: var(--warn); }
+  .tl .w { font-size: 1.5cqw; line-height: 1.35; color: var(--ink-2); }
+  .tl .w b { color: var(--ink); }
 
-  /* definitions sit with the equation: the last two slides depend on these terms */
-  .defs { margin: 1.2cqw 0 0; display: flex; flex-direction: column; gap: .7cqw; }
-  .defs > div { display: grid; grid-template-columns: 7.5cqw 1fr; gap: 1cqw; align-items: baseline; }
-  .defs dt { font-family: var(--mono); font-size: 1.55cqw; color: var(--accent); font-weight: 600; }
-  .defs dd {
-    margin: 0;
-    font-family: var(--body);
-    font-size: 1.55cqw;
-    line-height: 1.4;
-    color: var(--ink-2);
-  }
-  .defs dd b { color: var(--ink); font-weight: 600; }
-
-  .foot { font-family: var(--mono); font-size: 1.3cqw; color: var(--ink-3); }
+  .foot { font-family: var(--mono); font-size: 1.25cqw; color: var(--ink-3); }
 
   /* nav, screen only */
   .nav {
@@ -263,176 +249,256 @@
 
 <div class="deck">
 
-  <!-- 1 -->
+  <!-- 1 · Title -->
   <section class="slide is-active">
-    <div class="eyebrow"><span>Tiled egress · SYNTHETIC_BENCHMARK · lcls-data-portal</span></div>
-    <h1>Egress rate is limited by server-side work, not bandwidth.</h1>
-    <p class="say">Bulk-exporting 100 entities over HTTPS takes <strong>22.03 s</strong>. The server accounts for <strong>20.39 s</strong> of it.</p>
+    <div class="eyebrow"><span>Tiled egress · broker campaign · Jul 20 – Aug 12 2026 · lcls-data-portal / tiled-test</span></div>
+    <h1>Method choice is worth 2–26×. The server does ~20 requests' worth of work at once.</h1>
+    <p class="say">Five retrieval methods × four workloads × three HDF5 layouts, measured against local SQLite and the shared tiled-test server — through four server deployments. Full prose: <code>results/EGRESS-FINDINGS.md</code>; interactive map: <code>docs/egress-heatmap.html</code>.</p>
 
-    <div class="row">
-      <div><div class="stat c-app">92<s>%</s></div><div class="stat-label">app · server</div></div>
-      <div><div class="stat c-net">7<s>%</s></div><div class="stat-label">net · wire</div></div>
-      <div><div class="stat c-dec">0.3<s>%</s></div><div class="stat-label">decode · client</div></div>
+    <div class="row push" style="align-items:flex-start">
+      <div><div class="stat c-app">26<s>×</s></div><div class="stat-label">broker vs stock<br>artifact_read, remote</div></div>
+      <div><div class="stat c-dec">~20</div><div class="stat-label">concurrent request slots<br>invariant, 3 deployments</div></div>
+      <div><div class="stat c-net">1.2<s>&nbsp;GB/s</s></div><div class="stat-label">whole-file streaming<br>ceiling, zero errors</div></div>
+      <div><div class="stat c-warn">2</div><div class="stat-label">concurrent 4.3 GB exports<br>per pod before OOM</div></div>
     </div>
-
-    <div class="push">
-      <div class="stripe" role="img" aria-label="app 92.6%, net 7.1%, decode 0.3%">
-        <span style="width:92.6%;background:var(--app)"></span>
-        <span style="width:7.1%;background:var(--net)"></span>
-        <span style="width:0.3%;background:var(--decode)"></span>
-      </div>
-      <div class="legend" style="margin-top:.8cqw">
-        <span><i style="background:var(--app)"></i>app 20.39 s</span>
-        <span><i style="background:var(--net)"></i>net 1.56 s</span>
-        <span><i style="background:var(--decode)"></i>decode 0.07 s</span>
-        <span style="margin-left:auto">measured via <code>Server-Timing: app;dur</code></span>
-      </div>
-    </div>
+    <p class="foot">Methods: container_export · artifact_read · asset_bytes · raw_export · h5py_direct (Mode A reference). MB = 1e6 bytes; medians of 3 reps unless noted.</p>
   </section>
 
-  <!-- 2 -->
+  <!-- 2 · How to read the numbers: the deployment timeline -->
   <section class="slide">
-    <div class="eyebrow"><span>§1 Batch sweep</span> <span class="pill p-meas">measured</span></div>
-    <h1>Bigger batches don't improve throughput.</h1>
-    <p class="say">Cost is paid <strong>per node</strong>, not per request. 100× the batch returns 18% more throughput.</p>
+    <div class="eyebrow"><span>Read this first · the server changed under us</span> <span class="pill p-warn">4 populations</span></div>
+    <h1>One campaign, four server deployments.</h1>
+    <p class="say">Every CSV row is stamped with <code>server_version</code> + a population tag. Numbers from different eras must not be pooled — the deck labels each result with its era.</p>
+
+    <div class="tl">
+      <div><span class="d">Jul 20</span><span class="p">stock era</span><span class="w">Exploratory campaign, stock mimetype, tiled 0.2.9-era. Frozen in <code>results/stock-2026-07/</code> — <b>superseded, different population</b>.</span></div>
+      <div><span class="d">Jul 27–28</span><span class="p">workers-8</span><span class="w">Broker campaign, steps 0–7: all method rankings, crossovers, and the first ceiling suite. Server 0.2.10b5, 8 workers, direct to Postgres. <b>Source of every method-choice claim.</b></span></div>
+      <div><span class="d">Aug 3</span><span class="p">16-direct</span><span class="w">Workers 8→16 <i>and</i> server →0.2.14.dev18 (confounded). Faster peak (~220 req/s) but <b>500s on mixed bulk ≥16 streams</b>; later diagnosed as Postgres connection exhaustion (16×15 = 240 potential vs ~100 slots).</span></div>
+      <div class="is-broken"><span class="d">Aug 4</span><span class="p">broken pooler</span><span class="w">PgBouncer landed in session mode, pool ~20 vs 240 demanded: concurrent requests hang 60 s. Run cancelled, <b>rows discarded — no valid pooled measurements exist</b>. Raw-wire probes ran this week (next slides).</span></div>
+      <div><span class="d">Aug 11–12</span><span class="p">w16fix0811</span><span class="w">Admin raised pooler connection limits (pass-through, not multiplexing). <b>Best-behaved deployment</b>: ceiling suite re-run clean, then a deliberate OOM probe. <b>Source of every capacity claim.</b></span></div>
+    </div>
+
+    <p class="say push" style="font-size:1.6cqw"><strong>Method lessons that carried the campaign:</strong> correctness guardrails on every row (entities == expected, errors == 0 — fast-but-wrong is a failed run) · error rows kept in CSVs but excluded from claims · raw-httpx probes beside the tiled client, whose silent retries mask server errors.</p>
+  </section>
+
+  <!-- 3 · Recommendation table -->
+  <section class="slide">
+    <div class="eyebrow"><span>The deliverable · which method for which workload</span> <span class="pill p-meas">measured · workers-8 era, rankings re-verified on w16fix0811 controls</span></div>
+    <h1>What to use, per workload.</h1>
 
     <table>
-      <thead>
-        <tr><th>Batch</th><th>Wall p50</th><th>app</th><th>net</th><th>decode</th><th>s / entity</th><th>ent/s</th></tr>
-      </thead>
+      <thead><tr><th>Workload</th><th class="wrap">Use this</th><th class="wrap">Choosing wrong costs</th></tr></thead>
       <tbody>
-        <tr><td>1</td><td>0.26 s</td><td>0.24</td><td>0.02</td><td>0.00</td><td>0.260</td><td>3.85</td></tr>
-        <tr><td>10</td><td>2.38 s</td><td>2.19</td><td>0.18</td><td>0.01</td><td>0.238</td><td>4.20</td></tr>
-        <tr><td>20</td><td>4.35 s</td><td>4.01</td><td>0.33</td><td>0.01</td><td>0.218</td><td>4.60</td></tr>
-        <tr><td>40</td><td>9.41 s</td><td>8.54</td><td>0.84</td><td>0.03</td><td>0.235</td><td>4.25</td></tr>
-        <tr><td>80</td><td>17.63 s</td><td>16.28</td><td>1.29</td><td>0.05</td><td>0.220</td><td>4.54</td></tr>
-        <tr><td>100</td><td>22.03 s</td><td>20.39</td><td>1.56</td><td>0.07</td><td>0.220</td><td>4.54</td></tr>
-        <tr class="is-fail"><td>200</td><td colspan="6">aborted: 236.9 s over the 200 s cap</td></tr>
+        <tr><td class="wrap">1 · Plot one artifact interactively</td><td class="wrap"><b>container_export</b> naming the artifact (~35–55 ms/fetch)</td><td class="wrap">artifact_read is 3.5–6× slower (flat ~190 ms navigation tax)</td></tr>
+        <tr><td class="wrap">1 · …small artifact of a <b>mixed</b> entity</td><td class="wrap"><b>artifact_read</b> — the one serial cell it wins (remote only)</td><td class="wrap">export moves <b>259×</b> the bytes you asked for, 1.7× slower</td></tr>
+        <tr><td class="wrap">2 · Whole entity, cache it</td><td class="wrap"><b>container_export</b> (omit <code>--artifact</code>)</td><td class="wrap">artifact_read 9–13×, growing with artifact count</td></tr>
+        <tr><td class="wrap">3 · Batch of k entities (shared-file layouts)</td><td class="wrap">below crossover: <b>container_export</b>; above: <b>asset_bytes</b> whole file</td><td class="wrap">up to 13× (k=1000: 170 s read vs 12.7 s whole file)</td></tr>
+        <tr><td class="wrap">3 · Batch of k (per_entity layout)</td><td class="wrap"><b>container_export</b> + concurrency c≈8, then processes</td><td class="wrap">serial artifact_read ~6×; no crossover exists on per_entity</td></tr>
+        <tr><td class="wrap">4 · Whole dataset (shared-file)</td><td class="wrap"><b>asset_bytes / raw_export</b> — one file, one GET</td><td class="wrap">container_export 2.1–2.7× slower serially, and it's the OOM-risk shape</td></tr>
+        <tr><td class="wrap">4 · Whole dataset (per_entity)</td><td class="wrap"><b>container_export</b> at c=8, or N processes × raw download</td><td class="wrap">thread scaling caps ~145–190 MB/s/process (GIL)</td></tr>
+      </tbody>
+    </table>
+
+    <p class="say push" style="font-size:1.6cqw"><strong>On the cluster, Mode A (<code>h5py_direct</code>) remains the real bulk answer</strong>: 1.2–1.5 GB/s warm on big contiguous arrays — ~10× the single-process HTTP plateau. Small files (64 KB) drop it to ~30 MB/s: layout beats protocol there.</p>
+  </section>
+
+  <!-- 4 · Serial anatomy: artifact count -->
+  <section class="slide">
+    <div class="eyebrow"><span>Step 2 · why export wins serial work</span> <span class="pill p-meas">measured · remote, n=200, 1 MB/entity</span></div>
+    <h1>Export pays per entity; read pays per artifact.</h1>
+    <p class="say">Whole-entity fetch, artifact count 1 → 16 at constant entity size. <code>artifact_read</code> spends ~190 ms of navigation (2 metadata GETs + 1 data GET) on <em>every artifact</em>; export ships the entity in one chunked request.</p>
+
+    <table>
+      <thead><tr><th>Artifacts/entity</th><th>export ALL</th><th>read ALL</th><th>ratio</th><th>read ONE artifact</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>6.6 s</td><td>62 s</td><td>9.4×</td><td>40 s (flat)</td></tr>
+        <tr><td>4</td><td>11.6 s</td><td>140 s</td><td>12×</td><td>38 s (flat)</td></tr>
+        <tr><td>16</td><td>35.5 s</td><td>461 s</td><td>13×</td><td>37 s (flat)</td></tr>
       </tbody>
     </table>
 
     <div class="grid g-2 push">
-      <div class="panel"><h2>Ceilings hit</h2>
+      <div class="panel"><h2>The catch: wire waste</h2>
         <ul>
-          <li><strong>414</strong>: URI limit past ~220 keys</li>
-          <li><strong>504</strong>: ~53 s of server work per request</li>
+          <li>Exporting <strong>one</strong> artifact still ships <strong>all of them</strong>: waste factor = artifact count (4.0×, 16.3× measured).</li>
+          <li>Extreme case, mixed entity (16.7 MB primary + 64 KB aux): exporting one aux moves <strong>259×</strong> the requested bytes — the one serial cell <code>artifact_read</code> wins.</li>
         </ul>
       </div>
-      <div class="panel"><h2>Ruled out</h2>
+      <div class="panel"><h2>Useful nulls</h2>
         <ul>
-          <li><strong>Client</strong>: decode ≤ 0.3% of wall</li>
-          <li><strong>Network</strong>: net a flat 7% sliver</li>
+          <li>Artifact count does <strong>not</strong> change single-artifact read latency at all.</li>
+          <li>With the broker mimetype, <strong>layout no longer moves method cost</strong> (batched ≈ grouped ≈ per_entity at 4 artifacts).</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- 3 -->
+  <!-- 5 · Crossover -->
   <section class="slide">
-    <div class="eyebrow"><span>§1b Request type · 40 entities, two ways</span> <span class="pill p-meas">measured</span></div>
-    <h1>Array read beats export 1.8×.</h1>
-    <p class="say">Export re-encodes an HDF5 container <em>and</em> ships every artifact. An array read ships the one you asked for, raw.</p>
+    <div class="eyebrow"><span>Step 3 · subset vs whole backing file</span> <span class="pill p-meas">measured · remote, k = 1…1000</span></div>
+    <h1>Above a crossover fraction, stop selecting — take the whole file.</h1>
+    <p class="say">Fetching k of N entities costs per-entity time; <code>asset_bytes</code> pulls the whole backing file at wire speed, <strong>flat in k</strong> (1.05 GB ≈ 12.7 s regardless). The crossover <em>fraction</em> is the portable number:</p>
 
-    <div style="display:flex;flex-direction:column;gap:1.4cqw">
-      <div class="bar-row">
-        <span class="bar-name">HDF5 export</span>
-        <span class="bar-track">
-          <span class="bar-seg" style="width:92.36%;background:var(--app)">188.6</span>
-          <span class="bar-seg" style="width:7.35%;background:var(--net)"></span>
-          <span class="bar-seg" style="width:0.29%;background:var(--decode)"></span>
-        </span>
-        <span class="bar-total">204.2 ms/ent</span>
-      </div>
-      <div class="bar-row">
-        <span class="bar-name">Raw array</span>
-        <span class="bar-track" style="width:56.07%">
-          <span class="bar-seg" style="width:89.61%;background:var(--app)">102.6</span>
-          <span class="bar-seg" style="width:10.39%;background:var(--net)"></span>
-        </span>
-        <span class="bar-total">114.5 ms/ent</span>
-      </div>
-    </div>
-
-    <div class="legend">
-      <span><i style="background:var(--app)"></i>app</span>
-      <span><i style="background:var(--net)"></i>net</span>
-      <span><i style="background:var(--decode)"></i>decode</span>
-    </div>
-
-    <div class="panel push">
-      <h2>Caveat</h2>
-      <p class="say" style="font-size:1.6cqw">
-        <code>fields=</code> selects entities, not artifacts, so the 86 ms gap mixes HDF5 encode with
-        reading the entity's other artifacts. <strong>The 1.8× is real; the attribution inside it isn't settled.</strong>
-      </p>
-    </div>
-  </section>
-
-  <!-- 4 -->
-  <section class="slide">
-    <div class="eyebrow"><span>Scaling · data size</span> <span class="pill p-pred">projected</span></div>
-    <h1>Bytes per node set the rate.</h1>
-
-    <div class="formula">
-      rate ≈ bytes ÷ ( t_fixed + bytes ÷ B_eff )
-      <dl class="defs">
-        <div>
-          <dt>t_fixed</dt>
-          <dd>Cost per node whatever its size: lookup, file open, HDF5 header, request overhead. <b>≈ 0.10 to 0.20 s, measured.</b></dd>
-        </div>
-        <div>
-          <dt>B_eff</dt>
-          <dd>Rate for the bytes themselves: storage read, encode, wire. The ceiling a large array approaches. <b>Not yet measured.</b></dd>
-        </div>
-      </dl>
-    </div>
-
-    <div class="grid g-2">
-      <div class="panel">
-        <h2>GenericSpin · 10,000 entities</h2>
-        <div class="stat" style="font-size:2.8cqw">Array (200,)</div>
-        <p class="say" style="font-size:1.55cqw;margin-top:.5em"><strong>1.6 KB/node.</strong> t_fixed swamps the payload. Full traversal ≈ <strong>37 min</strong>.</p>
-      </div>
-      <div class="panel">
-        <h2>RIXS · 7 entities</h2>
-        <div class="stat" style="font-size:2.8cqw">Array (651, 487)</div>
-        <p class="say" style="font-size:1.55cqw;margin-top:.5em"><strong>2.54 MB/node, 1,585× more.</strong> t_fixed amortized. Only shape that nears the wire.</p>
-      </div>
-    </div>
-
-    <p class="say push" style="font-size:1.7cqw">Small nodes scale with array size alone. Large nodes approach <code>B_eff</code>, where GB/s lives. <strong>Measuring B_eff locates the crossover at bytes ≈ t_fixed × B_eff.</strong></p>
-  </section>
-
-  <!-- 5 -->
-  <section class="slide">
-    <div class="eyebrow"><span>Scaling · layout</span> <span class="pill p-pred">predicted, not yet measured on egress</span></div>
-    <h1>Layout is the biggest untested lever.</h1>
-    <p class="say">It sets how many files the server opens per export, landing in <code>app</code>, which is 92% of wall.</p>
-
-    <div class="grid g-3">
-      <div class="panel"><h2 class="c-warn">per_entity</h2><p class="say" style="font-size:1.6cqw">One file per entity → <strong>N opens</strong>, no cache reuse. Worst.</p></div>
-      <div class="panel"><h2>grouped</h2><p class="say" style="font-size:1.6cqw">One file, one group each → <strong>one open</strong>, cache-warm.</p></div>
-      <div class="panel"><h2>batched</h2><p class="say" style="font-size:1.6cqw">Stacked on axis-0 → best locality <strong>if</strong> the adapter slices lazily.</p></div>
-    </div>
+    <table>
+      <thead><tr><th>Dataset (shared file)</th><th>file</th><th>whole-file flat</th><th>crossover vs export</th><th>vs artifact_read</th></tr></thead>
+      <tbody>
+        <tr><td>1000 × 1 MB, 1 artifact</td><td>1.05 GB</td><td>12.7 s</td><td><b>43%</b> (k≈433)</td><td>7% (k≈67)</td></tr>
+        <tr><td>256 × 16.8 MB, 1 artifact</td><td>4.3 GB</td><td>52.9 s</td><td><b>66%</b> (k≈170)</td><td>45% (k≈116)</td></tr>
+        <tr><td>1000 × 1 MB, 4 artifacts</td><td>1.05 GB</td><td>13.0 s</td><td><b>23%</b> (k≈232)</td><td>2% (k≈19)</td></tr>
+        <tr><td>1000 × 1 MB, grouped layout</td><td>1.05 GB</td><td>13.7 s</td><td><b>41%</b> (k≈406)</td><td>7% (k≈67)</td></tr>
+      </tbody>
+    </table>
 
     <div class="grid g-2 push">
-      <div class="panel">
-        <h2>Next, in order</h2>
+      <div class="panel"><h2>Two knobs move it</h2>
         <ul>
-          <li>Measure <strong>B_eff</strong>: one large array read</li>
-          <li>Sweep <strong>layout</strong> on egress: targets 92% of cost</li>
-          <li>Push <strong>concurrency</strong>: one stream is BDP-capped</li>
+          <li><strong>Entity size pushes it up</strong> — export amortizes better on big entities (43% → 66%).</li>
+          <li><strong>Artifact count pulls it down</strong> — export pays per artifact, the file doesn't (43% → 23%).</li>
         </ul>
       </div>
-      <div class="panel">
-        <h2>For the data-management team</h2>
-        <p class="say" style="font-size:1.6cqw">Both numbers are right. GB/s is <strong>aggregate, co-located, large arrays</strong>: a B_eff number. This is <strong>one stream, small arrays, over a WAN</strong>: a bytes ÷ t_fixed number.</p>
+      <div class="panel"><h2>Rules of thumb</h2>
+        <ul>
+          <li>~1 MB single-artifact: whole file above <strong>~40%</strong>. Big (≥16 MB): export until <strong>~2/3</strong>. Multi-artifact: whole file above <strong>~1/4</strong>.</li>
+          <li>per_entity layout: <strong>no crossover exists</strong> — export leads at every k.</li>
+        </ul>
       </div>
     </div>
+  </section>
+
+  <!-- 6 · Broker vs stock -->
+  <section class="slide">
+    <div class="eyebrow"><span>Step 6 · the mimetype regression control</span> <span class="pill p-meas">measured · same files, only the registered mimetype differs</span></div>
+    <h1>The broker adapter is the difference between usable and broken.</h1>
+    <p class="say">The stock HDF5 adapter re-reads the whole backing file for every entity slice. The broker mimetype (<code>application/x-hdf5-broker</code>) slices lazily.</p>
+
+    <div style="display:flex;flex-direction:column;gap:1.3cqw">
+      <div class="bar-row">
+        <span class="bar-name">stock, remote</span>
+        <span class="bar-track"><span class="bar-seg" style="width:100%;background:var(--warn)">4.82 s/entity</span></span>
+        <span class="bar-total">26× slower</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-name">broker, remote</span>
+        <span class="bar-track" style="width:14%"><span class="bar-seg" style="width:100%;background:var(--app)">0.186</span></span>
+        <span class="bar-total">baseline</span>
+      </div>
+    </div>
+    <p class="foot">artifact_read on batched 1 MB entities. Local: 7× (1.38 → 0.193 s/entity).</p>
+
+    <div class="grid g-2 push">
+      <div class="panel"><h2>Un-broken outright</h2>
+        <p class="say" style="font-size:1.55cqw">Whole-dataset export of the 4.3 GB batched set <strong>504'd on every chunk</strong> under stock. Broker: 839 MB in ~16 s through the proxy.</p>
+      </div>
+      <div class="panel"><h2>Not just a batched concern</h2>
+        <p class="say" style="font-size:1.55cqw">Stock taxes per_entity container export too: 60 vs 36 ms/entity remote (<strong>~1.7×</strong>). Register everything with the broker mimetype.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · Client ceiling -->
+  <section class="slide">
+    <div class="eyebrow"><span>Steps 4, 5, 7 · the client is its own ceiling</span> <span class="pill p-meas">measured · py-spy profiled</span></div>
+    <h1>One Python process tops out ~190 MB/s. Scale by process.</h1>
+
+    <div class="row" style="align-items:flex-start">
+      <div><div class="stat">~190<s>&nbsp;MB/s</s></div><div class="stat-label">one process, quiet node<br>(~145 on a busy login node)</div></div>
+      <div><div class="stat">224<s>&nbsp;MB/s</s></div><div class="stat-label">8 processes,<br>raw downloads</div></div>
+      <div><div class="stat c-dec">1.2–1.5<s>&nbsp;GB/s</s></div><div class="stat-label">h5py_direct on-cluster<br>(Mode A, warm)</div></div>
+    </div>
+
+    <ul>
+      <li>Threads help to c≈8, then plateau with <code>app_frac</code> → 0.07 — the <strong>GIL</strong>, not the server: 54% of wall samples sit in httpx response-body handling (SSL decrypt + chunk assembly hold the GIL; socket waits release it).</li>
+      <li><strong><code>raw_export</code> ≈ <code>asset_bytes</code></strong> (+5% serial, nil across processes) — quote the public API to users. Both moved byte-identical wire totals.</li>
+      <li>But <code>raw_export</code> <strong>cannot run in a thread pool at all</strong>: <code>tiled.client.download.download()</code> installs a SIGINT handler unconditionally → <code>ValueError</code> off the main thread (all releases through 0.2.14). Scale it by <strong>process</strong>.</li>
+    </ul>
+
+    <div class="panel push">
+      <h2>Upstream-worthy observations</h2>
+      <p class="say" style="font-size:1.55cqw">Guard the signal handler with a main-thread check · whole-array <code>.read()</code> routes through a full dask task graph (pure overhead) · response streaming could release the GIL more (e.g. <code>recv_into</code> a preallocated buffer).</p>
+    </div>
+  </section>
+
+  <!-- 8 · Server ceiling: the ~20-slot invariant -->
+  <section class="slide">
+    <div class="eyebrow"><span>Steps 7–7e · three deployments, one serialized resource</span> <span class="pill p-meas">measured · milano exclusive nodes</span></div>
+    <h1>Peak throughput always lands at ~20 requests in flight.</h1>
+    <p class="say">Little's law on the request ladder, per deployment era — the invariant survived a worker doubling and a pooler repair:</p>
+
+    <table>
+      <thead><tr><th>Era</th><th>peak goodput</th><th>in-flight at peak</th><th class="wrap">past the peak</th></tr></thead>
+      <tbody>
+        <tr><td>workers-8 (Jul 28)</td><td>~135 req/s</td><td>19.3</td><td class="wrap">requests queue in-server; completions flat</td></tr>
+        <tr><td>16-direct (Aug 3)</td><td>~220 req/s</td><td>~21</td><td class="wrap">graceful decline, but 500s on mixed bulk</td></tr>
+        <tr><td>w16fix0811 (Aug 11)</td><td><b>~230 req/s</b> at P=8</td><td><b>≈20</b></td><td class="wrap">pure queueing: p50 209 → 1011 ms, <b>zero errors to P=32</b></td></tr>
+      </tbody>
+    </table>
+
+    <div class="grid g-2 push">
+      <div class="panel"><h2>Bandwidth is not the constraint</h2>
+        <ul>
+          <li>Whole-file streams: 941 MB/s @ 16 → <strong>1197 MB/s @ 32</strong>, zero errors.</li>
+          <li>16 MB asset fan-out: clean to <strong>1040 MB/s @ 128 procs</strong> (the Aug-3 era 500'd at ≥16).</li>
+          <li><code>/healthz</code> fabric: <strong>6300+ req/s</strong> — proxy/TLS/routing has ~30× headroom; the catalog path is the limit.</li>
+        </ul>
+      </div>
+      <div class="panel"><h2>What it means</h2>
+        <ul>
+          <li>Doubling workers bought 1.6× — <strong>worker count is not the serialized resource</strong>. Next suspects: Postgres query capacity, per-worker event loop, ingress.</li>
+          <li>Capacity rule: every workload's ceiling = <strong>20 ÷ slot-seconds per unit</strong>. Present ≈20 concurrent requests; more only queues.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · Failure modes -->
+  <section class="slide">
+    <div class="eyebrow"><span>Steps 7b–7f · how it fails, found on purpose</span> <span class="pill p-warn">failure modes</span></div>
+    <h1>Every failure mode found has a config-shaped fix.</h1>
+
+    <table>
+      <thead><tr><th class="wrap">Failure</th><th class="wrap">Signature</th><th class="wrap">Cause → fix</th></tr></thead>
+      <tbody>
+        <tr><td class="wrap"><b>Connection exhaustion</b> (Aug 3)</td><td class="wrap">500s under load; restarting pods crash-loop in <code>catalog init</code></td><td class="wrap">16 workers × pool 15 = 240 potential vs ~100 Postgres slots → raise limits or pool</td></tr>
+        <tr><td class="wrap"><b>Session-mode pooler</b> (Aug 4)</td><td class="wrap">serial fine; concurrent requests hang <b>exactly ~60 s</b>, then succeed</td><td class="wrap">persistent per-worker pools pin backends; pool of ~20 vs 240 demanded → pool ≥ 240 (deployed) or PgBouncer ≥1.21 transaction mode w/ <code>max_prepared_statements</code></td></tr>
+        <tr><td class="wrap"><b>Fail-fast shedding, masked</b> (Aug 4)</td><td class="wrap">raw-wire 500 rate ramps 1% @ 8 → 35% @ 64 streams while the tiled client reports <b>zero errors</b> (silent retries)</td><td class="wrap">server sheds excess instantly rather than queueing; always probe with raw httpx too</td></tr>
+        <tr><td class="wrap"><b>Worker OOM</b> (Aug 12, deliberate)</td><td class="wrap">4 × 4.3 GB concurrent exports: 2 die simultaneously mid-stream; health stays 200 &lt; 100 ms</td><td class="wrap">container export builds its whole output in RAM (<code>BytesIO</code>) — the only memory-unsafe request shape. Limit ≈ <b>2 concurrent large exports/pod</b>; blast radius = those downloads only</td></tr>
+      </tbody>
+    </table>
+
+    <p class="say push" style="font-size:1.6cqw"><strong>Side finding — registration race:</strong> concurrent registration at pool=8 leaves structure-less "broken" entities, scaling with artifact count (up to 5% on 16-artifact datasets). Damage is invisible to <code>len(dataset)</code> — verify per-artifact. Registering at pool=4 produced zero failures.</p>
+  </section>
+
+  <!-- 10 · Guidance -->
+  <section class="slide">
+    <div class="eyebrow"><span>Operational guidance · carry this</span></div>
+    <h1>Rules to carry.</h1>
+
+    <div class="grid g-2" style="flex:1">
+      <div class="panel"><h2>For users of tiled-test</h2>
+        <ul>
+          <li>Serial work: <strong>container_export wins everything</strong> except tiny-artifact-of-huge-entity.</li>
+          <li>Batches from shared files: whole-file <code>asset_bytes</code> above the crossover (<strong>~40% / ~2/3 / ~1/4</strong> — 1 MB / big / multi-artifact).</li>
+          <li>Bulk: <strong>~8 threads, then processes</strong> (~190 MB/s each). Whole-file streaming scales to 32+; request-shaped load saturates at <strong>≈20 concurrent</strong>.</li>
+          <li><strong>Never parallelize multi-GB exports</strong> — above a few GB use <code>asset_bytes</code>: faster and memory-flat.</li>
+          <li>On-cluster ML pipelines: <strong>Mode A / h5py_direct</strong>, 1.2–1.5 GB/s.</li>
+        </ul>
+      </div>
+      <div class="panel"><h2>For admins</h2>
+        <ul>
+          <li>The <strong>~20-slot serialized resource</strong> is the knob worth finding — workers ×2 bought only 1.6×; suspects: DB query capacity, event loop, ingress.</li>
+          <li>Pooler must fit tiled's persistent pools: session mode needs <strong>pool ≥ workers × (pool+overflow)</strong>; transaction mode only on PgBouncer ≥ 1.21 with <code>max_prepared_statements</code>.</li>
+          <li>Run <code>tiled catalog init</code>/migrations <strong>direct to Postgres</strong>, never through the pooler.</li>
+          <li>Per-pod memory allows <strong>~2 concurrent whole-dataset exports</strong> (~9–17 GB); OOMKilled event 2026-08-12 00:12 UTC confirms the exact limit.</li>
+          <li>Storage is never the constraint: one node pulls <strong>2+ GB/s cold</strong> from Weka — every HTTP ceiling sits ≥4× below it.</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="foot">Raw rows: results/broker/*.csv (population-tagged) · prose: results/EGRESS-FINDINGS.md · heatmap: docs/egress-heatmap.html · stock era frozen in results/stock-2026-07/</p>
   </section>
 
   <nav class="nav" aria-label="Slide navigation">
-    <span class="counter" id="counter">01 / 05</span>
+    <span class="counter" id="counter">01 / 10</span>
     <div class="rail" id="rail"></div>
     <span class="hint">Print to PDF = 16:9 PPT slides</span>
     <button class="arrow" id="prev" aria-label="Previous slide">‹</button>
