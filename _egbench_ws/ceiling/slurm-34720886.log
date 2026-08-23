@@ -1,0 +1,194 @@
+node: sdfmilan212  cores: 120  start: 2026-08-11T16:14:34-07:00
+[ceiling] remote server: 0.2.15b1.dev14+b7aafcd1
+=== Phase A: control (milano-exclusive vs interactive-node numbers)
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "container_export", "c": 1, "n": 200, "rep": 1, "artifact": "signal", "wall_s": 16.787, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 210.249}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "artifact_read", "c": 1, "n": 200, "rep": 1, "artifact": "signal", "wall_s": 39.95, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 209.715}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "asset_bytes", "c": 1, "n": 200, "rep": 1, "artifact": "signal", "wall_s": 46.366, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 0.0, "wire_mb": 210.128}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 1, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 12.077, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 1, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 13.769, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 8, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 2.989, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 8, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 3.628, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 16, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 3.261, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 16, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 3.338, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "container_export", "c": 1, "n": 200, "rep": 2, "artifact": "signal", "wall_s": 6.787, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 210.249}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "artifact_read", "c": 1, "n": 200, "rep": 2, "artifact": "signal", "wall_s": 39.015, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 209.715}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "asset_bytes", "c": 1, "n": 200, "rep": 2, "artifact": "signal", "wall_s": 45.579, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 0.0, "wire_mb": 210.128}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 1, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 9.549, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 1, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 13.955, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 8, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 2.987, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 8, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 3.177, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 16, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 3.2, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 16, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 2.825, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "container_export", "c": 1, "n": 200, "rep": 3, "artifact": "signal", "wall_s": 7.279, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 210.249}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "artifact_read", "c": 1, "n": 200, "rep": 3, "artifact": "signal", "wall_s": 37.955, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 209.715}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "asset_bytes", "c": 1, "n": 200, "rep": 3, "artifact": "signal", "wall_s": 46.265, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 0.0, "wire_mb": 210.128}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 1, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 9.091, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 1, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 14.566, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 8, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 3.485, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 8, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 3.375, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 16, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 2.898, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 16, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 3.39, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=8 n=48 rep=1 wall=3.12s wire=805MB errors=0
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=8 n=48 rep=2 wall=3.07s wire=805MB errors=0
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=8 n=48 rep=3 wall=3.18s wire=805MB errors=0
+=== Phase B: bandwidth ladder (asset_bytes processes)
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=8 n=256 rep=1 wall=18.98s wire=4295MB errors=0
+  P=8: 226 MB/s aggregate
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=8 n=256 rep=2 wall=16.12s wire=4295MB errors=0
+  P=8: 266 MB/s aggregate
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=16 n=256 rep=1 wall=9.33s wire=4295MB errors=0
+  P=16: 460 MB/s aggregate
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=16 n=256 rep=2 wall=9.25s wire=4295MB errors=0
+  P=16: 464 MB/s aggregate
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=32 n=256 rep=1 wall=6.80s wire=4295MB errors=0
+  P=32: 632 MB/s aggregate
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=32 n=256 rep=2 wall=6.96s wire=4295MB errors=0
+  P=32: 617 MB/s aggregate
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=64 n=256 rep=1 wall=6.39s wire=4295MB errors=0
+  P=64: 672 MB/s aggregate
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=64 n=256 rep=2 wall=5.67s wire=4295MB errors=0
+  P=64: 757 MB/s aggregate
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=128 n=256 rep=1 wall=4.04s wire=4295MB errors=0
+  P=128: 1062 MB/s aggregate
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=128 n=256 rep=2 wall=4.22s wire=4295MB errors=0
+  P=128: 1019 MB/s aggregate
+=== Phase B2: whole-file streams (same 1.05 GB file x P)
+[row] EGRESS_BAT_1M_BROKER asset_bytes c=1 nproc=4 n=1000 rep=1 wall=14.74s wire=4194MB errors=0
+  P=4: 284 MB/s aggregate
+[row] EGRESS_BAT_1M_BROKER asset_bytes c=1 nproc=4 n=1000 rep=2 wall=12.98s wire=4194MB errors=0
+  P=4: 323 MB/s aggregate
+[row] EGRESS_BAT_1M_BROKER asset_bytes c=1 nproc=8 n=1000 rep=1 wall=15.08s wire=8389MB errors=0
+  P=8: 556 MB/s aggregate
+[row] EGRESS_BAT_1M_BROKER asset_bytes c=1 nproc=8 n=1000 rep=2 wall=14.95s wire=8389MB errors=0
+  P=8: 561 MB/s aggregate
+[row] EGRESS_BAT_1M_BROKER asset_bytes c=1 nproc=16 n=1000 rep=1 wall=18.06s wire=16778MB errors=0
+  P=16: 929 MB/s aggregate
+[row] EGRESS_BAT_1M_BROKER asset_bytes c=1 nproc=16 n=1000 rep=2 wall=19.47s wire=16778MB errors=0
+  P=16: 862 MB/s aggregate
+[row] EGRESS_BAT_1M_BROKER asset_bytes c=1 nproc=32 n=1000 rep=1 wall=30.46s wire=33555MB errors=0
+  P=32: 1102 MB/s aggregate
+[row] EGRESS_BAT_1M_BROKER asset_bytes c=1 nproc=32 n=1000 rep=2 wall=25.99s wire=33555MB errors=0
+  P=32: 1291 MB/s aggregate
+=== Phase C: request-rate ladder (artifact_read 64K, P procs x 8 threads)
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=4 n=1000 rep=1 wall=19.80s wire=66MB errors=0
+  P=4: 50 ent/s ~ 151 req/s
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=4 n=1000 rep=2 wall=12.62s wire=66MB errors=0
+  P=4: 79 ent/s ~ 238 req/s
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=8 n=1000 rep=1 wall=13.91s wire=66MB errors=0
+  P=8: 72 ent/s ~ 216 req/s
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=8 n=1000 rep=2 wall=13.30s wire=66MB errors=0
+  P=8: 75 ent/s ~ 226 req/s
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=16 n=992 rep=1 wall=20.86s wire=65MB errors=0
+  P=16: 48 ent/s ~ 143 req/s
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=16 n=992 rep=2 wall=17.78s wire=65MB errors=0
+  P=16: 56 ent/s ~ 167 req/s
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=32 n=992 rep=1 wall=16.17s wire=65MB errors=0
+  P=32: 61 ent/s ~ 184 req/s
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=32 n=992 rep=2 wall=16.88s wire=65MB errors=0
+  P=32: 59 ent/s ~ 176 req/s
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=64 n=960 rep=1 wall=16.52s wire=63MB errors=0
+  P=64: 58 ent/s ~ 174 req/s
+Retrying…
+Retrying…
+Traceback (most recent call last):
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 103, in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 136, in handle_request
+    raise exc
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 106, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 177, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 231, in _receive_event
+    raise RemoteProtocolError(msg)
+httpcore.RemoteProtocolError: Server disconnected without sending a response.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_egbench_ws/ceiling/arread_shard.py", line 38, in <module>
+    nodes = [from_uri(url, api_key=api_key, timeout=TIMEOUT)[args.dataset]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/constructors.py", line 92, in from_uri
+    context, node_path_parts = Context.from_any_uri(
+                               ^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/context.py", line 739, in from_any_uri
+    context = cls(
+              ^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/context.py", line 318, in __init__
+    for attempt in retry_context(self):
+                   ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 214, in retry_context
+    attempt = next(it)
+              ^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/stamina/_core.py", line 581, in __iter__
+    for r in _t.Retrying(
+             ^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 438, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/context.py", line 321, in __init__
+    self.http_client.get(
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1053, in get
+    return self.request(
+           ^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/httpx/_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/transport.py", line 97, in handle_request
+    response = self.transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.RemoteProtocolError: Server disconnected without sending a response.
+[warn] 1/64 procs died
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=64 n=960 rep=2 wall=15.12s wire=62MB errors=1000
+  P=64: 62 ent/s ~ 187 req/s
+[abort] error rate too high at P=64
+=== Phase D skipped (py-spy hang; workers8 profiles remain the reference)
+CEILING JOB DONE
+end: 2026-08-11T16:38:34-07:00

@@ -1,0 +1,122 @@
+node: sdfmilan015  cores: 120  start: 2026-07-28T14:55:48-07:00
+=== Phase A: control (milano-exclusive vs interactive-node numbers)
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "container_export", "c": 1, "n": 200, "rep": 1, "artifact": "signal", "wall_s": 7.021, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 210.249}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "artifact_read", "c": 1, "n": 200, "rep": 1, "artifact": "signal", "wall_s": 37.036, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 209.715}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "asset_bytes", "c": 1, "n": 200, "rep": 1, "artifact": "signal", "wall_s": 45.676, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 0.0, "wire_mb": 210.128}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 1, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 10.372, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 1, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 13.742, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 8, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 3.972, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 8, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 3.475, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 16, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 3.049, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 16, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 2.85, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "container_export", "c": 1, "n": 200, "rep": 2, "artifact": "signal", "wall_s": 6.557, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 210.249}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "artifact_read", "c": 1, "n": 200, "rep": 2, "artifact": "signal", "wall_s": 37.311, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 209.715}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "asset_bytes", "c": 1, "n": 200, "rep": 2, "artifact": "signal", "wall_s": 45.503, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 0.0, "wire_mb": 210.128}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 1, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 9.725, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 1, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 13.517, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 8, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 3.275, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 8, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 3.486, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 16, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 2.634, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 16, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 3.087, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "container_export", "c": 1, "n": 200, "rep": 3, "artifact": "signal", "wall_s": 5.993, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 210.249}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "artifact_read", "c": 1, "n": 200, "rep": 3, "artifact": "signal", "wall_s": 35.651, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 209.715}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "asset_bytes", "c": 1, "n": 200, "rep": 3, "artifact": "signal", "wall_s": 44.868, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 0.0, "wire_mb": 210.128}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 1, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 9.433, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 1, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 13.187, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 8, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 3.528, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 8, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 3.073, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 16, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 2.72, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 16, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 2.816, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=8 n=48 rep=1 wall=3.43s wire=805MB errors=0
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=8 n=48 rep=2 wall=3.49s wire=805MB errors=0
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=8 n=48 rep=3 wall=3.50s wire=805MB errors=0
+=== Phase B: bandwidth ladder (asset_bytes processes)
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=8 n=256 rep=1 wall=18.65s wire=4295MB errors=0
+  P=8: 230 MB/s aggregate
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=8 n=256 rep=2 wall=19.18s wire=4295MB errors=0
+  P=8: 224 MB/s aggregate
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=16 n=256 rep=1 wall=12.69s wire=4295MB errors=0
+  P=16: 339 MB/s aggregate
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=16 n=256 rep=2 wall=12.45s wire=4295MB errors=0
+  P=16: 345 MB/s aggregate
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=32 n=256 rep=1 wall=10.53s wire=4295MB errors=0
+  P=32: 408 MB/s aggregate
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=32 n=256 rep=2 wall=10.04s wire=4295MB errors=0
+  P=32: 428 MB/s aggregate
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=64 n=256 rep=1 wall=8.86s wire=4295MB errors=0
+  P=64: 485 MB/s aggregate
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=64 n=256 rep=2 wall=9.47s wire=4279MB errors=1
+  P=64: 452 MB/s aggregate
+=== Phase B2: whole-file streams (same 1.05 GB file x P)
+[row] EGRESS_BAT_1M_BROKER asset_bytes c=1 nproc=4 n=1000 rep=1 wall=14.05s wire=4194MB errors=0
+  P=4: 299 MB/s aggregate
+[row] EGRESS_BAT_1M_BROKER asset_bytes c=1 nproc=4 n=1000 rep=2 wall=12.60s wire=4194MB errors=0
+  P=4: 333 MB/s aggregate
+[row] EGRESS_BAT_1M_BROKER asset_bytes c=1 nproc=8 n=1000 rep=1 wall=17.87s wire=8389MB errors=0
+  P=8: 469 MB/s aggregate
+[row] EGRESS_BAT_1M_BROKER asset_bytes c=1 nproc=8 n=1000 rep=2 wall=15.03s wire=8389MB errors=0
+  P=8: 558 MB/s aggregate
+[row] EGRESS_BAT_1M_BROKER asset_bytes c=1 nproc=16 n=1000 rep=1 wall=21.71s wire=16778MB errors=0
+  P=16: 773 MB/s aggregate
+[row] EGRESS_BAT_1M_BROKER asset_bytes c=1 nproc=16 n=1000 rep=2 wall=17.82s wire=16778MB errors=0
+  P=16: 941 MB/s aggregate
+=== Phase C: request-rate ladder (artifact_read 64K, P procs x 8 threads)
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=4 n=1000 rep=1 wall=22.88s wire=66MB errors=0
+  P=4: 44 ent/s ~ 131 req/s
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=4 n=1000 rep=2 wall=21.36s wire=66MB errors=0
+  P=4: 47 ent/s ~ 140 req/s
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=8 n=1000 rep=1 wall=22.08s wire=66MB errors=0
+  P=8: 45 ent/s ~ 136 req/s
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=8 n=1000 rep=2 wall=22.86s wire=66MB errors=0
+  P=8: 44 ent/s ~ 131 req/s
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=16 n=992 rep=1 wall=23.80s wire=65MB errors=0
+  P=16: 42 ent/s ~ 125 req/s
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=16 n=992 rep=2 wall=22.96s wire=65MB errors=0
+  P=16: 43 ent/s ~ 130 req/s
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=32 n=992 rep=1 wall=26.05s wire=65MB errors=0
+  P=32: 38 ent/s ~ 114 req/s
+[row] EGRESS_PE_64K_BROKER artifact_read c=8 nproc=32 n=992 rep=2 wall=29.61s wire=65MB errors=0
+  P=32: 34 ent/s ~ 101 req/s
+=== Phase D: py-spy profiles (single-process plateau attribution)
+[profile] arread_c16_pe16m: rc=1 Error: No child process (os error 10)
+[profile] arread_c16_pe16m_gil: rc=1 Error: No child process (os error 10)
+[profile] export_c8_pe16m: rc=1 Error: No child process (os error 10)
+[profile] assetbytes_c1_pe16m: rc=0 
+CEILING JOB DONE
+end: 2026-07-28T15:16:55-07:00

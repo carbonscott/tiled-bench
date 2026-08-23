@@ -1,0 +1,571 @@
+node: sdfmilan173  cores: 120  start: 2026-08-04T17:25:18-07:00
+[ceiling] remote server: 0.2.15b1.dev14+b7aafcd1
+=== Phase A: control (milano-exclusive vs interactive-node numbers)
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "container_export", "c": 1, "n": 200, "rep": 1, "artifact": "signal", "wall_s": 9.275, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 210.249}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "artifact_read", "c": 1, "n": 200, "rep": 1, "artifact": "signal", "wall_s": 44.564, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 209.715}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "asset_bytes", "c": 1, "n": 200, "rep": 1, "artifact": "signal", "wall_s": 53.029, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 0.0, "wire_mb": 210.128}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 1, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 10.778, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 1, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 15.589, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 8, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 3.856, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 8, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 3.902, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 16, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 2.991, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 16, "n": 32, "rep": 1, "artifact": "signal", "wall_s": 3.634, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "container_export", "c": 1, "n": 200, "rep": 2, "artifact": "signal", "wall_s": 7.657, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 210.249}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "artifact_read", "c": 1, "n": 200, "rep": 2, "artifact": "signal", "wall_s": 44.766, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 209.715}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "asset_bytes", "c": 1, "n": 200, "rep": 2, "artifact": "signal", "wall_s": 51.007, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 0.0, "wire_mb": 210.128}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 1, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 9.804, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 1, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 14.852, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 8, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 4.395, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 8, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 4.006, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 16, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 3.337, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 16, "n": 32, "rep": 2, "artifact": "signal", "wall_s": 3.765, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "container_export", "c": 1, "n": 200, "rep": 3, "artifact": "signal", "wall_s": 7.501, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 210.249}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "artifact_read", "c": 1, "n": 200, "rep": 3, "artifact": "signal", "wall_s": 42.463, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 209.715, "wire_mb": 209.715}
+{"dataset": "EGRESS_PE_1M_BROKER", "method": "asset_bytes", "c": 1, "n": 200, "rep": 3, "artifact": "signal", "wall_s": 52.346, "entities": 200, "expected": 200, "errors": 0, "payload_mb": 0.0, "wire_mb": 210.128}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 1, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 10.548, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 1, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 15.271, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 8, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 4.085, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 8, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 3.375, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "container_export", "c": 16, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 3.463, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 537.121}
+{"dataset": "EGRESS_PE_16M_BROKER", "method": "artifact_read", "c": 16, "n": 32, "rep": 3, "artifact": "signal", "wall_s": 3.563, "entities": 32, "expected": 32, "errors": 0, "payload_mb": 536.871, "wire_mb": 536.871}
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=8 n=48 rep=1 wall=3.23s wire=805MB errors=0
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=8 n=48 rep=2 wall=3.30s wire=805MB errors=0
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=8 n=48 rep=3 wall=3.51s wire=805MB errors=0
+=== Phase B: bandwidth ladder (asset_bytes processes)
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=8 n=256 rep=1 wall=76.56s wire=4295MB errors=0
+  P=8: 56 MB/s aggregate
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=8 n=256 rep=2 wall=18.07s wire=4295MB errors=0
+  P=8: 238 MB/s aggregate
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=16 n=256 rep=1 wall=188.59s wire=4295MB errors=0
+  P=16: 23 MB/s aggregate
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=16 n=256 rep=2 wall=186.71s wire=4295MB errors=0
+  P=16: 23 MB/s aggregate
+Retrying…
+Retrying…
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=32 n=256 rep=1 wall=395.30s wire=4262MB errors=2
+  P=32: 11 MB/s aggregate
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=32 n=256 rep=2 wall=688.39s wire=4228MB errors=4
+  P=32: 6 MB/s aggregate
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Traceback (most recent call last):
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_egbench_ws/ceiling/raw_export_main.py", line 59, in <module>
+    keys = list(node.keys())
+           ^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/iterviews.py", line 88, in __iter__
+Retrying…
+Traceback (most recent call last):
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_egbench_ws/ceiling/raw_export_main.py", line 59, in <module>
+    keys = list(node.keys())
+           ^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/iterviews.py", line 88, in __iter__
+Retrying…
+    yield from self._keys_slice(0, None, 1, self._page_size)
+    yield from self._keys_slice(0, None, 1, self._page_size)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 458, in _keys_slice
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 458, in _keys_slice
+Retrying…
+    for attempt in retry_context():
+    for attempt in retry_context():
+                   ^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 214, in retry_context
+                   ^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 214, in retry_context
+Retrying…
+    attempt = next(it)
+              ^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/stamina/_core.py", line 581, in __iter__
+    attempt = next(it)
+              ^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/stamina/_core.py", line 581, in __iter__
+    for r in _t.Retrying(
+             ^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 438, in __iter__
+    for r in _t.Retrying(
+             ^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 438, in __iter__
+    do = self.iter(retry_state=retry_state)
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 371, in iter
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+             ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+          ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+    raise self._exception
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 460, in _keys_slice
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 460, in _keys_slice
+    content = handle_error(
+    content = handle_error(
+              ^^^^^^^^^^^^^
+              ^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 86, in handle_error
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 86, in handle_error
+    raise_for_status(response)
+    raise_for_status(response)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 79, in raise_for_status
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 79, in raise_for_status
+    raise httpx.HTTPStatusError(message, request=request, response=response)
+    raise httpx.HTTPStatusError(message, request=request, response=response)
+httpx.HTTPStatusError: Server error '500 Internal Server Error' for url 'https://lcls-data-portal.slac.stanford.edu/tiled-test/api/v1/search/EGRESS_PE_16M_BROKER?page%5Bcursor%5D=321360&page%5Blimit%5D=100&fields='
+For more information, server admin can search server logs for correlation ID 976498399bc92f16.
+httpx.HTTPStatusError: Server error '500 Internal Server Error' for url 'https://lcls-data-portal.slac.stanford.edu/tiled-test/api/v1/search/EGRESS_PE_16M_BROKER?page%5Boffset%5D=0&fields='
+For more information, server admin can search server logs for correlation ID e1a44b34c9604f56.
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Traceback (most recent call last):
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_egbench_ws/ceiling/raw_export_main.py", line 59, in <module>
+    keys = list(node.keys())
+           ^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/iterviews.py", line 88, in __iter__
+    yield from self._keys_slice(0, None, 1, self._page_size)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 458, in _keys_slice
+    for attempt in retry_context():
+                   ^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 214, in retry_context
+    attempt = next(it)
+              ^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/stamina/_core.py", line 581, in __iter__
+    for r in _t.Retrying(
+             ^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 438, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 460, in _keys_slice
+    content = handle_error(
+              ^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 86, in handle_error
+    raise_for_status(response)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 79, in raise_for_status
+    raise httpx.HTTPStatusError(message, request=request, response=response)
+httpx.HTTPStatusError: Server error '504 Gateway Time-out' for url 'https://lcls-data-portal.slac.stanford.edu/tiled-test/api/v1/search/EGRESS_PE_16M_BROKER?page%5Bcursor%5D=321561&page%5Blimit%5D=100&fields='
+For more information, server admin can search server logs for correlation ID None.
+Retrying…
+Retrying…
+[warn] 3/64 procs died
+[row] EGRESS_PE_16M_BROKER asset_bytes c=1 nproc=64 n=256 rep=1 wall=601.99s wire=3993MB errors=3006
+  P=64: 7 MB/s aggregate
+[abort] error rate too high at P=64
+=== Phase B2: whole-file streams (same 1.05 GB file x P)
+Retrying…
+Traceback (most recent call last):
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_egbench_ws/ceiling/raw_export_main.py", line 58, in <module>
+    node = from_uri(url, api_key=api_key or None, timeout=TIMEOUT)[args.dataset]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/constructors.py", line 110, in from_uri
+    return from_context(
+           ^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/constructors.py", line 171, in from_context
+    for attempt in retry_context():
+                   ^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 214, in retry_context
+    attempt = next(it)
+              ^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/stamina/_core.py", line 581, in __iter__
+    for r in _t.Retrying(
+             ^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 438, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/constructors.py", line 173, in from_context
+    content = handle_error(
+              ^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 86, in handle_error
+    raise_for_status(response)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 79, in raise_for_status
+    raise httpx.HTTPStatusError(message, request=request, response=response)
+httpx.HTTPStatusError: Server error '504 Gateway Time-out' for url 'https://lcls-data-portal.slac.stanford.edu/tiled-test/api/v1/metadata/'
+For more information, server admin can search server logs for correlation ID None.
+Retrying…
+Traceback (most recent call last):
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_egbench_ws/ceiling/raw_export_main.py", line 59, in <module>
+    keys = list(node.keys())
+           ^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/iterviews.py", line 88, in __iter__
+    yield from self._keys_slice(0, None, 1, self._page_size)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 458, in _keys_slice
+    for attempt in retry_context():
+                   ^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 214, in retry_context
+    attempt = next(it)
+              ^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/stamina/_core.py", line 581, in __iter__
+    for r in _t.Retrying(
+             ^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 438, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 460, in _keys_slice
+    content = handle_error(
+              ^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 86, in handle_error
+    raise_for_status(response)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 79, in raise_for_status
+    raise httpx.HTTPStatusError(message, request=request, response=response)
+httpx.HTTPStatusError: Server error '504 Gateway Time-out' for url 'https://lcls-data-portal.slac.stanford.edu/tiled-test/api/v1/search/EGRESS_BAT_1M_BROKER?page%5Bcursor%5D=321774&page%5Blimit%5D=100&fields='
+For more information, server admin can search server logs for correlation ID None.
+[warn] 2/4 procs died
+[row] EGRESS_BAT_1M_BROKER asset_bytes c=1 nproc=4 n=1000 rep=1 wall=192.36s wire=2097MB errors=2000
+  P=4: 11 MB/s aggregate
+Retrying…
+Traceback (most recent call last):
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_egbench_ws/ceiling/raw_export_main.py", line 59, in <module>
+    keys = list(node.keys())
+           ^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/iterviews.py", line 88, in __iter__
+    yield from self._keys_slice(0, None, 1, self._page_size)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 458, in _keys_slice
+    for attempt in retry_context():
+                   ^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 214, in retry_context
+    attempt = next(it)
+              ^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/stamina/_core.py", line 581, in __iter__
+    for r in _t.Retrying(
+             ^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 438, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 460, in _keys_slice
+    content = handle_error(
+              ^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 86, in handle_error
+    raise_for_status(response)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 79, in raise_for_status
+    raise httpx.HTTPStatusError(message, request=request, response=response)
+httpx.HTTPStatusError: Server error '504 Gateway Time-out' for url 'https://lcls-data-portal.slac.stanford.edu/tiled-test/api/v1/search/EGRESS_BAT_1M_BROKER?page%5Boffset%5D=0&fields='
+For more information, server admin can search server logs for correlation ID None.
+Retrying…
+Traceback (most recent call last):
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_egbench_ws/ceiling/raw_export_main.py", line 59, in <module>
+    keys = list(node.keys())
+           ^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/iterviews.py", line 88, in __iter__
+    yield from self._keys_slice(0, None, 1, self._page_size)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 458, in _keys_slice
+    for attempt in retry_context():
+                   ^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 214, in retry_context
+    attempt = next(it)
+              ^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/stamina/_core.py", line 581, in __iter__
+    for r in _t.Retrying(
+             ^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 438, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 460, in _keys_slice
+    content = handle_error(
+              ^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 86, in handle_error
+    raise_for_status(response)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 79, in raise_for_status
+    raise httpx.HTTPStatusError(message, request=request, response=response)
+httpx.HTTPStatusError: Server error '504 Gateway Time-out' for url 'https://lcls-data-portal.slac.stanford.edu/tiled-test/api/v1/search/EGRESS_BAT_1M_BROKER?page%5Bcursor%5D=322575&page%5Blimit%5D=100&fields='
+For more information, server admin can search server logs for correlation ID None.
+Retrying…
+Traceback (most recent call last):
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_egbench_ws/ceiling/raw_export_main.py", line 59, in <module>
+    keys = list(node.keys())
+           ^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/iterviews.py", line 88, in __iter__
+    yield from self._keys_slice(0, None, 1, self._page_size)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 458, in _keys_slice
+    for attempt in retry_context():
+                   ^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 214, in retry_context
+    attempt = next(it)
+              ^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/stamina/_core.py", line 581, in __iter__
+    for r in _t.Retrying(
+             ^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 438, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 460, in _keys_slice
+    content = handle_error(
+              ^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 86, in handle_error
+    raise_for_status(response)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 79, in raise_for_status
+    raise httpx.HTTPStatusError(message, request=request, response=response)
+httpx.HTTPStatusError: Server error '504 Gateway Time-out' for url 'https://lcls-data-portal.slac.stanford.edu/tiled-test/api/v1/search/EGRESS_BAT_1M_BROKER?page%5Bcursor%5D=322575&page%5Blimit%5D=100&fields='
+For more information, server admin can search server logs for correlation ID None.
+[warn] 3/4 procs died
+[row] EGRESS_BAT_1M_BROKER asset_bytes c=1 nproc=4 n=1000 rep=2 wall=12.39s wire=1049MB errors=3000
+  P=4: 85 MB/s aggregate
+Retrying…
+Traceback (most recent call last):
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_egbench_ws/ceiling/raw_export_main.py", line 59, in <module>
+    keys = list(node.keys())
+           ^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/iterviews.py", line 88, in __iter__
+    yield from self._keys_slice(0, None, 1, self._page_size)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 458, in _keys_slice
+    for attempt in retry_context():
+                   ^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 214, in retry_context
+    attempt = next(it)
+              ^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/stamina/_core.py", line 581, in __iter__
+    for r in _t.Retrying(
+             ^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 438, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 460, in _keys_slice
+    content = handle_error(
+              ^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 86, in handle_error
+    raise_for_status(response)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 79, in raise_for_status
+    raise httpx.HTTPStatusError(message, request=request, response=response)
+httpx.HTTPStatusError: Server error '504 Gateway Time-out' for url 'https://lcls-data-portal.slac.stanford.edu/tiled-test/api/v1/search/EGRESS_BAT_1M_BROKER?page%5Bcursor%5D=322772&page%5Blimit%5D=100&fields='
+For more information, server admin can search server logs for correlation ID None.
+[warn] 1/8 procs died
+[row] EGRESS_BAT_1M_BROKER asset_bytes c=1 nproc=8 n=1000 rep=1 wall=252.66s wire=7340MB errors=1000
+  P=8: 29 MB/s aggregate
+Retrying…
+Traceback (most recent call last):
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_egbench_ws/ceiling/raw_export_main.py", line 59, in <module>
+    keys = list(node.keys())
+           ^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/iterviews.py", line 88, in __iter__
+    yield from self._keys_slice(0, None, 1, self._page_size)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 458, in _keys_slice
+    for attempt in retry_context():
+                   ^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 214, in retry_context
+    attempt = next(it)
+              ^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/stamina/_core.py", line 581, in __iter__
+    for r in _t.Retrying(
+             ^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 438, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 460, in _keys_slice
+    content = handle_error(
+              ^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 86, in handle_error
+    raise_for_status(response)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 79, in raise_for_status
+    raise httpx.HTTPStatusError(message, request=request, response=response)
+httpx.HTTPStatusError: Server error '504 Gateway Time-out' for url 'https://lcls-data-portal.slac.stanford.edu/tiled-test/api/v1/search/EGRESS_BAT_1M_BROKER?page%5Bcursor%5D=323370&page%5Blimit%5D=100&fields='
+For more information, server admin can search server logs for correlation ID None.
+Retrying…
+Retrying…
+Traceback (most recent call last):
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_egbench_ws/ceiling/raw_export_main.py", line 59, in <module>
+    keys = list(node.keys())
+           ^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/iterviews.py", line 88, in __iter__
+    yield from self._keys_slice(0, None, 1, self._page_size)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 458, in _keys_slice
+    for attempt in retry_context():
+                   ^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 214, in retry_context
+    attempt = next(it)
+              ^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/stamina/_core.py", line 581, in __iter__
+    for r in _t.Retrying(
+             ^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 438, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 413, in exc_check
+    raise retry_exc.reraise()
+          ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 184, in reraise
+    raise self.last_attempt.result()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 460, in _keys_slice
+    content = handle_error(
+              ^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 86, in handle_error
+    raise_for_status(response)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 79, in raise_for_status
+    raise httpx.HTTPStatusError(message, request=request, response=response)
+httpx.HTTPStatusError: Server error '504 Gateway Time-out' for url 'https://lcls-data-portal.slac.stanford.edu/tiled-test/api/v1/search/EGRESS_BAT_1M_BROKER?page%5Bcursor%5D=323173&page%5Blimit%5D=100&fields='
+For more information, server admin can search server logs for correlation ID None.
+[warn] 2/8 procs died
+Traceback (most recent call last):
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_egbench_ws/ceiling/ceiling.py", line 203, in <module>
+    agg = fanout(bat_stream, P)
+          ^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_egbench_ws/ceiling/ceiling.py", line 126, in fanout
+    "req_p50_ms": sorted(o["req_p50_ms"] for o in good)[len(good) // 2],
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'NoneType' and 'float'
+end: 2026-08-04T18:54:14-07:00

@@ -1,0 +1,7 @@
+node: sdfmilan258 start: 2026-08-04T12:56:14-07:00
+{"phase": "A_cold_1proc", "procs": 1, "files": 32, "mb": 536.9, "wall_s": 0.99, "mbps": 541.8}
+{"phase": "B_cold_8proc", "procs": 8, "files": 128, "mb": 2147.5, "wall_s": 0.92, "mbps": 2326.9}
+{"phase": "C_cold_16proc", "procs": 16, "files": 96, "mb": 1610.6, "wall_s": 1.02, "mbps": 1585.7}
+{"phase": "D_warm_1proc", "procs": 1, "files": 32, "mb": 536.9, "wall_s": 0.42, "mbps": 1277.0}
+{"phase": "E_cold_bigfile_1proc", "procs": 1, "files": 1, "mb": 4295.0, "wall_s": 2.11, "mbps": 2037.0}
+COLD DONE

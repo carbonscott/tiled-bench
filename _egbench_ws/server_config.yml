@@ -1,0 +1,12 @@
+trees:
+- args:
+    adapters_by_mimetype:
+      application/x-hdf5-broker: tiled_catalog_broker.adapters:LazyHDF5ArrayAdapter
+    init_if_not_exists: true
+    readable_storage:
+    - /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_egbench_ws
+    - /sdf/data/lcls/ds/prj/prjmaiqmag01/results/data-source
+    uri: sqlite:////sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_egbench_ws/catalog.db
+    writable_storage: /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_egbench_ws
+  path: /
+  tree: catalog

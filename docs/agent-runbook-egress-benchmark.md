@@ -23,8 +23,13 @@ Domain language is in `CONTEXT.md` (entity / artifact / layout / dataset definit
 
 ## 0. Environment
 
-- **Interpreter (always):** `PY=/sdf/data/lcls/ds/prj/prjmaiqmag01/results/cfitussi/tiled-catalog-broker/.venv/bin/python`
-  (has `tiled`, `tiled_catalog_broker` editable, `h5py`, `pandas`).
+- **Interpreter (always):** `PY=/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/bin/python`
+  — the canonical local stack since 2026-07-28: `tiled[server]==0.2.13` + editable install
+  of ajshack's `../tiled-catalog-broker` checkout. (The old pin to
+  `cfitussi/tiled-catalog-broker/.venv` is retired — that venv pins tiled 0.2.9 and its
+  broker checkout drifts from ajshack's branch.)
+- **Credentials for remote:** `source ../tiled-catalog-broker/.env.test` (sets
+  `TILED_URL`/`TILED_API_KEY` for tiled-test).
 - **cwd:** `/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench` — `egbench`
   and `regbench` import from here.
 - **Local server state:** `_egbench_ws/` (catalog.db + `server.json`). The egress catalog
@@ -163,10 +168,12 @@ What each pays:
 ## 3. Harness commands
 
 ```bash
-PY=/sdf/data/lcls/ds/prj/prjmaiqmag01/results/cfitussi/tiled-catalog-broker/.venv/bin/python
+PY=/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/bin/python
 
-# persistent local server → _egbench_ws/server.json
-"$PY" -m egbench.cli serve --read-path /sdf/.../data-source &
+# persistent local server → _egbench_ws/server.json (port changes per launch — read it
+# from server.json). --read-path is REQUIRED or every array read 500s
+# "outside the readable storage area".
+setsid nohup "$PY" -m egbench.cli serve --read-path /sdf/.../data-source &
 
 # one invocation = one measurement, printed as JSON on stdout
 "$PY" -m egbench.cli run --dataset EGRESS_PE_4X256K --method container_export \

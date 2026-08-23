@@ -2,5 +2,12 @@ __pycache__/
 *.pyc
 *.png
 __marimo__/
-_egbench_ws/
-_bench_ws/
+# Workspaces are ignored except the reproducibility assets: campaign scripts,
+# job scripts, server configs, and slurm logs. Live catalog DBs, generated
+# synthetic data, and per-run workspaces stay untracked.
+_egbench_ws/*
+!_egbench_ws/ceiling/
+!_egbench_ws/server_config.yml
+_bench_ws/*
+!_bench_ws/job/
+!_bench_ws/datamodel/

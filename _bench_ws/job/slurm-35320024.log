@@ -1,0 +1,2023 @@
+node: sdfmilan236  cores: 120  start: 2026-08-19T00:22:46-07:00
+== prewarm imports ==
+
+real	8m3.064s
+user	0m10.604s
+sys	0m0.598s
+before sha: 9e36bcd   after sha: ba60ac6
+== BEFORE sweep (9e36bcd) ==
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+[scale] location=local layouts=['per_entity', 'batched'] sizes=[10, 100, 1000] workers=8
+Found 10 HDF5 files
+Entities: 10 rows -> /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_bench_ws/before/per_entity_n10_local_w8/datasets/synth_per_entity_n10/manifests/synth_per_entity_n10/entities.parquet
+Artifacts: 10 rows -> /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_bench_ws/before/per_entity_n10_local_w8/datasets/synth_per_entity_n10/manifests/synth_per_entity_n10/artifacts.parquet
+[scale] per_entity_n10_local_w8: 5 rep(s), 10 ent / 10 art
+Created dataset container 'regbench_per_entity_n10_local_w8_r0_1787124701170'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n10_local_w8 (10 entities via HTTP, pool=8) ---
+  Progress: 5/10 entities (1.0/sec)
+  Progress: 10/10 entities (1.9/sec)
+
+Registration complete:
+  Entities:        10
+  Artifacts:       10
+  Skipped:         0
+  Artifact errors: 0
+  Time:            5.4 seconds
+[scale]   per_entity n=10 rep 0:   5.36s     1.9 ent/s     3.7 nodes/s  app;dur p50=160ms
+Created dataset container 'regbench_per_entity_n10_local_w8_r1_1787124706639'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n10_local_w8 (10 entities via HTTP, pool=8) ---
+  Progress: 5/10 entities (8.1/sec)
+  Progress: 10/10 entities (10.5/sec)
+
+Registration complete:
+  Entities:        10
+  Artifacts:       10
+  Skipped:         0
+  Artifact errors: 0
+  Time:            0.9 seconds
+[scale]   per_entity n=10 rep 1:   0.95s    10.5 ent/s    21.1 nodes/s  app;dur p50=132ms
+Created dataset container 'regbench_per_entity_n10_local_w8_r2_1787124707825'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n10_local_w8 (10 entities via HTTP, pool=8) ---
+  Progress: 5/10 entities (6.6/sec)
+  Progress: 10/10 entities (10.5/sec)
+
+Registration complete:
+  Entities:        10
+  Artifacts:       10
+  Skipped:         0
+  Artifact errors: 0
+  Time:            1.0 seconds
+[scale]   per_entity n=10 rep 2:   0.95s    10.5 ent/s    21.0 nodes/s  app;dur p50=168ms
+Created dataset container 'regbench_per_entity_n10_local_w8_r3_1787124708863'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n10_local_w8 (10 entities via HTTP, pool=8) ---
+  Progress: 5/10 entities (9.5/sec)
+  Progress: 10/10 entities (9.4/sec)
+
+Registration complete:
+  Entities:        10
+  Artifacts:       10
+  Skipped:         0
+  Artifact errors: 0
+  Time:            1.1 seconds
+[scale]   per_entity n=10 rep 3:   1.06s     9.4 ent/s    18.8 nodes/s  app;dur p50=100ms
+Created dataset container 'regbench_per_entity_n10_local_w8_r4_1787124710025'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n10_local_w8 (10 entities via HTTP, pool=8) ---
+  Progress: 5/10 entities (7.8/sec)
+  Progress: 10/10 entities (10.3/sec)
+
+Registration complete:
+  Entities:        10
+  Artifacts:       10
+  Skipped:         0
+  Artifact errors: 0
+  Time:            1.0 seconds
+[scale]   per_entity n=10 rep 4:   0.97s    10.3 ent/s    20.6 nodes/s  app;dur p50=144ms
+Found 100 HDF5 files
+Entities: 100 rows -> /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_bench_ws/before/per_entity_n100_local_w8/datasets/synth_per_entity_n100/manifests/synth_per_entity_n100/entities.parquet
+Artifacts: 100 rows -> /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_bench_ws/before/per_entity_n100_local_w8/datasets/synth_per_entity_n100/manifests/synth_per_entity_n100/artifacts.parquet
+[scale] per_entity_n100_local_w8: 5 rep(s), 100 ent / 100 art
+Created dataset container 'regbench_per_entity_n100_local_w8_r0_1787124723442'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n100_local_w8 (100 entities via HTTP, pool=8) ---
+  Progress: 5/100 entities (6.1/sec)
+  Progress: 10/100 entities (8.5/sec)
+  Progress: 15/100 entities (10.2/sec)
+  Progress: 20/100 entities (10.5/sec)
+  Progress: 25/100 entities (10.6/sec)
+  Progress: 30/100 entities (11.2/sec)
+  Progress: 35/100 entities (11.4/sec)
+  Progress: 40/100 entities (11.7/sec)
+  Progress: 45/100 entities (11.8/sec)
+  Progress: 50/100 entities (11.9/sec)
+  Progress: 55/100 entities (11.9/sec)
+  Progress: 60/100 entities (11.8/sec)
+  Progress: 65/100 entities (11.8/sec)
+  Progress: 70/100 entities (11.8/sec)
+  Progress: 75/100 entities (12.0/sec)
+  Progress: 80/100 entities (12.0/sec)
+  Progress: 85/100 entities (12.1/sec)
+  Progress: 90/100 entities (12.1/sec)
+  Progress: 95/100 entities (12.1/sec)
+  Progress: 100/100 entities (12.2/sec)
+
+Registration complete:
+  Entities:        100
+  Artifacts:       100
+  Skipped:         0
+  Artifact errors: 0
+  Time:            8.2 seconds
+[scale]   per_entity n=100 rep 0:   8.20s    12.2 ent/s    24.4 nodes/s  app;dur p50=164ms
+Created dataset container 'regbench_per_entity_n100_local_w8_r1_1787124731746'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n100_local_w8 (100 entities via HTTP, pool=8) ---
+  Progress: 5/100 entities (5.8/sec)
+  Progress: 10/100 entities (8.6/sec)
+  Progress: 15/100 entities (10.2/sec)
+  Progress: 20/100 entities (10.3/sec)
+  Progress: 25/100 entities (10.6/sec)
+  Progress: 30/100 entities (11.2/sec)
+  Progress: 35/100 entities (10.7/sec)
+  Progress: 40/100 entities (11.1/sec)
+  Progress: 45/100 entities (11.2/sec)
+  Progress: 50/100 entities (11.2/sec)
+  Progress: 55/100 entities (11.5/sec)
+  Progress: 60/100 entities (11.7/sec)
+  Progress: 65/100 entities (11.8/sec)
+  Progress: 70/100 entities (11.4/sec)
+  Progress: 75/100 entities (11.5/sec)
+  Progress: 80/100 entities (11.5/sec)
+  Progress: 85/100 entities (11.7/sec)
+  Progress: 90/100 entities (11.9/sec)
+  Progress: 95/100 entities (12.1/sec)
+  Progress: 100/100 entities (12.2/sec)
+
+Registration complete:
+  Entities:        100
+  Artifacts:       100
+  Skipped:         0
+  Artifact errors: 0
+  Time:            8.2 seconds
+[scale]   per_entity n=100 rep 1:   8.19s    12.2 ent/s    24.4 nodes/s  app;dur p50=148ms
+Created dataset container 'regbench_per_entity_n100_local_w8_r2_1787124740097'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n100_local_w8 (100 entities via HTTP, pool=8) ---
+  Progress: 5/100 entities (5.9/sec)
+  Progress: 10/100 entities (8.6/sec)
+  Progress: 15/100 entities (9.2/sec)
+  Progress: 20/100 entities (10.3/sec)
+  Progress: 25/100 entities (10.5/sec)
+  Progress: 30/100 entities (10.9/sec)
+  Progress: 35/100 entities (10.6/sec)
+  Progress: 40/100 entities (10.9/sec)
+  Progress: 45/100 entities (11.1/sec)
+  Progress: 50/100 entities (11.4/sec)
+  Progress: 55/100 entities (11.5/sec)
+  Progress: 60/100 entities (11.7/sec)
+  Progress: 65/100 entities (11.6/sec)
+  Progress: 70/100 entities (11.6/sec)
+  Progress: 75/100 entities (11.5/sec)
+  Progress: 80/100 entities (11.3/sec)
+  Progress: 85/100 entities (11.5/sec)
+  Progress: 90/100 entities (11.6/sec)
+  Progress: 95/100 entities (11.7/sec)
+  Progress: 100/100 entities (11.9/sec)
+
+Registration complete:
+  Entities:        100
+  Artifacts:       100
+  Skipped:         0
+  Artifact errors: 0
+  Time:            8.4 seconds
+[scale]   per_entity n=100 rep 2:   8.42s    11.9 ent/s    23.7 nodes/s  app;dur p50=176ms
+Created dataset container 'regbench_per_entity_n100_local_w8_r3_1787124748633'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n100_local_w8 (100 entities via HTTP, pool=8) ---
+  Progress: 5/100 entities (4.9/sec)
+  Progress: 10/100 entities (7.6/sec)
+  Progress: 15/100 entities (8.4/sec)
+  Progress: 20/100 entities (9.6/sec)
+  Progress: 25/100 entities (10.5/sec)
+  Progress: 30/100 entities (11.0/sec)
+  Progress: 35/100 entities (10.6/sec)
+  Progress: 40/100 entities (11.1/sec)
+  Progress: 45/100 entities (11.3/sec)
+  Progress: 50/100 entities (11.5/sec)
+  Progress: 55/100 entities (11.7/sec)
+  Progress: 60/100 entities (11.8/sec)
+  Progress: 65/100 entities (11.9/sec)
+  Progress: 70/100 entities (11.7/sec)
+  Progress: 75/100 entities (11.6/sec)
+  Progress: 80/100 entities (11.9/sec)
+  Progress: 85/100 entities (11.9/sec)
+  Progress: 90/100 entities (12.1/sec)
+  Progress: 95/100 entities (12.2/sec)
+  Progress: 100/100 entities (12.3/sec)
+
+Registration complete:
+  Entities:        100
+  Artifacts:       100
+  Skipped:         0Retrying…
+Retrying…
+
+  Artifact errors: 0
+  Time:            8.1 seconds
+[scale]   per_entity n=100 rep 3:   8.12s    12.3 ent/s    24.6 nodes/s  app;dur p50=151ms
+Created dataset container 'regbench_per_entity_n100_local_w8_r4_1787124756835'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n100_local_w8 (100 entities via HTTP, pool=8) ---
+  Progress: 5/100 entities (5.6/sec)
+  Progress: 10/100 entities (7.4/sec)
+  Progress: 15/100 entities (8.9/sec)
+  Progress: 20/100 entities (9.8/sec)
+  Progress: 25/100 entities (10.5/sec)
+  Progress: 30/100 entities (10.7/sec)
+  Progress: 35/100 entities (11.0/sec)
+  Progress: 40/100 entities (10.9/sec)
+  Progress: 45/100 entities (11.0/sec)
+  Progress: 50/100 entities (11.3/sec)
+  Progress: 55/100 entities (11.5/sec)
+  Progress: 60/100 entities (11.5/sec)
+  Progress: 65/100 entities (11.7/sec)
+  Progress: 70/100 entities (11.7/sec)
+  Progress: 75/100 entities (11.5/sec)
+  Progress: 80/100 entities (11.7/sec)
+  Progress: 85/100 entities (11.8/sec)
+  Progress: 90/100 entities (11.9/sec)
+  Progress: 95/100 entities (11.9/sec)
+  Progress: 100/100 entities (11.7/sec)
+
+Registration complete:
+  Entities:        100
+  Artifacts:       100
+  Skipped:         0
+  Artifact errors: 0
+  Time:            8.6 seconds
+[scale]   per_entity n=100 rep 4:   8.58s    11.7 ent/s    23.3 nodes/s  app;dur p50=156ms
+Found 1000 HDF5 files
+  Processed 1000/1000 entities...
+Entities: 1000 rows -> /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_bench_ws/before/per_entity_n1000_local_w8/datasets/synth_per_entity_n1000/manifests/synth_per_entity_n1000/entities.parquet
+Artifacts: 1000 rows -> /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_bench_ws/before/per_entity_n1000_local_w8/datasets/synth_per_entity_n1000/manifests/synth_per_entity_n1000/artifacts.parquet
+[scale] per_entity_n1000_local_w8: 3 rep(s), 1000 ent / 1000 art
+Created dataset container 'regbench_per_entity_n1000_local_w8_r0_1787124785355'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n1000_local_w8 (1000 entities via HTTP, pool=8) ---
+  Progress: 5/1000 entities (5.9/sec)
+  Progress: 10/1000 entities (7.3/sec)
+  Progress: 15/1000 entities (8.6/sec)
+  Progress: 20/1000 entities (9.0/sec)
+  Progress: 25/1000 entities (9.2/sec)
+  Progress: 30/1000 entities (9.9/sec)
+  Progress: 35/1000 entities (10.2/sec)
+  Progress: 40/1000 entities (10.5/sec)
+  Progress: 45/1000 entities (10.8/sec)
+  Progress: 50/1000 entities (10.9/sec)
+  Progress: 55/1000 entities (11.1/sec)
+  Progress: 60/1000 entities (10.8/sec)
+  Progress: 65/1000 entities (11.1/sec)
+  Progress: 70/1000 entities (11.1/sec)
+  Progress: 75/1000 entities (11.2/sec)
+  Progress: 80/1000 entities (11.1/sec)
+  Progress: 85/1000 entities (11.2/sec)
+  Progress: 90/1000 entities (11.3/sec)
+  Progress: 95/1000 entities (11.2/sec)
+  Progress: 100/1000 entities (11.3/sec)
+  Progress: 105/1000 entities (11.3/sec)
+  Progress: 110/1000 entities (11.4/sec)
+  Progress: 115/1000 entities (11.5/sec)
+  Progress: 120/1000 entities (11.5/sec)
+  Progress: 125/1000 entities (11.4/sec)
+  Progress: 130/1000 entities (11.4/sec)
+  Progress: 135/1000 entities (11.4/sec)
+  Progress: 140/1000 entities (11.3/sec)
+  Progress: 145/1000 entities (11.4/sec)
+  Progress: 150/1000 entities (11.4/sec)
+  Progress: 155/1000 entities (11.4/sec)
+  Progress: 160/1000 entities (11.4/sec)
+  Progress: 165/1000 entities (11.5/sec)
+  Progress: 170/1000 entities (11.4/sec)
+  Progress: 175/1000 entities (11.4/sec)
+  Progress: 180/1000 entities (11.4/sec)
+  Progress: 185/1000 entities (11.4/sec)
+  Progress: 190/1000 entities (11.4/sec)
+  Progress: 195/1000 entities (11.5/sec)
+  Progress: 200/1000 entities (11.4/sec)
+  Progress: 205/1000 entities (11.5/sec)
+  Progress: 210/1000 entities (11.4/sec)
+  Progress: 215/1000 entities (11.4/sec)
+  Progress: 220/1000 entities (11.5/sec)
+  Progress: 225/1000 entities (11.6/sec)
+  Progress: 230/1000 entities (11.6/sec)
+  Progress: 235/1000 entities (11.6/sec)
+  Progress: 240/1000 entities (11.6/sec)
+  Progress: 245/1000 entities (11.6/sec)
+  Progress: 250/1000 entities (11.6/sec)
+  Progress: 255/1000 entities (11.6/sec)
+  Progress: 260/1000 entities (11.6/sec)
+  Progress: 265/1000 entities (11.7/sec)
+  Progress: 270/1000 entities (11.6/sec)
+  Progress: 275/1000 entities (11.6/sec)
+  Progress: 280/1000 entities (11.7/sec)
+  Progress: 285/1000 entities (11.7/sec)
+  Progress: 290/1000 entities (11.7/sec)
+  Progress: 295/1000 entities (11.7/sec)
+  Progress: 300/1000 entities (11.7/sec)
+  Progress: 305/1000 entities (11.7/sec)
+  Progress: 310/1000 entities (11.7/sec)
+  Progress: 315/1000 entities (11.7/sec)
+  Progress: 320/1000 entities (11.7/sec)
+  Progress: 325/1000 entities (11.7/sec)
+  Progress: 330/1000 entities (11.8/sec)
+  Progress: 335/1000 entities (11.7/sec)
+  Progress: 340/1000 entities (11.7/sec)
+  Progress: 345/1000 entities (11.7/sec)
+  Progress: 350/1000 entities (11.7/sec)
+  Progress: 355/1000 entities (11.7/sec)
+  Progress: 360/1000 entities (11.7/sec)
+  Progress: 365/1000 entities (11.7/sec)
+  Progress: 370/1000 entities (11.7/sec)
+  Progress: 375/1000 entities (11.7/sec)
+  Progress: 380/1000 entities (11.7/sec)
+  Progress: 385/1000 entities (11.7/sec)
+  Progress: 390/1000 entities (11.6/sec)
+  Progress: 395/1000 entities (11.6/sec)
+  Progress: 400/1000 entities (11.6/sec)
+  Progress: 405/1000 entities (11.7/sec)
+  Progress: 410/1000 entities (11.7/sec)
+  Progress: 415/1000 entities (11.6/sec)
+  Progress: 420/1000 entities (11.7/sec)
+  Progress: 425/1000 entities (11.6/sec)
+  Progress: 430/1000 entities (11.7/sec)
+  Progress: 435/1000 entities (11.7/sec)
+  Progress: 440/1000 entities (11.7/sec)
+  Progress: 445/1000 entities (11.7/sec)
+  Progress: 450/1000 entities (11.7/sec)
+  Progress: 455/1000 entities (11.7/sec)
+  Progress: 460/1000 entities (11.7/sec)
+  Progress: 465/1000 entities (11.7/sec)
+  Progress: 470/1000 entities (11.7/sec)
+  Progress: 475/1000 entities (11.7/sec)
+  Progress: 480/1000 entities (11.7/sec)
+  Progress: 485/1000 entities (11.7/sec)
+  Progress: 490/1000 entities (11.7/sec)
+  Progress: 495/1000 entities (11.7/sec)
+  Progress: 500/1000 entities (11.7/sec)
+  Progress: 505/1000 entities (11.7/sec)
+  Progress: 510/1000 entities (11.7/sec)
+  Progress: 515/1000 entities (11.7/sec)
+  Progress: 520/1000 entities (11.7/sec)
+  Progress: 525/1000 entities (11.7/sec)
+  Progress: 530/1000 entities (11.7/sec)
+  Progress: 535/1000 entities (11.7/sec)
+  Progress: 540/1000 entities (11.7/sec)
+  Progress: 545/1000 entities (11.7/sec)
+  Progress: 550/1000 entities (11.7/sec)
+  Progress: 555/1000 entities (11.7/sec)
+  Progress: 560/1000 entities (11.7/sec)
+  Progress: 565/1000 entities (11.7/sec)
+  Progress: 570/1000 entities (11.7/sec)
+  Progress: 575/1000 entities (11.7/sec)
+  Progress: 580/1000 entities (11.8/sec)
+  Progress: 585/1000 entities (11.8/sec)
+  Progress: 590/1000 entities (11.7/sec)
+  Progress: 595/1000 entities (11.8/sec)
+  Progress: 600/1000 entities (11.7/sec)
+  Progress: 605/1000 entities (11.7/sec)
+  Progress: 610/1000 entities (11.7/sec)
+  Progress: 615/1000 entities (11.7/sec)
+  Progress: 620/1000 entities (11.7/sec)
+  Progress: 625/1000 entities (11.7/sec)
+  Progress: 630/1000 entities (11.7/sec)
+  Progress: 635/1000 entities (11.7/sec)
+  Progress: 640/1000 entities (11.6/sec)
+  Progress: 645/1000 entities (11.7/sec)
+  Progress: 650/1000 entities (11.7/sec)
+  Progress: 655/1000 entities (11.7/sec)
+  Progress: 660/1000 entities (11.7/sec)
+  Progress: 665/1000 entities (11.7/sec)
+  Progress: 670/1000 entities (11.7/sec)
+  Progress: 675/1000 entities (11.7/sec)
+  Progress: 680/1000 entities (11.7/sec)
+  Progress: 685/1000 entities (11.7/sec)
+  Progress: 690/1000 entities (11.7/sec)
+  Progress: 695/1000 entities (11.6/sec)
+  Progress: 700/1000 entities (11.7/sec)
+  Progress: 705/1000 entities (11.6/sec)
+  Progress: 710/1000 entities (11.6/sec)
+  Progress: 715/1000 entities (11.6/sec)
+  Progress: 720/1000 entities (11.6/sec)
+  Progress: 725/1000 entities (11.6/sec)
+  Progress: 730/1000 entities (11.6/sec)
+  Progress: 735/1000 entities (11.7/sec)
+  Progress: 740/1000 entities (11.7/sec)
+  Progress: 745/1000 entities (11.6/sec)
+  Progress: 750/1000 entities (11.6/sec)Retrying…
+
+  Progress: 755/1000 entities (11.7/sec)
+  Progress: 760/1000 entities (11.7/sec)
+  Progress: 765/1000 entities (11.7/sec)
+  Progress: 770/1000 entities (11.6/sec)
+  Progress: 775/1000 entities (11.6/sec)
+  Progress: 780/1000 entities (11.6/sec)
+  Progress: 785/1000 entities (11.6/sec)
+  Progress: 790/1000 entities (11.6/sec)
+  Progress: 795/1000 entities (11.6/sec)
+  Progress: 800/1000 entities (11.6/sec)
+  Progress: 805/1000 entities (11.6/sec)
+  Progress: 810/1000 entities (11.6/sec)
+  Progress: 815/1000 entities (11.6/sec)
+  Progress: 820/1000 entities (11.6/sec)
+  Progress: 825/1000 entities (11.6/sec)
+  Progress: 830/1000 entities (11.6/sec)
+  Progress: 835/1000 entities (11.6/sec)
+  Progress: 840/1000 entities (11.6/sec)
+  Progress: 845/1000 entities (11.6/sec)
+  Progress: 850/1000 entities (11.5/sec)
+  Progress: 855/1000 entities (11.5/sec)
+  Progress: 860/1000 entities (11.5/sec)
+  Progress: 865/1000 entities (11.6/sec)
+  Progress: 870/1000 entities (11.5/sec)
+  Progress: 875/1000 entities (11.5/sec)
+  Progress: 880/1000 entities (11.5/sec)
+  Progress: 885/1000 entities (11.5/sec)
+  Progress: 890/1000 entities (11.5/sec)
+  Progress: 895/1000 entities (11.5/sec)
+  Progress: 900/1000 entities (11.5/sec)
+  Progress: 905/1000 entities (11.5/sec)
+  Progress: 910/1000 entities (11.5/sec)
+  Progress: 915/1000 entities (11.5/sec)
+  Progress: 920/1000 entities (11.5/sec)
+  Progress: 925/1000 entities (11.5/sec)
+  Progress: 930/1000 entities (11.5/sec)
+  Progress: 935/1000 entities (11.5/sec)
+  Progress: 940/1000 entities (11.4/sec)
+  Progress: 945/1000 entities (11.4/sec)
+  Progress: 950/1000 entities (11.4/sec)
+  Progress: 955/1000 entities (11.4/sec)
+  Progress: 960/1000 entities (11.4/sec)
+  Progress: 965/1000 entities (11.3/sec)
+  Progress: 970/1000 entities (11.3/sec)
+  Progress: 975/1000 entities (11.2/sec)
+  Progress: 980/1000 entities (11.1/sec)
+  Progress: 985/1000 entities (11.1/sec)
+  Progress: 990/1000 entities (11.1/sec)
+  Progress: 995/1000 entities (11.0/sec)
+  Progress: 1000/1000 entities (11.0/sec)
+
+Registration complete:
+  Entities:        1000
+  Artifacts:       1000
+  Skipped:         0
+  Artifact errors: 0
+  Time:            90.9 seconds
+[scale]   per_entity n=1000 rep 0:  90.88s    11.0 ent/s    22.0 nodes/s  app;dur p50=181ms
+Created dataset container 'regbench_per_entity_n1000_local_w8_r1_1787124876330'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n1000_local_w8 (1000 entities via HTTP, pool=8) ---
+  Progress: 5/1000 entities (4.6/sec)
+  Progress: 10/1000 entities (6.0/sec)
+  Progress: 15/1000 entities (7.2/sec)
+  Progress: 20/1000 entities (7.6/sec)
+  Progress: 25/1000 entities (8.0/sec)
+  Progress: 30/1000 entities (7.7/sec)
+  Progress: 35/1000 entities (8.1/sec)
+  Progress: 40/1000 entities (8.0/sec)
+  Progress: 45/1000 entities (7.9/sec)
+  Progress: 50/1000 entities (8.0/sec)
+  Progress: 55/1000 entities (7.7/sec)
+  Progress: 60/1000 entities (7.6/sec)
+  Progress: 65/1000 entities (7.4/sec)
+  Progress: 70/1000 entities (7.1/sec)
+  Progress: 75/1000 entities (7.1/sec)
+  Progress: 80/1000 entities (7.1/sec)
+  Progress: 85/1000 entities (7.2/sec)
+  Progress: 90/1000 entities (7.1/sec)
+  Progress: 95/1000 entities (7.1/sec)
+  Progress: 100/1000 entities (7.3/sec)
+  Progress: 105/1000 entities (7.5/sec)
+  Progress: 110/1000 entities (7.6/sec)
+  Progress: 115/1000 entities (7.7/sec)
+  Progress: 120/1000 entities (7.7/sec)
+  Progress: 125/1000 entities (7.8/sec)
+  Progress: 130/1000 entities (7.9/sec)
+  Progress: 135/1000 entities (8.0/sec)
+  Progress: 140/1000 entities (8.1/sec)
+  Progress: 145/1000 entities (8.1/sec)
+  Progress: 150/1000 entities (8.2/sec)
+  Progress: 155/1000 entities (8.3/sec)
+  Progress: 160/1000 entities (8.4/sec)
+  Progress: 165/1000 entities (8.4/sec)
+  Progress: 170/1000 entities (8.5/sec)
+  Progress: 175/1000 entities (8.5/sec)
+  Progress: 180/1000 entities (8.6/sec)
+  Progress: 185/1000 entities (8.7/sec)
+  Progress: 190/1000 entities (8.8/sec)
+  Progress: 195/1000 entities (8.7/sec)
+  Progress: 200/1000 entities (8.8/sec)
+  Progress: 205/1000 entities (8.9/sec)
+  Progress: 210/1000 entities (8.9/sec)
+  Progress: 215/1000 entities (9.0/sec)
+  Progress: 220/1000 entities (9.0/sec)
+  Progress: 225/1000 entities (9.1/sec)
+  Progress: 230/1000 entities (9.1/sec)
+  Progress: 235/1000 entities (9.1/sec)
+  Progress: 240/1000 entities (9.2/sec)
+  Progress: 245/1000 entities (9.3/sec)
+  Progress: 250/1000 entities (9.3/sec)
+  Progress: 255/1000 entities (9.3/sec)
+  Progress: 260/1000 entities (9.3/sec)
+  Progress: 265/1000 entities (9.4/sec)
+  Progress: 270/1000 entities (9.4/sec)
+  Progress: 275/1000 entities (9.5/sec)
+  Progress: 280/1000 entities (9.5/sec)
+  Progress: 285/1000 entities (9.5/sec)
+  Progress: 290/1000 entities (9.6/sec)
+  Progress: 295/1000 entities (9.6/sec)
+  Progress: 300/1000 entities (9.6/sec)
+  Progress: 305/1000 entities (9.6/sec)
+  Progress: 310/1000 entities (9.7/sec)
+  Progress: 315/1000 entities (9.7/sec)
+  Progress: 320/1000 entities (9.7/sec)
+  Progress: 325/1000 entities (9.7/sec)
+  Progress: 330/1000 entities (9.8/sec)
+  Progress: 335/1000 entities (9.8/sec)
+  Progress: 340/1000 entities (9.8/sec)
+  Progress: 345/1000 entities (9.9/sec)
+  Progress: 350/1000 entities (9.9/sec)
+  Progress: 355/1000 entities (9.9/sec)
+  Progress: 360/1000 entities (9.9/sec)
+  Progress: 365/1000 entities (9.9/sec)
+  Progress: 370/1000 entities (9.9/sec)
+  Progress: 375/1000 entities (10.0/sec)
+  Progress: 380/1000 entities (10.0/sec)
+  Progress: 385/1000 entities (10.0/sec)
+  Progress: 390/1000 entities (10.1/sec)
+  Progress: 395/1000 entities (10.1/sec)
+  Progress: 400/1000 entities (10.1/sec)
+  Progress: 405/1000 entities (10.1/sec)
+  Progress: 410/1000 entities (10.1/sec)
+  Progress: 415/1000 entities (10.1/sec)
+  Progress: 420/1000 entities (10.2/sec)
+  Progress: 425/1000 entities (10.2/sec)
+  Progress: 430/1000 entities (10.2/sec)
+  Progress: 435/1000 entities (10.2/sec)
+  Progress: 440/1000 entities (10.2/sec)
+  Progress: 445/1000 entities (10.2/sec)
+  Progress: 450/1000 entities (10.2/sec)
+  Progress: 455/1000 entities (10.3/sec)
+  Progress: 460/1000 entities (10.3/sec)
+  Progress: 465/1000 entities (10.3/sec)
+  Progress: 470/1000 entities (10.3/sec)
+  Progress: 475/1000 entities (10.3/sec)
+  Progress: 480/1000 entities (10.3/sec)
+  Progress: 485/1000 entities (10.3/sec)
+  Progress: 490/1000 entities (10.3/sec)
+  Progress: 495/1000 entities (10.4/sec)
+  Progress: 500/1000 entities (10.4/sec)
+  Progress: 505/1000 entities (10.4/sec)
+  Progress: 510/1000 entities (10.4/sec)
+  Progress: 515/1000 entities (10.4/sec)
+  Progress: 520/1000 entities (10.4/sec)
+  Progress: 525/1000 entities (10.4/sec)
+  Progress: 530/1000 entities (10.4/sec)
+  Progress: 535/1000 entities (10.5/sec)
+  Progress: 540/1000 entities (10.5/sec)
+  Progress: 545/1000 entities (10.5/sec)
+  Progress: 550/1000 entities (10.5/sec)
+  Progress: 555/1000 entities (10.5/sec)
+  Progress: 560/1000 entities (10.6/sec)
+  Progress: 565/1000 entities (10.6/sec)
+  Progress: 570/1000 entities (10.6/sec)
+  Progress: 575/1000 entities (10.6/sec)
+  Progress: 580/1000 entities (10.6/sec)
+  Progress: 585/1000 entities (10.6/sec)
+  Progress: 590/1000 entities (10.6/sec)
+  Progress: 595/1000 entities (10.6/sec)
+  Progress: 600/1000 entities (10.6/sec)
+  Progress: 605/1000 entities (10.6/sec)
+  Progress: 610/1000 entities (10.7/sec)
+  Progress: 615/1000 entities (10.7/sec)
+  Progress: 620/1000 entities (10.7/sec)
+  Progress: 625/1000 entities (10.7/sec)
+  Progress: 630/1000 entities (10.7/sec)
+  Progress: 635/1000 entities (10.7/sec)
+  Progress: 640/1000 entities (10.7/sec)
+  Progress: 645/1000 entities (10.7/sec)
+  Progress: 650/1000 entities (10.7/sec)
+  Progress: 655/1000 entities (10.7/sec)
+  Progress: 660/1000 entities (10.8/sec)
+  Progress: 665/1000 entities (10.8/sec)
+  Progress: 670/1000 entities (10.8/sec)
+  Progress: 675/1000 entities (10.8/sec)
+  Progress: 680/1000 entities (10.8/sec)
+  Progress: 685/1000 entities (10.8/sec)
+  Progress: 690/1000 entities (10.8/sec)
+  Progress: 695/1000 entities (10.8/sec)
+  Progress: 700/1000 entities (10.9/sec)
+  Progress: 705/1000 entities (10.9/sec)
+  Progress: 710/1000 entities (10.9/sec)Retrying…
+
+  Progress: 715/1000 entities (10.9/sec)
+  Progress: 720/1000 entities (10.9/sec)
+  Progress: 725/1000 entities (10.9/sec)
+  Progress: 730/1000 entities (10.9/sec)
+  Progress: 735/1000 entities (10.9/sec)
+  Progress: 740/1000 entities (10.9/sec)
+  Progress: 745/1000 entities (10.9/sec)
+  Progress: 750/1000 entities (11.0/sec)
+  Progress: 755/1000 entities (11.0/sec)
+  Progress: 760/1000 entities (11.0/sec)
+  Progress: 765/1000 entities (11.0/sec)
+  Progress: 770/1000 entities (11.0/sec)
+  Progress: 775/1000 entities (11.0/sec)
+  Progress: 780/1000 entities (11.0/sec)
+  Progress: 785/1000 entities (11.0/sec)
+  Progress: 790/1000 entities (11.0/sec)
+  Progress: 795/1000 entities (11.0/sec)
+  Progress: 800/1000 entities (11.0/sec)
+  Progress: 805/1000 entities (11.0/sec)
+  Progress: 810/1000 entities (11.0/sec)
+  Progress: 815/1000 entities (11.0/sec)
+  Progress: 820/1000 entities (11.1/sec)
+  Progress: 825/1000 entities (11.1/sec)
+  Progress: 830/1000 entities (11.1/sec)
+  Progress: 835/1000 entities (11.1/sec)
+  Progress: 840/1000 entities (11.1/sec)
+  Progress: 845/1000 entities (11.1/sec)
+  Progress: 850/1000 entities (11.1/sec)
+  Progress: 855/1000 entities (11.1/sec)
+  Progress: 860/1000 entities (11.1/sec)
+  Progress: 865/1000 entities (11.1/sec)
+  Progress: 870/1000 entities (11.1/sec)
+  Progress: 875/1000 entities (11.1/sec)
+  Progress: 880/1000 entities (11.1/sec)
+  Progress: 885/1000 entities (11.1/sec)
+  Progress: 890/1000 entities (11.1/sec)
+  Progress: 895/1000 entities (11.1/sec)
+  Progress: 900/1000 entities (11.1/sec)
+  Progress: 905/1000 entities (11.1/sec)
+  Progress: 910/1000 entities (11.1/sec)
+  Progress: 915/1000 entities (11.1/sec)
+  Progress: 920/1000 entities (11.1/sec)
+  Progress: 925/1000 entities (11.1/sec)
+  Progress: 930/1000 entities (11.1/sec)
+  Progress: 935/1000 entities (11.1/sec)
+  Progress: 940/1000 entities (11.1/sec)
+  Progress: 945/1000 entities (11.1/sec)
+  Progress: 950/1000 entities (11.1/sec)
+  Progress: 955/1000 entities (11.1/sec)
+  Progress: 960/1000 entities (11.1/sec)
+  Progress: 965/1000 entities (11.1/sec)
+  Progress: 970/1000 entities (11.1/sec)
+  Progress: 975/1000 entities (11.1/sec)
+  Progress: 980/1000 entities (11.1/sec)
+  Progress: 985/1000 entities (11.1/sec)
+  Progress: 990/1000 entities (11.1/sec)
+  Progress: 995/1000 entities (11.1/sec)
+  Progress: 1000/1000 entities (11.1/sec)
+
+Registration complete:
+  Entities:        1000
+  Artifacts:       1000
+  Skipped:         0
+  Artifact errors: 0
+  Time:            89.7 seconds
+[scale]   per_entity n=1000 rep 1:  89.73s    11.1 ent/s    22.3 nodes/s  app;dur p50=190ms
+Created dataset container 'regbench_per_entity_n1000_local_w8_r2_1787124966138'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n1000_local_w8 (1000 entities via HTTP, pool=8) ---
+  Progress: 5/1000 entities (6.0/sec)
+  Progress: 10/1000 entities (8.6/sec)
+  Progress: 15/1000 entities (10.1/sec)
+  Progress: 20/1000 entities (11.1/sec)
+  Progress: 25/1000 entities (11.6/sec)
+  Progress: 30/1000 entities (11.5/sec)
+  Progress: 35/1000 entities (11.8/sec)
+  Progress: 40/1000 entities (11.6/sec)
+  Progress: 45/1000 entities (11.8/sec)
+  Progress: 50/1000 entities (12.1/sec)
+  Progress: 55/1000 entities (12.1/sec)
+  Progress: 60/1000 entities (12.1/sec)
+  Progress: 65/1000 entities (12.2/sec)
+  Progress: 70/1000 entities (12.2/sec)
+  Progress: 75/1000 entities (12.2/sec)
+  Progress: 80/1000 entities (12.1/sec)
+  Progress: 85/1000 entities (12.1/sec)
+  Progress: 90/1000 entities (12.0/sec)
+  Progress: 95/1000 entities (11.9/sec)
+  Progress: 100/1000 entities (11.9/sec)
+  Progress: 105/1000 entities (12.0/sec)
+  Progress: 110/1000 entities (11.6/sec)
+  Progress: 115/1000 entities (11.7/sec)
+  Progress: 120/1000 entities (11.7/sec)
+  Progress: 125/1000 entities (11.5/sec)
+  Progress: 130/1000 entities (11.5/sec)
+  Progress: 135/1000 entities (11.5/sec)
+  Progress: 140/1000 entities (11.5/sec)
+  Progress: 145/1000 entities (11.3/sec)
+  Progress: 150/1000 entities (11.3/sec)
+  Progress: 155/1000 entities (11.2/sec)
+  Progress: 160/1000 entities (11.3/sec)
+  Progress: 165/1000 entities (11.3/sec)
+  Progress: 170/1000 entities (11.3/sec)
+  Progress: 175/1000 entities (11.3/sec)
+  Progress: 180/1000 entities (11.3/sec)
+  Progress: 185/1000 entities (11.3/sec)
+  Progress: 190/1000 entities (11.3/sec)
+  Progress: 195/1000 entities (11.2/sec)
+  Progress: 200/1000 entities (11.1/sec)
+  Progress: 205/1000 entities (11.2/sec)
+  Progress: 210/1000 entities (11.2/sec)
+  Progress: 215/1000 entities (11.1/sec)
+  Progress: 220/1000 entities (11.2/sec)
+  Progress: 225/1000 entities (11.2/sec)
+  Progress: 230/1000 entities (11.2/sec)
+  Progress: 235/1000 entities (11.2/sec)
+  Progress: 240/1000 entities (11.2/sec)
+  Progress: 245/1000 entities (11.2/sec)
+  Progress: 250/1000 entities (11.2/sec)
+  Progress: 255/1000 entities (11.1/sec)
+  Progress: 260/1000 entities (11.0/sec)
+  Progress: 265/1000 entities (11.1/sec)
+  Progress: 270/1000 entities (11.0/sec)
+  Progress: 275/1000 entities (11.1/sec)
+  Progress: 280/1000 entities (11.1/sec)
+  Progress: 285/1000 entities (11.1/sec)
+  Progress: 290/1000 entities (11.0/sec)
+  Progress: 295/1000 entities (11.0/sec)
+  Progress: 300/1000 entities (11.0/sec)
+  Progress: 305/1000 entities (11.1/sec)
+  Progress: 310/1000 entities (11.1/sec)
+  Progress: 315/1000 entities (11.1/sec)
+  Progress: 320/1000 entities (11.1/sec)
+  Progress: 325/1000 entities (11.1/sec)
+  Progress: 330/1000 entities (11.1/sec)
+  Progress: 335/1000 entities (11.1/sec)
+  Progress: 340/1000 entities (11.1/sec)
+  Progress: 345/1000 entities (11.1/sec)
+  Progress: 350/1000 entities (11.1/sec)
+  Progress: 355/1000 entities (11.1/sec)
+  Progress: 360/1000 entities (11.2/sec)
+  Progress: 365/1000 entities (11.1/sec)
+  Progress: 370/1000 entities (11.2/sec)
+  Progress: 375/1000 entities (11.2/sec)
+  Progress: 380/1000 entities (11.2/sec)
+  Progress: 385/1000 entities (11.2/sec)
+  Progress: 390/1000 entities (11.2/sec)
+  Progress: 395/1000 entities (11.2/sec)
+  Progress: 400/1000 entities (11.2/sec)
+  Progress: 405/1000 entities (11.2/sec)
+  Progress: 410/1000 entities (11.2/sec)
+  Progress: 415/1000 entities (11.2/sec)
+  Progress: 420/1000 entities (11.2/sec)
+  Progress: 425/1000 entities (11.2/sec)
+  Progress: 430/1000 entities (11.2/sec)
+  Progress: 435/1000 entities (11.2/sec)
+  Progress: 440/1000 entities (11.2/sec)
+  Progress: 445/1000 entities (11.3/sec)
+  Progress: 450/1000 entities (11.2/sec)
+  Progress: 455/1000 entities (11.2/sec)
+  Progress: 460/1000 entities (11.2/sec)
+  Progress: 465/1000 entities (11.2/sec)
+  Progress: 470/1000 entities (11.2/sec)
+  Progress: 475/1000 entities (11.2/sec)
+  Progress: 480/1000 entities (11.2/sec)
+  Progress: 485/1000 entities (11.2/sec)
+  Progress: 490/1000 entities (11.2/sec)
+  Progress: 495/1000 entities (11.2/sec)
+  Progress: 500/1000 entities (11.2/sec)
+  Progress: 505/1000 entities (11.3/sec)
+  Progress: 510/1000 entities (11.3/sec)
+  Progress: 515/1000 entities (11.3/sec)
+  Progress: 520/1000 entities (11.3/sec)
+  Progress: 525/1000 entities (11.2/sec)
+  Progress: 530/1000 entities (11.3/sec)
+  Progress: 535/1000 entities (11.3/sec)
+  Progress: 540/1000 entities (11.3/sec)
+  Progress: 545/1000 entities (11.3/sec)
+  Progress: 550/1000 entities (11.3/sec)
+  Progress: 555/1000 entities (11.3/sec)
+  Progress: 560/1000 entities (11.2/sec)
+  Progress: 565/1000 entities (11.2/sec)
+  Progress: 570/1000 entities (11.2/sec)
+  Progress: 575/1000 entities (11.2/sec)
+  Progress: 580/1000 entities (11.2/sec)
+  Progress: 585/1000 entities (11.2/sec)
+  Progress: 590/1000 entities (11.2/sec)
+  Progress: 595/1000 entities (11.2/sec)
+  Progress: 600/1000 entities (11.1/sec)
+  Progress: 605/1000 entities (11.1/sec)
+  Progress: 610/1000 entities (11.1/sec)
+  Progress: 615/1000 entities (11.2/sec)
+  Progress: 620/1000 entities (11.1/sec)
+  Progress: 625/1000 entities (11.1/sec)
+  Progress: 630/1000 entities (11.1/sec)
+  Progress: 635/1000 entities (11.1/sec)
+  Progress: 640/1000 entities (11.1/sec)
+  Progress: 645/1000 entities (11.1/sec)
+  Progress: 650/1000 entities (11.1/sec)
+  Progress: 655/1000 entities (11.1/sec)
+  Progress: 660/1000 entities (11.1/sec)Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+
+  Progress: 665/1000 entities (11.1/sec)
+  Progress: 670/1000 entities (11.1/sec)
+  Progress: 675/1000 entities (11.1/sec)
+  Progress: 680/1000 entities (11.1/sec)
+  Progress: 685/1000 entities (11.1/sec)
+  Progress: 690/1000 entities (11.1/sec)
+  Progress: 695/1000 entities (11.1/sec)
+  Progress: 700/1000 entities (11.1/sec)
+  Progress: 705/1000 entities (11.1/sec)
+  Progress: 710/1000 entities (11.1/sec)
+  Progress: 715/1000 entities (11.1/sec)
+  Progress: 720/1000 entities (11.1/sec)
+  Progress: 725/1000 entities (11.1/sec)
+  Progress: 730/1000 entities (11.1/sec)
+  Progress: 735/1000 entities (11.1/sec)
+  Progress: 740/1000 entities (11.1/sec)
+  Progress: 745/1000 entities (11.1/sec)
+  Progress: 750/1000 entities (11.1/sec)
+  Progress: 755/1000 entities (11.1/sec)
+  Progress: 760/1000 entities (11.1/sec)
+  Progress: 765/1000 entities (11.1/sec)
+  Progress: 770/1000 entities (11.1/sec)
+  Progress: 775/1000 entities (11.1/sec)
+  Progress: 780/1000 entities (11.1/sec)
+  Progress: 785/1000 entities (11.1/sec)
+  Progress: 790/1000 entities (11.1/sec)
+  Progress: 795/1000 entities (11.1/sec)
+  Progress: 800/1000 entities (11.1/sec)
+  Progress: 805/1000 entities (11.1/sec)
+  Progress: 810/1000 entities (11.1/sec)
+  Progress: 815/1000 entities (11.2/sec)
+  Progress: 820/1000 entities (11.2/sec)
+  Progress: 825/1000 entities (11.2/sec)
+  Progress: 830/1000 entities (11.2/sec)
+  Progress: 835/1000 entities (11.2/sec)
+  Progress: 840/1000 entities (11.2/sec)
+  Progress: 845/1000 entities (11.2/sec)
+  Progress: 850/1000 entities (11.2/sec)
+  Progress: 855/1000 entities (11.2/sec)
+  Progress: 860/1000 entities (11.2/sec)
+  Progress: 865/1000 entities (11.2/sec)
+  Progress: 870/1000 entities (11.2/sec)
+  Progress: 875/1000 entities (11.2/sec)
+  Progress: 880/1000 entities (11.2/sec)
+  Progress: 885/1000 entities (11.2/sec)
+  Progress: 890/1000 entities (11.2/sec)
+  Progress: 895/1000 entities (11.2/sec)
+  Progress: 900/1000 entities (11.2/sec)
+  Progress: 905/1000 entities (11.2/sec)
+  Progress: 910/1000 entities (11.2/sec)
+  Progress: 915/1000 entities (11.2/sec)
+  Progress: 920/1000 entities (11.2/sec)
+  Progress: 925/1000 entities (11.2/sec)
+  Progress: 930/1000 entities (11.2/sec)
+  Progress: 935/1000 entities (11.2/sec)
+  Progress: 940/1000 entities (11.2/sec)
+  Progress: 945/1000 entities (11.2/sec)
+  Progress: 950/1000 entities (11.2/sec)
+  Progress: 955/1000 entities (11.2/sec)
+  Progress: 960/1000 entities (11.2/sec)
+  Progress: 965/1000 entities (11.2/sec)
+  Progress: 970/1000 entities (11.3/sec)
+  Progress: 975/1000 entities (11.3/sec)
+  Progress: 980/1000 entities (11.3/sec)
+  Progress: 985/1000 entities (11.3/sec)
+  Progress: 990/1000 entities (11.3/sec)
+  Progress: 995/1000 entities (11.3/sec)
+  Progress: 1000/1000 entities (11.3/sec)
+
+Registration complete:
+  Entities:        1000
+  Artifacts:       1000
+  Skipped:         0
+  Artifact errors: 0
+  Time:            88.5 seconds
+[scale]   per_entity n=1000 rep 2:  88.47s    11.3 ent/s    22.6 nodes/s  app;dur p50=186ms
+Found 1 HDF5 files
+  Processed batch.h5: 10 entities (total: 10)
+Entities: 10 rows -> /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_bench_ws/before/batched_n10_local_w8/datasets/synth_batched_n10/manifests/synth_batched_n10/entities.parquet
+Artifacts: 10 rows -> /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_bench_ws/before/batched_n10_local_w8/datasets/synth_batched_n10/manifests/synth_batched_n10/artifacts.parquet
+[scale] batched_n10_local_w8: 5 rep(s), 10 ent / 10 art
+Created dataset container 'regbench_batched_n10_local_w8_r0_1787125067351'
+Pre-grouping artifacts by uid...
+
+--- Registering batched_n10_local_w8 (10 entities via HTTP, pool=8) ---
+  Progress: 5/10 entities (5.3/sec)
+  Progress: 10/10 entities (7.7/sec)
+
+Registration complete:
+  Entities:        10
+  Artifacts:       10
+  Skipped:         0
+  Artifact errors: 0
+  Time:            1.3 seconds
+[scale]   batched n=10 rep 0:   1.30s     7.7 ent/s    15.4 nodes/s  app;dur p50=198ms
+Created dataset container 'regbench_batched_n10_local_w8_r1_1787125068735'
+Pre-grouping artifacts by uid...
+
+--- Registering batched_n10_local_w8 (10 entities via HTTP, pool=8) ---
+  Progress: 5/10 entities (7.2/sec)
+  Progress: 10/10 entities (8.8/sec)
+
+Registration complete:
+  Entities:        10
+  Artifacts:       10
+  Skipped:         0
+  Artifact errors: 0
+  Time:            1.1 seconds
+[scale]   batched n=10 rep 1:   1.14s     8.8 ent/s    17.5 nodes/s  app;dur p50=158ms
+Created dataset container 'regbench_batched_n10_local_w8_r2_1787125069968'
+Pre-grouping artifacts by uid...
+
+--- Registering batched_n10_local_w8 (10 entities via HTTP, pool=8) ---
+  Progress: 5/10 entities (5.4/sec)
+  Progress: 10/10 entities (8.4/sec)
+
+Registration complete:
+  Entities:        10
+  Artifacts:       10
+  Skipped:         0
+  Artifact errors: 0
+  Time:            1.2 seconds
+[scale]   batched n=10 rep 2:   1.19s     8.4 ent/s    16.8 nodes/s  app;dur p50=276ms
+Created dataset container 'regbench_batched_n10_local_w8_r3_1787125071253'
+Pre-grouping artifacts by uid...
+
+--- Registering batched_n10_local_w8 (10 entities via HTTP, pool=8) ---
+  Progress: 5/10 entities (7.5/sec)
+  Progress: 10/10 entities (9.3/sec)
+
+Registration complete:
+  Entities:        10
+  Artifacts:       10
+  Skipped:         0
+  Artifact errors: 0
+  Time:            1.1 seconds
+[scale]   batched n=10 rep 3:   1.08s     9.3 ent/s    18.5 nodes/s  app;dur p50=178ms
+Created dataset container 'regbench_batched_n10_local_w8_r4_1787125072417'
+Pre-grouping artifacts by uid...
+
+--- Registering batched_n10_local_w8 (10 entities via HTTP, pool=8) ---
+  Progress: 5/10 entities (7.8/sec)
+  Progress: 10/10 entities (9.2/sec)
+
+Registration complete:
+  Entities:        10
+  Artifacts:       10
+  Skipped:         0
+  Artifact errors: 0
+  Time:            1.1 seconds
+[scale]   batched n=10 rep 4:   1.09s     9.1 ent/s    18.3 nodes/s  app;dur p50=125ms
+Found 1 HDF5 files
+  Processed batch.h5: 100 entities (total: 100)
+Entities: 100 rows -> /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_bench_ws/before/batched_n100_local_w8/datasets/synth_batched_n100/manifests/synth_batched_n100/entities.parquet
+Artifacts: 100 rows -> /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_bench_ws/before/batched_n100_local_w8/datasets/synth_batched_n100/manifests/synth_batched_n100/artifacts.parquet
+[scale] batched_n100_local_w8: 5 rep(s), 100 ent / 100 art
+Created dataset container 'regbench_batched_n100_local_w8_r0_1787125086395'
+Pre-grouping artifacts by uid...
+
+--- Registering batched_n100_local_w8 (100 entities via HTTP, pool=8) ---
+  Progress: 5/100 entities (6.9/sec)
+  Progress: 10/100 entities (8.6/sec)
+  Progress: 15/100 entities (10.0/sec)
+  Progress: 20/100 entities (10.6/sec)
+  Progress: 25/100 entities (10.5/sec)
+  Progress: 30/100 entities (11.3/sec)
+  Progress: 35/100 entities (11.4/sec)
+  Progress: 40/100 entities (11.8/sec)
+  Progress: 45/100 entities (12.0/sec)
+  Progress: 50/100 entities (12.0/sec)
+  Progress: 55/100 entities (12.2/sec)
+  Progress: 60/100 entities (11.9/sec)
+  Progress: 65/100 entities (12.1/sec)
+  Progress: 70/100 entities (12.3/sec)
+  Progress: 75/100 entities (12.3/sec)
+  Progress: 80/100 entities (12.4/sec)
+  Progress: 85/100 entities (12.4/sec)
+  Progress: 90/100 entities (12.6/sec)
+  Progress: 95/100 entities (12.3/sec)
+  Progress: 100/100 entities (12.4/sec)
+
+Registration complete:
+  Entities:        100
+  Artifacts:       100
+  Skipped:         0
+  Artifact errors: 0
+  Time:            8.1 seconds
+[scale]   batched n=100 rep 0:   8.06s    12.4 ent/s    24.8 nodes/s  app;dur p50=164ms
+Created dataset container 'regbench_batched_n100_local_w8_r1_1787125094545'
+Pre-grouping artifacts by uid...
+
+--- Registering batched_n100_local_w8 (100 entities via HTTP, pool=8) ---
+  Progress: 5/100 entities (6.8/sec)
+  Progress: 10/100 entities (9.0/sec)
+  Progress: 15/100 entities (10.0/sec)
+  Progress: 20/100 entities (10.5/sec)
+  Progress: 25/100 entities (10.5/sec)
+  Progress: 30/100 entities (11.2/sec)
+  Progress: 35/100 entities (11.3/sec)
+  Progress: 40/100 entities (11.3/sec)
+  Progress: 45/100 entities (11.5/sec)Retrying…
+Retrying…
+Retrying…
+Retrying…
+
+  Progress: 50/100 entities (11.5/sec)
+  Progress: 55/100 entities (11.7/sec)
+  Progress: 60/100 entities (11.3/sec)
+  Progress: 65/100 entities (11.3/sec)
+  Progress: 70/100 entities (11.4/sec)
+  Progress: 75/100 entities (11.5/sec)
+  Progress: 80/100 entities (11.6/sec)
+  Progress: 85/100 entities (11.5/sec)
+  Progress: 90/100 entities (11.3/sec)
+  Progress: 95/100 entities (11.6/sec)
+  Progress: 100/100 entities (11.7/sec)
+
+Registration complete:
+  Entities:        100
+  Artifacts:       100
+  Skipped:         0
+  Artifact errors: 0
+  Time:            8.5 seconds
+[scale]   batched n=100 rep 1:   8.53s    11.7 ent/s    23.5 nodes/s  app;dur p50=191ms
+Created dataset container 'regbench_batched_n100_local_w8_r2_1787125103157'
+Pre-grouping artifacts by uid...
+
+--- Registering batched_n100_local_w8 (100 entities via HTTP, pool=8) ---
+  Progress: 5/100 entities (6.3/sec)
+  Progress: 10/100 entities (8.7/sec)
+  Progress: 15/100 entities (9.2/sec)
+  Progress: 20/100 entities (9.6/sec)
+  Progress: 25/100 entities (10.1/sec)
+  Progress: 30/100 entities (10.4/sec)
+  Progress: 35/100 entities (10.8/sec)
+  Progress: 40/100 entities (11.1/sec)
+  Progress: 45/100 entities (11.1/sec)
+  Progress: 50/100 entities (11.1/sec)
+  Progress: 55/100 entities (11.2/sec)
+  Progress: 60/100 entities (11.1/sec)
+  Progress: 65/100 entities (11.2/sec)
+  Progress: 70/100 entities (11.2/sec)
+  Progress: 75/100 entities (11.4/sec)
+  Progress: 80/100 entities (11.5/sec)
+  Progress: 85/100 entities (11.6/sec)
+  Progress: 90/100 entities (11.6/sec)
+  Progress: 95/100 entities (11.6/sec)
+  Progress: 100/100 entities (11.7/sec)
+
+Registration complete:
+  Entities:        100
+  Artifacts:       100
+  Skipped:         0
+  Artifact errors: 0
+  Time:            8.5 seconds
+[scale]   batched n=100 rep 2:   8.52s    11.7 ent/s    23.5 nodes/s  app;dur p50=176ms
+Created dataset container 'regbench_batched_n100_local_w8_r3_1787125111757'
+Pre-grouping artifacts by uid...
+
+--- Registering batched_n100_local_w8 (100 entities via HTTP, pool=8) ---
+  Progress: 5/100 entities (7.8/sec)
+  Progress: 10/100 entities (9.3/sec)
+  Progress: 15/100 entities (10.2/sec)
+  Progress: 20/100 entities (10.8/sec)
+  Progress: 25/100 entities (10.5/sec)
+  Progress: 30/100 entities (11.0/sec)
+  Progress: 35/100 entities (10.9/sec)
+  Progress: 40/100 entities (11.1/sec)
+  Progress: 45/100 entities (11.6/sec)
+  Progress: 50/100 entities (11.7/sec)
+  Progress: 55/100 entities (11.6/sec)
+  Progress: 60/100 entities (11.4/sec)
+  Progress: 65/100 entities (11.7/sec)
+  Progress: 70/100 entities (11.5/sec)
+  Progress: 75/100 entities (11.4/sec)
+  Progress: 80/100 entities (11.4/sec)
+  Progress: 85/100 entities (11.8/sec)
+  Progress: 90/100 entities (11.8/sec)
+  Progress: 95/100 entities (11.7/sec)
+  Progress: 100/100 entities (12.0/sec)
+
+Registration complete:
+  Entities:        100
+  Artifacts:       100
+  Skipped:         0
+  Artifact errors: 0
+  Time:            8.3 seconds
+[scale]   batched n=100 rep 3:   8.35s    12.0 ent/s    24.0 nodes/s  app;dur p50=176ms
+Created dataset container 'regbench_batched_n100_local_w8_r4_1787125120201'
+Pre-grouping artifacts by uid...
+
+--- Registering batched_n100_local_w8 (100 entities via HTTP, pool=8) ---
+  Progress: 5/100 entities (6.7/sec)
+  Progress: 10/100 entities (8.9/sec)
+  Progress: 15/100 entities (9.6/sec)
+  Progress: 20/100 entities (10.9/sec)
+  Progress: 25/100 entities (10.9/sec)
+  Progress: 30/100 entities (11.5/sec)
+  Progress: 35/100 entities (11.7/sec)
+  Progress: 40/100 entities (12.3/sec)
+  Progress: 45/100 entities (12.5/sec)
+  Progress: 50/100 entities (12.6/sec)
+  Progress: 55/100 entities (12.6/sec)
+  Progress: 60/100 entities (12.3/sec)
+  Progress: 65/100 entities (12.2/sec)
+  Progress: 70/100 entities (12.2/sec)
+  Progress: 75/100 entities (12.3/sec)
+  Progress: 80/100 entities (12.3/sec)
+  Progress: 85/100 entities (12.5/sec)
+  Progress: 90/100 entities (12.4/sec)
+  Progress: 95/100 entities (12.2/sec)
+  Progress: 100/100 entities (12.4/sec)
+
+Registration complete:
+  Entities:        100
+  Artifacts:       100
+  Skipped:         0
+  Artifact errors: 0
+  Time:            8.1 seconds
+[scale]   batched n=100 rep 4:   8.09s    12.4 ent/s    24.7 nodes/s  app;dur p50=158ms
+Found 1 HDF5 files
+  Processed batch.h5: 1000 entities (total: 1000)
+Entities: 1000 rows -> /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_bench_ws/before/batched_n1000_local_w8/datasets/synth_batched_n1000/manifests/synth_batched_n1000/entities.parquet
+Artifacts: 1000 rows -> /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_bench_ws/before/batched_n1000_local_w8/datasets/synth_batched_n1000/manifests/synth_batched_n1000/artifacts.parquet
+[scale] batched_n1000_local_w8: 3 rep(s), 1000 ent / 1000 art
+Created dataset container 'regbench_batched_n1000_local_w8_r0_1787125140362'
+Pre-grouping artifacts by uid...
+
+--- Registering batched_n1000_local_w8 (1000 entities via HTTP, pool=8) ---
+  Progress: 5/1000 entities (5.7/sec)
+  Progress: 10/1000 entities (8.1/sec)
+  Progress: 15/1000 entities (9.0/sec)
+  Progress: 20/1000 entities (10.4/sec)
+  Progress: 25/1000 entities (10.0/sec)
+  Progress: 30/1000 entities (10.5/sec)
+  Progress: 35/1000 entities (10.7/sec)
+  Progress: 40/1000 entities (11.0/sec)
+  Progress: 45/1000 entities (11.4/sec)
+  Progress: 50/1000 entities (11.7/sec)
+  Progress: 55/1000 entities (11.9/sec)
+  Progress: 60/1000 entities (11.6/sec)
+  Progress: 65/1000 entities (11.6/sec)
+  Progress: 70/1000 entities (11.6/sec)
+  Progress: 75/1000 entities (11.7/sec)
+  Progress: 80/1000 entities (11.7/sec)
+  Progress: 85/1000 entities (12.0/sec)
+  Progress: 90/1000 entities (12.1/sec)
+  Progress: 95/1000 entities (11.9/sec)
+  Progress: 100/1000 entities (12.0/sec)
+  Progress: 105/1000 entities (12.0/sec)
+  Progress: 110/1000 entities (12.1/sec)
+  Progress: 115/1000 entities (12.1/sec)
+  Progress: 120/1000 entities (12.0/sec)
+  Progress: 125/1000 entities (11.9/sec)
+  Progress: 130/1000 entities (11.9/sec)
+  Progress: 135/1000 entities (11.9/sec)
+  Progress: 140/1000 entities (11.8/sec)
+  Progress: 145/1000 entities (11.9/sec)
+  Progress: 150/1000 entities (11.9/sec)
+  Progress: 155/1000 entities (12.0/sec)
+  Progress: 160/1000 entities (11.9/sec)
+  Progress: 165/1000 entities (12.0/sec)
+  Progress: 170/1000 entities (11.8/sec)
+  Progress: 175/1000 entities (11.9/sec)
+  Progress: 180/1000 entities (11.9/sec)
+  Progress: 185/1000 entities (11.9/sec)
+  Progress: 190/1000 entities (12.0/sec)
+  Progress: 195/1000 entities (11.9/sec)
+  Progress: 200/1000 entities (11.9/sec)
+  Progress: 205/1000 entities (11.9/sec)
+  Progress: 210/1000 entities (11.9/sec)
+  Progress: 215/1000 entities (11.9/sec)
+  Progress: 220/1000 entities (11.9/sec)
+  Progress: 225/1000 entities (11.9/sec)
+  Progress: 230/1000 entities (11.9/sec)
+  Progress: 235/1000 entities (11.8/sec)
+  Progress: 240/1000 entities (11.8/sec)
+  Progress: 245/1000 entities (11.8/sec)
+  Progress: 250/1000 entities (11.8/sec)
+  Progress: 255/1000 entities (11.8/sec)
+  Progress: 260/1000 entities (11.8/sec)
+  Progress: 265/1000 entities (11.8/sec)
+  Progress: 270/1000 entities (11.8/sec)
+  Progress: 275/1000 entities (11.9/sec)
+  Progress: 280/1000 entities (11.8/sec)
+  Progress: 285/1000 entities (11.9/sec)
+  Progress: 290/1000 entities (11.9/sec)
+  Progress: 295/1000 entities (11.9/sec)
+  Progress: 300/1000 entities (12.0/sec)
+  Progress: 305/1000 entities (11.9/sec)
+  Progress: 310/1000 entities (11.9/sec)
+  Progress: 315/1000 entities (12.0/sec)
+  Progress: 320/1000 entities (12.0/sec)
+  Progress: 325/1000 entities (12.0/sec)
+  Progress: 330/1000 entities (12.0/sec)
+  Progress: 335/1000 entities (12.0/sec)
+  Progress: 340/1000 entities (12.0/sec)
+  Progress: 345/1000 entities (12.0/sec)
+  Progress: 350/1000 entities (12.0/sec)
+  Progress: 355/1000 entities (12.1/sec)
+  Progress: 360/1000 entities (12.1/sec)
+  Progress: 365/1000 entities (12.1/sec)
+  Progress: 370/1000 entities (12.1/sec)
+  Progress: 375/1000 entities (12.1/sec)
+  Progress: 380/1000 entities (12.1/sec)
+  Progress: 385/1000 entities (12.1/sec)
+  Progress: 390/1000 entities (12.1/sec)
+  Progress: 395/1000 entities (12.1/sec)
+  Progress: 400/1000 entities (12.1/sec)Retrying…
+
+  Progress: 405/1000 entities (12.2/sec)
+  Progress: 410/1000 entities (12.1/sec)
+  Progress: 415/1000 entities (12.1/sec)
+  Progress: 420/1000 entities (12.1/sec)
+  Progress: 425/1000 entities (12.2/sec)
+  Progress: 430/1000 entities (12.2/sec)
+  Progress: 435/1000 entities (12.2/sec)
+  Progress: 440/1000 entities (12.2/sec)
+  Progress: 445/1000 entities (12.2/sec)
+  Progress: 450/1000 entities (12.2/sec)
+  Progress: 455/1000 entities (12.2/sec)
+  Progress: 460/1000 entities (12.2/sec)
+  Progress: 465/1000 entities (12.2/sec)
+  Progress: 470/1000 entities (12.2/sec)
+  Progress: 475/1000 entities (12.3/sec)
+  Progress: 480/1000 entities (12.3/sec)
+  Progress: 485/1000 entities (12.3/sec)
+  Progress: 490/1000 entities (12.3/sec)
+  Progress: 495/1000 entities (12.3/sec)
+  Progress: 500/1000 entities (12.3/sec)
+  Progress: 505/1000 entities (12.3/sec)
+  Progress: 510/1000 entities (12.3/sec)
+  Progress: 515/1000 entities (12.3/sec)
+  Progress: 520/1000 entities (12.4/sec)
+  Progress: 525/1000 entities (12.4/sec)
+  Progress: 530/1000 entities (12.4/sec)
+  Progress: 535/1000 entities (12.4/sec)
+  Progress: 540/1000 entities (12.4/sec)
+  Progress: 545/1000 entities (12.4/sec)
+  Progress: 550/1000 entities (12.4/sec)
+  Progress: 555/1000 entities (12.4/sec)
+  Progress: 560/1000 entities (12.4/sec)
+  Progress: 565/1000 entities (12.5/sec)
+  Progress: 570/1000 entities (12.5/sec)
+  Progress: 575/1000 entities (12.5/sec)
+  Progress: 580/1000 entities (12.5/sec)
+  Progress: 585/1000 entities (12.5/sec)
+  Progress: 590/1000 entities (12.5/sec)
+  Progress: 595/1000 entities (12.5/sec)
+  Progress: 600/1000 entities (12.5/sec)
+  Progress: 605/1000 entities (12.5/sec)
+  Progress: 610/1000 entities (12.5/sec)
+  Progress: 615/1000 entities (12.5/sec)
+  Progress: 620/1000 entities (12.5/sec)
+  Progress: 625/1000 entities (12.5/sec)
+  Progress: 630/1000 entities (12.5/sec)
+  Progress: 635/1000 entities (12.5/sec)
+  Progress: 640/1000 entities (12.5/sec)
+  Progress: 645/1000 entities (12.5/sec)
+  Progress: 650/1000 entities (12.5/sec)
+  Progress: 655/1000 entities (12.4/sec)
+  Progress: 660/1000 entities (12.4/sec)
+  Progress: 665/1000 entities (12.4/sec)
+  Progress: 670/1000 entities (12.5/sec)
+  Progress: 675/1000 entities (12.4/sec)
+  Progress: 680/1000 entities (12.4/sec)
+  Progress: 685/1000 entities (12.4/sec)
+  Progress: 690/1000 entities (12.4/sec)
+  Progress: 695/1000 entities (12.4/sec)
+  Progress: 700/1000 entities (12.4/sec)
+  Progress: 705/1000 entities (12.4/sec)
+  Progress: 710/1000 entities (12.4/sec)
+  Progress: 715/1000 entities (12.4/sec)
+  Progress: 720/1000 entities (12.4/sec)
+  Progress: 725/1000 entities (12.4/sec)
+  Progress: 730/1000 entities (12.4/sec)
+  Progress: 735/1000 entities (12.4/sec)
+  Progress: 740/1000 entities (12.4/sec)
+  Progress: 745/1000 entities (12.4/sec)
+  Progress: 750/1000 entities (12.4/sec)
+  Progress: 755/1000 entities (12.4/sec)
+  Progress: 760/1000 entities (12.4/sec)
+  Progress: 765/1000 entities (12.4/sec)
+  Progress: 770/1000 entities (12.4/sec)
+  Progress: 775/1000 entities (12.4/sec)
+  Progress: 780/1000 entities (12.4/sec)
+  Progress: 785/1000 entities (12.4/sec)
+  Progress: 790/1000 entities (12.4/sec)
+  Progress: 795/1000 entities (12.4/sec)
+  Progress: 800/1000 entities (12.4/sec)
+  Progress: 805/1000 entities (12.4/sec)
+  Progress: 810/1000 entities (12.4/sec)
+  Progress: 815/1000 entities (12.4/sec)
+  Progress: 820/1000 entities (12.4/sec)
+  Progress: 825/1000 entities (12.3/sec)
+  Progress: 830/1000 entities (12.3/sec)
+  Progress: 835/1000 entities (12.4/sec)
+  Progress: 840/1000 entities (12.3/sec)
+  Progress: 845/1000 entities (12.3/sec)
+  Progress: 850/1000 entities (12.3/sec)
+  Progress: 855/1000 entities (12.4/sec)
+  Progress: 860/1000 entities (12.3/sec)
+  Progress: 865/1000 entities (12.3/sec)
+  Progress: 870/1000 entities (12.3/sec)
+  Progress: 875/1000 entities (12.3/sec)
+  Progress: 880/1000 entities (12.4/sec)
+  Progress: 885/1000 entities (12.4/sec)
+  Progress: 890/1000 entities (12.4/sec)
+  Progress: 895/1000 entities (12.4/sec)
+  Progress: 900/1000 entities (12.4/sec)
+  Progress: 905/1000 entities (12.4/sec)
+  Progress: 910/1000 entities (12.4/sec)
+  Progress: 915/1000 entities (12.4/sec)
+  Progress: 920/1000 entities (12.4/sec)
+  Progress: 925/1000 entities (12.4/sec)
+  Progress: 930/1000 entities (12.4/sec)
+  Progress: 935/1000 entities (12.4/sec)
+  Progress: 940/1000 entities (12.3/sec)
+  Progress: 945/1000 entities (12.4/sec)
+  Progress: 950/1000 entities (12.4/sec)
+  Progress: 955/1000 entities (12.4/sec)
+  Progress: 960/1000 entities (12.3/sec)
+  Progress: 965/1000 entities (12.3/sec)
+  Progress: 970/1000 entities (12.3/sec)
+  Progress: 975/1000 entities (12.3/sec)
+  Progress: 980/1000 entities (12.4/sec)
+  Progress: 985/1000 entities (12.4/sec)
+  Progress: 990/1000 entities (12.4/sec)
+  Progress: 995/1000 entities (12.4/sec)
+  Progress: 1000/1000 entities (12.4/sec)
+
+Registration complete:
+  Entities:        1000
+  Artifacts:       1000
+  Skipped:         0
+  Artifact errors: 0
+  Time:            80.6 seconds
+[scale]   batched n=1000 rep 0:  80.62s    12.4 ent/s    24.8 nodes/s  app;dur p50=165ms
+Created dataset container 'regbench_batched_n1000_local_w8_r1_1787125221085'
+Pre-grouping artifacts by uid...
+
+--- Registering batched_n1000_local_w8 (1000 entities via HTTP, pool=8) ---
+  Progress: 5/1000 entities (6.0/sec)
+  Progress: 10/1000 entities (7.9/sec)
+  Progress: 15/1000 entities (9.1/sec)
+  Progress: 20/1000 entities (10.1/sec)
+  Progress: 25/1000 entities (10.5/sec)
+  Progress: 30/1000 entities (10.7/sec)
+  Progress: 35/1000 entities (10.9/sec)
+  Progress: 40/1000 entities (11.4/sec)
+  Progress: 45/1000 entities (11.4/sec)
+  Progress: 50/1000 entities (11.8/sec)
+  Progress: 55/1000 entities (11.9/sec)
+  Progress: 60/1000 entities (11.9/sec)
+  Progress: 65/1000 entities (12.1/sec)
+  Progress: 70/1000 entities (11.7/sec)
+  Progress: 75/1000 entities (11.7/sec)
+  Progress: 80/1000 entities (11.8/sec)
+  Progress: 85/1000 entities (11.9/sec)
+  Progress: 90/1000 entities (11.9/sec)
+  Progress: 95/1000 entities (12.0/sec)
+  Progress: 100/1000 entities (12.1/sec)
+  Progress: 105/1000 entities (11.9/sec)
+  Progress: 110/1000 entities (12.0/sec)
+  Progress: 115/1000 entities (12.0/sec)
+  Progress: 120/1000 entities (12.2/sec)
+  Progress: 125/1000 entities (12.3/sec)
+  Progress: 130/1000 entities (12.2/sec)
+  Progress: 135/1000 entities (12.3/sec)
+  Progress: 140/1000 entities (12.2/sec)
+  Progress: 145/1000 entities (12.2/sec)
+  Progress: 150/1000 entities (12.2/sec)
+  Progress: 155/1000 entities (12.2/sec)
+  Progress: 160/1000 entities (12.2/sec)
+  Progress: 165/1000 entities (12.2/sec)
+  Progress: 170/1000 entities (12.3/sec)
+  Progress: 175/1000 entities (12.4/sec)
+  Progress: 180/1000 entities (12.2/sec)
+  Progress: 185/1000 entities (12.3/sec)
+  Progress: 190/1000 entities (12.3/sec)
+  Progress: 195/1000 entities (12.3/sec)
+  Progress: 200/1000 entities (12.3/sec)
+  Progress: 205/1000 entities (12.1/sec)
+  Progress: 210/1000 entities (12.1/sec)
+  Progress: 215/1000 entities (12.0/sec)
+  Progress: 220/1000 entities (12.1/sec)
+  Progress: 225/1000 entities (12.0/sec)
+  Progress: 230/1000 entities (12.1/sec)
+  Progress: 235/1000 entities (12.2/sec)
+  Progress: 240/1000 entities (12.2/sec)
+  Progress: 245/1000 entities (12.2/sec)
+  Progress: 250/1000 entities (12.2/sec)
+  Progress: 255/1000 entities (12.2/sec)
+  Progress: 260/1000 entities (12.2/sec)
+  Progress: 265/1000 entities (12.2/sec)
+  Progress: 270/1000 entities (12.2/sec)
+  Progress: 275/1000 entities (12.3/sec)
+  Progress: 280/1000 entities (12.2/sec)
+  Progress: 285/1000 entities (12.2/sec)
+  Progress: 290/1000 entities (12.2/sec)
+  Progress: 295/1000 entities (12.2/sec)
+  Progress: 300/1000 entities (12.3/sec)
+  Progress: 305/1000 entities (12.3/sec)
+  Progress: 310/1000 entities (12.2/sec)
+  Progress: 315/1000 entities (12.3/sec)
+  Progress: 320/1000 entities (12.3/sec)
+  Progress: 325/1000 entities (12.3/sec)
+  Progress: 330/1000 entities (12.3/sec)
+  Progress: 335/1000 entities (12.3/sec)
+  Progress: 340/1000 entities (12.3/sec)
+  Progress: 345/1000 entities (12.3/sec)
+  Progress: 350/1000 entities (12.3/sec)
+  Progress: 355/1000 entities (12.3/sec)Retrying…
+
+  Progress: 360/1000 entities (12.3/sec)
+  Progress: 365/1000 entities (12.3/sec)
+  Progress: 370/1000 entities (12.4/sec)
+  Progress: 375/1000 entities (12.3/sec)
+  Progress: 380/1000 entities (12.3/sec)
+  Progress: 385/1000 entities (12.3/sec)
+  Progress: 390/1000 entities (12.4/sec)
+  Progress: 395/1000 entities (12.4/sec)
+  Progress: 400/1000 entities (12.4/sec)
+  Progress: 405/1000 entities (12.3/sec)
+  Progress: 410/1000 entities (12.4/sec)
+  Progress: 415/1000 entities (12.4/sec)
+  Progress: 420/1000 entities (12.4/sec)
+  Progress: 425/1000 entities (12.4/sec)
+  Progress: 430/1000 entities (12.4/sec)
+  Progress: 435/1000 entities (12.4/sec)
+  Progress: 440/1000 entities (12.4/sec)
+  Progress: 445/1000 entities (12.4/sec)
+  Progress: 450/1000 entities (12.4/sec)
+  Progress: 455/1000 entities (12.5/sec)
+  Progress: 460/1000 entities (12.5/sec)
+  Progress: 465/1000 entities (12.5/sec)
+  Progress: 470/1000 entities (12.5/sec)
+  Progress: 475/1000 entities (12.5/sec)
+  Progress: 480/1000 entities (12.5/sec)
+  Progress: 485/1000 entities (12.5/sec)
+  Progress: 490/1000 entities (12.5/sec)
+  Progress: 495/1000 entities (12.5/sec)
+  Progress: 500/1000 entities (12.5/sec)
+  Progress: 505/1000 entities (12.5/sec)
+  Progress: 510/1000 entities (12.5/sec)
+  Progress: 515/1000 entities (12.5/sec)
+  Progress: 520/1000 entities (12.5/sec)
+  Progress: 525/1000 entities (12.5/sec)
+  Progress: 530/1000 entities (12.5/sec)
+  Progress: 535/1000 entities (12.5/sec)
+  Progress: 540/1000 entities (12.5/sec)
+  Progress: 545/1000 entities (12.4/sec)
+  Progress: 550/1000 entities (12.4/sec)
+  Progress: 555/1000 entities (12.4/sec)
+  Progress: 560/1000 entities (12.4/sec)
+  Progress: 565/1000 entities (12.4/sec)
+  Progress: 570/1000 entities (12.5/sec)
+  Progress: 575/1000 entities (12.4/sec)
+  Progress: 580/1000 entities (12.5/sec)
+  Progress: 585/1000 entities (12.5/sec)
+  Progress: 590/1000 entities (12.5/sec)
+  Progress: 595/1000 entities (12.5/sec)
+  Progress: 600/1000 entities (12.5/sec)
+  Progress: 605/1000 entities (12.5/sec)
+  Progress: 610/1000 entities (12.5/sec)
+  Progress: 615/1000 entities (12.5/sec)
+  Progress: 620/1000 entities (12.5/sec)
+  Progress: 625/1000 entities (12.5/sec)
+  Progress: 630/1000 entities (12.5/sec)
+  Progress: 635/1000 entities (12.5/sec)
+  Progress: 640/1000 entities (12.5/sec)
+  Progress: 645/1000 entities (12.5/sec)
+  Progress: 650/1000 entities (12.5/sec)
+  Progress: 655/1000 entities (12.5/sec)
+  Progress: 660/1000 entities (12.5/sec)
+  Progress: 665/1000 entities (12.5/sec)
+  Progress: 670/1000 entities (12.5/sec)
+  Progress: 675/1000 entities (12.5/sec)
+  Progress: 680/1000 entities (12.5/sec)
+  Progress: 685/1000 entities (12.5/sec)
+  Progress: 690/1000 entities (12.5/sec)
+  Progress: 695/1000 entities (12.5/sec)
+  Progress: 700/1000 entities (12.5/sec)
+  Progress: 705/1000 entities (12.6/sec)
+  Progress: 710/1000 entities (12.6/sec)
+  Progress: 715/1000 entities (12.6/sec)
+  Progress: 720/1000 entities (12.6/sec)
+  Progress: 725/1000 entities (12.6/sec)
+  Progress: 730/1000 entities (12.6/sec)
+  Progress: 735/1000 entities (12.6/sec)
+  Progress: 740/1000 entities (12.6/sec)
+  Progress: 745/1000 entities (12.6/sec)
+  Progress: 750/1000 entities (12.6/sec)
+  Progress: 755/1000 entities (12.6/sec)
+  Progress: 760/1000 entities (12.6/sec)
+  Progress: 765/1000 entities (12.6/sec)
+  Progress: 770/1000 entities (12.6/sec)
+  Progress: 775/1000 entities (12.6/sec)
+  Progress: 780/1000 entities (12.6/sec)
+  Progress: 785/1000 entities (12.6/sec)
+  Progress: 790/1000 entities (12.6/sec)
+  Progress: 795/1000 entities (12.6/sec)
+  Progress: 800/1000 entities (12.6/sec)
+  Progress: 805/1000 entities (12.6/sec)
+  Progress: 810/1000 entities (12.6/sec)
+  Progress: 815/1000 entities (12.6/sec)
+  Progress: 820/1000 entities (12.6/sec)
+  Progress: 825/1000 entities (12.6/sec)
+  Progress: 830/1000 entities (12.6/sec)
+  Progress: 835/1000 entities (12.7/sec)
+  Progress: 840/1000 entities (12.6/sec)
+  Progress: 845/1000 entities (12.7/sec)
+  Progress: 850/1000 entities (12.6/sec)
+  Progress: 855/1000 entities (12.6/sec)
+  Progress: 860/1000 entities (12.6/sec)
+  Progress: 865/1000 entities (12.7/sec)
+  Progress: 870/1000 entities (12.7/sec)
+  Progress: 875/1000 entities (12.7/sec)
+  Progress: 880/1000 entities (12.7/sec)
+  Progress: 885/1000 entities (12.7/sec)
+  Progress: 890/1000 entities (12.7/sec)
+  Progress: 895/1000 entities (12.7/sec)
+  Progress: 900/1000 entities (12.7/sec)
+  Progress: 905/1000 entities (12.7/sec)
+  Progress: 910/1000 entities (12.7/sec)
+  Progress: 915/1000 entities (12.7/sec)
+  Progress: 920/1000 entities (12.7/sec)
+  Progress: 925/1000 entities (12.7/sec)
+  Progress: 930/1000 entities (12.7/sec)
+  Progress: 935/1000 entities (12.7/sec)
+  Progress: 940/1000 entities (12.7/sec)
+  Progress: 945/1000 entities (12.7/sec)
+  Progress: 950/1000 entities (12.7/sec)
+  Progress: 955/1000 entities (12.7/sec)
+  Progress: 960/1000 entities (12.7/sec)
+  Progress: 965/1000 entities (12.7/sec)
+  Progress: 970/1000 entities (12.7/sec)
+  Progress: 975/1000 entities (12.7/sec)
+  Progress: 980/1000 entities (12.7/sec)
+  Progress: 985/1000 entities (12.7/sec)
+  Progress: 990/1000 entities (12.7/sec)
+  Progress: 995/1000 entities (12.7/sec)
+  Progress: 1000/1000 entities (12.7/sec)
+
+Registration complete:
+  Entities:        1000
+  Artifacts:       1000
+  Skipped:         0
+  Artifact errors: 0
+  Time:            78.6 seconds
+[scale]   batched n=1000 rep 1:  78.60s    12.7 ent/s    25.4 nodes/s  app;dur p50=166ms
+Created dataset container 'regbench_batched_n1000_local_w8_r2_1787125299768'
+Pre-grouping artifacts by uid...
+
+--- Registering batched_n1000_local_w8 (1000 entities via HTTP, pool=8) ---
+  Progress: 5/1000 entities (6.6/sec)
+  Progress: 10/1000 entities (9.0/sec)
+  Progress: 15/1000 entities (10.0/sec)
+  Progress: 20/1000 entities (10.3/sec)
+  Progress: 25/1000 entities (10.2/sec)
+  Progress: 30/1000 entities (10.6/sec)
+  Progress: 35/1000 entities (10.9/sec)
+  Progress: 40/1000 entities (10.9/sec)
+  Progress: 45/1000 entities (11.4/sec)
+  Progress: 50/1000 entities (11.1/sec)
+  Progress: 55/1000 entities (11.1/sec)
+  Progress: 60/1000 entities (11.2/sec)
+  Progress: 65/1000 entities (11.1/sec)
+  Progress: 70/1000 entities (11.1/sec)
+  Progress: 75/1000 entities (11.2/sec)
+  Progress: 80/1000 entities (11.1/sec)
+  Progress: 85/1000 entities (11.2/sec)
+  Progress: 90/1000 entities (11.2/sec)
+  Progress: 95/1000 entities (11.0/sec)
+  Progress: 100/1000 entities (10.9/sec)
+  Progress: 105/1000 entities (11.0/sec)
+  Progress: 110/1000 entities (11.0/sec)
+  Progress: 115/1000 entities (11.1/sec)
+  Progress: 120/1000 entities (11.0/sec)
+  Progress: 125/1000 entities (10.7/sec)
+  Progress: 130/1000 entities (10.7/sec)
+  Progress: 135/1000 entities (10.8/sec)
+  Progress: 140/1000 entities (10.8/sec)
+  Progress: 145/1000 entities (10.9/sec)
+  Progress: 150/1000 entities (10.9/sec)
+  Progress: 155/1000 entities (10.9/sec)
+  Progress: 160/1000 entities (10.9/sec)
+  Progress: 165/1000 entities (10.9/sec)
+  Progress: 170/1000 entities (10.9/sec)
+  Progress: 175/1000 entities (10.8/sec)
+  Progress: 180/1000 entities (10.7/sec)
+  Progress: 185/1000 entities (10.7/sec)
+  Progress: 190/1000 entities (10.7/sec)
+  Progress: 195/1000 entities (10.8/sec)
+  Progress: 200/1000 entities (10.7/sec)
+  Progress: 205/1000 entities (10.7/sec)
+  Progress: 210/1000 entities (10.7/sec)
+  Progress: 215/1000 entities (10.8/sec)
+  Progress: 220/1000 entities (10.8/sec)
+  Progress: 225/1000 entities (10.9/sec)
+  Progress: 230/1000 entities (10.8/sec)
+  Progress: 235/1000 entities (10.8/sec)
+  Progress: 240/1000 entities (10.9/sec)
+  Progress: 245/1000 entities (10.9/sec)
+  Progress: 250/1000 entities (10.9/sec)
+  Progress: 255/1000 entities (10.9/sec)
+  Progress: 260/1000 entities (10.9/sec)
+  Progress: 265/1000 entities (10.9/sec)
+  Progress: 270/1000 entities (10.9/sec)
+  Progress: 275/1000 entities (10.9/sec)
+  Progress: 280/1000 entities (11.0/sec)
+  Progress: 285/1000 entities (11.0/sec)
+  Progress: 290/1000 entities (11.0/sec)
+  Progress: 295/1000 entities (11.1/sec)
+  Progress: 300/1000 entities (11.0/sec)
+  Progress: 305/1000 entities (11.0/sec)
+  Progress: 310/1000 entities (11.1/sec)
+  Progress: 315/1000 entities (11.1/sec)
+  Progress: 320/1000 entities (11.1/sec)
+  Progress: 325/1000 entities (11.2/sec)
+  Progress: 330/1000 entities (11.2/sec)
+  Progress: 335/1000 entities (11.2/sec)
+  Progress: 340/1000 entities (11.2/sec)
+  Progress: 345/1000 entities (11.2/sec)
+  Progress: 350/1000 entities (11.3/sec)
+  Progress: 355/1000 entities (11.3/sec)
+  Progress: 360/1000 entities (11.3/sec)
+  Progress: 365/1000 entities (11.4/sec)
+  Progress: 370/1000 entities (11.3/sec)
+  Progress: 375/1000 entities (11.4/sec)
+  Progress: 380/1000 entities (11.3/sec)
+  Progress: 385/1000 entities (11.4/sec)
+  Progress: 390/1000 entities (11.4/sec)
+  Progress: 395/1000 entities (11.4/sec)
+  Progress: 400/1000 entities (11.4/sec)
+  Progress: 405/1000 entities (11.4/sec)
+  Progress: 410/1000 entities (11.4/sec)
+  Progress: 415/1000 entities (11.4/sec)
+  Progress: 420/1000 entities (11.4/sec)
+  Progress: 425/1000 entities (11.5/sec)
+  Progress: 430/1000 entities (11.5/sec)
+  Progress: 435/1000 entities (11.5/sec)
+  Progress: 440/1000 entities (11.5/sec)
+  Progress: 445/1000 entities (11.5/sec)
+  Progress: 450/1000 entities (11.5/sec)
+  Progress: 455/1000 entities (11.5/sec)
+  Progress: 460/1000 entities (11.6/sec)
+  Progress: 465/1000 entities (11.6/sec)
+  Progress: 470/1000 entities (11.6/sec)
+  Progress: 475/1000 entities (11.6/sec)
+  Progress: 480/1000 entities (11.6/sec)
+  Progress: 485/1000 entities (11.6/sec)
+  Progress: 490/1000 entities (11.6/sec)
+  Progress: 495/1000 entities (11.6/sec)
+  Progress: 500/1000 entities (11.6/sec)
+  Progress: 505/1000 entities (11.7/sec)
+  Progress: 510/1000 entities (11.6/sec)
+  Progress: 515/1000 entities (11.6/sec)
+  Progress: 520/1000 entities (11.6/sec)
+  Progress: 525/1000 entities (11.6/sec)
+  Progress: 530/1000 entities (11.6/sec)
+  Progress: 535/1000 entities (11.6/sec)
+  Progress: 540/1000 entities (11.6/sec)
+  Progress: 545/1000 entities (11.6/sec)
+  Progress: 550/1000 entities (11.6/sec)
+  Progress: 555/1000 entities (11.6/sec)
+  Progress: 560/1000 entities (11.6/sec)
+  Progress: 565/1000 entities (11.6/sec)
+  Progress: 570/1000 entities (11.6/sec)
+  Progress: 575/1000 entities (11.6/sec)
+  Progress: 580/1000 entities (11.7/sec)
+  Progress: 585/1000 entities (11.7/sec)
+  Progress: 590/1000 entities (11.7/sec)
+  Progress: 595/1000 entities (11.7/sec)
+  Progress: 600/1000 entities (11.7/sec)
+  Progress: 605/1000 entities (11.7/sec)
+  Progress: 610/1000 entities (11.7/sec)
+  Progress: 615/1000 entities (11.7/sec)
+  Progress: 620/1000 entities (11.7/sec)
+  Progress: 625/1000 entities (11.7/sec)
+  Progress: 630/1000 entities (11.7/sec)
+  Progress: 635/1000 entities (11.7/sec)
+  Progress: 640/1000 entities (11.7/sec)
+  Progress: 645/1000 entities (11.7/sec)
+  Progress: 650/1000 entities (11.7/sec)
+  Progress: 655/1000 entities (11.7/sec)
+  Progress: 660/1000 entities (11.7/sec)
+  Progress: 665/1000 entities (11.7/sec)
+  Progress: 670/1000 entities (11.7/sec)
+  Progress: 675/1000 entities (11.7/sec)
+  Progress: 680/1000 entities (11.7/sec)
+  Progress: 685/1000 entities (11.7/sec)
+  Progress: 690/1000 entities (11.7/sec)
+  Progress: 695/1000 entities (11.7/sec)
+  Progress: 700/1000 entities (11.7/sec)
+  Progress: 705/1000 entities (11.7/sec)
+  Progress: 710/1000 entities (11.7/sec)
+  Progress: 715/1000 entities (11.8/sec)
+  Progress: 720/1000 entities (11.7/sec)
+  Progress: 725/1000 entities (11.7/sec)
+  Progress: 730/1000 entities (11.7/sec)
+  Progress: 735/1000 entities (11.7/sec)
+  Progress: 740/1000 entities (11.7/sec)
+  Progress: 745/1000 entities (11.7/sec)
+  Progress: 750/1000 entities (11.8/sec)
+  Progress: 755/1000 entities (11.7/sec)
+  Progress: 760/1000 entities (11.7/sec)
+  Progress: 765/1000 entities (11.7/sec)
+  Progress: 770/1000 entities (11.7/sec)
+  Progress: 775/1000 entities (11.7/sec)
+  Progress: 780/1000 entities (11.7/sec)
+  Progress: 785/1000 entities (11.7/sec)
+  Progress: 790/1000 entities (11.7/sec)
+  Progress: 795/1000 entities (11.7/sec)
+  Progress: 800/1000 entities (11.7/sec)
+  Progress: 805/1000 entities (11.7/sec)
+  Progress: 810/1000 entities (11.7/sec)
+  Progress: 815/1000 entities (11.7/sec)
+  Progress: 820/1000 entities (11.7/sec)
+  Progress: 825/1000 entities (11.7/sec)
+  Progress: 830/1000 entities (11.7/sec)
+  Progress: 835/1000 entities (11.6/sec)
+  Progress: 840/1000 entities (11.7/sec)
+  Progress: 845/1000 entities (11.6/sec)
+  Progress: 850/1000 entities (11.6/sec)
+  Progress: 855/1000 entities (11.7/sec)
+  Progress: 860/1000 entities (11.7/sec)
+  Progress: 865/1000 entities (11.6/sec)
+  Progress: 870/1000 entities (11.6/sec)
+  Progress: 875/1000 entities (11.6/sec)
+  Progress: 880/1000 entities (11.6/sec)
+  Progress: 885/1000 entities (11.6/sec)
+  Progress: 890/1000 entities (11.6/sec)
+  Progress: 895/1000 entities (11.6/sec)
+  Progress: 900/1000 entities (11.6/sec)
+  Progress: 905/1000 entities (11.5/sec)
+  Progress: 910/1000 entities (11.5/sec)
+  Progress: 915/1000 entities (11.5/sec)
+  Progress: 920/1000 entities (11.5/sec)
+  Progress: 925/1000 entities (11.4/sec)
+  Progress: 930/1000 entities (11.4/sec)
+  Progress: 935/1000 entities (11.4/sec)
+  Progress: 940/1000 entities (11.4/sec)
+  Progress: 945/1000 entities (11.4/sec)
+  Progress: 950/1000 entities (11.4/sec)
+  Progress: 955/1000 entities (11.4/sec)
+  Progress: 960/1000 entities (11.5/sec)
+  Progress: 965/1000 entities (11.4/sec)
+  Progress: 970/1000 entities (11.5/sec)
+  Progress: 975/1000 entities (11.5/sec)
+  Progress: 980/1000 entities (11.4/sec)
+  Progress: 985/1000 entities (11.5/sec)
+  Progress: 990/1000 entities (11.5/sec)
+  Progress: 995/1000 entities (11.4/sec)
+  Progress: 1000/1000 entities (11.5/sec)
+
+Registration complete:
+  Entities:        1000
+  Artifacts:       1000
+  Skipped:         0
+  Artifact errors: 0
+  Time:            87.3 seconds
+[scale]   batched n=1000 rep 2:  87.33s    11.5 ent/s    22.9 nodes/s  app;dur p50=181ms
+
+[scale] wrote results/ingress/before.csv
+
+layout           N reps   wall_s   ent/s  nodes/s  app;dur_p50
+--------------------------------------------------------------
+batched         10    5     1.14     8.8     17.5        177.9
+batched        100    5     8.35    12.0     24.0        175.5
+batched       1000    3    80.62    12.4     24.8        165.5
+per_entity      10    5     0.97    10.3     20.6        144.5
+per_entity     100    5     8.20    12.2     24.4        156.1
+per_entity    1000    3    89.73    11.1     22.3        186.1
+[guardrail] results/ingress/before.csv: 26 rows, 0 violations; tcb_sha=['9e36bcd']
+== AFTER sweep (ba60ac6) ==
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Retrying…
+Traceback (most recent call last):
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 86, in handle_error
+    raise_for_status(response)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 79, in raise_for_status
+    raise httpx.HTTPStatusError(message, request=request, response=response)
+httpx.HTTPStatusError: Client error '409 Conflict' for url 'http://127.0.0.1:49009/api/v1/metadata//regbench_per_entity_n100_local_w8_r1_1787125425895'
+For more information, server admin can search server logs for correlation ID 082345a689cf8ccd.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/regbench/cli.py", line 116, in <module>
+    main()
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/regbench/cli.py", line 112, in main
+    args.func(args)
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/regbench/cli.py", line 62, in _cmd_scale
+    results = run_scale_sweep(
+              ^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/regbench/suites.py", line 69, in run_scale_sweep
+    res = run_registration(cfg, manifest, client, rep)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/regbench/runner.py", line 84, in run_registration
+    register_dataset_http(
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-catalog-broker/.worktrees/optimize-http-register-perf/src/tiled_catalog_broker/http_register.py", line 288, in register_dataset_http
+    ent_added, art_added, skipped, art_failed = future.result()
+                                                ^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-catalog-broker/.worktrees/optimize-http-register-perf/src/tiled_catalog_broker/http_register.py", line 172, in _register_one_entity
+    ent_container = parent_client.create_container(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 833, in create_container
+    return self.new(
+           ^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 737, in new
+    for attempt in retry_context():
+                   ^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 214, in retry_context
+    attempt = next(it)
+              ^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/stamina/_core.py", line 581, in __iter__
+    for r in _t.Retrying(
+             ^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 438, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 393, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/sdf/home/a/ajshack/.local/share/uv/python/cpython-3.12.12-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/container.py", line 739, in new
+    document = handle_error(
+               ^^^^^^^^^^^^^
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/.venv/lib/python3.12/site-packages/tiled/client/utils.py", line 107, in handle_error
+    raise ClientError(message, exc.request, exc.response) from exc
+tiled.client.utils.ClientError: 409: /regbench_per_entity_n100_local_w8_r1_1787125425895/regbench_per_entity_n100_local_w8_r1_1787125425895_fbb137b638da5 http://127.0.0.1:49009/api/v1/metadata//regbench_per_entity_n100_local_w8_r1_1787125425895
+[scale] location=local layouts=['per_entity', 'batched'] sizes=[10, 100, 1000] workers=8
+Found 10 HDF5 files
+Entities: 10 rows -> /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_bench_ws/after/per_entity_n10_local_w8/datasets/synth_per_entity_n10/manifests/synth_per_entity_n10/entities.parquet
+Artifacts: 10 rows -> /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_bench_ws/after/per_entity_n10_local_w8/datasets/synth_per_entity_n10/manifests/synth_per_entity_n10/artifacts.parquet
+[scale] per_entity_n10_local_w8: 5 rep(s), 10 ent / 10 art
+Created dataset container 'regbench_per_entity_n10_local_w8_r0_1787125400941'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n10_local_w8 (10 entities via HTTP, pool=8) ---
+  Progress: 5/10 entities (3.2/sec)
+  Progress: 10/10 entities (5.4/sec)
+
+Registration complete:
+  Entities:        10
+  Artifacts:       10
+  Skipped:         0
+  Artifact errors: 0
+  Time:            1.8 seconds
+[scale]   per_entity n=10 rep 0:   1.84s     5.4 ent/s    10.9 nodes/s  app;dur p50=164ms
+Created dataset container 'regbench_per_entity_n10_local_w8_r1_1787125402859'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n10_local_w8 (10 entities via HTTP, pool=8) ---
+  Progress: 5/10 entities (9.6/sec)
+  Progress: 10/10 entities (12.6/sec)
+
+Registration complete:
+  Entities:        10
+  Artifacts:       10
+  Skipped:         0
+  Artifact errors: 0
+  Time:            0.8 seconds
+[scale]   per_entity n=10 rep 1:   0.80s    12.6 ent/s    25.1 nodes/s  app;dur p50=154ms
+Created dataset container 'regbench_per_entity_n10_local_w8_r2_1787125403711'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n10_local_w8 (10 entities via HTTP, pool=8) ---
+  Progress: 5/10 entities (9.2/sec)
+  Progress: 10/10 entities (10.4/sec)
+
+Registration complete:
+  Entities:        10
+  Artifacts:       10
+  Skipped:         0
+  Artifact errors: 0
+  Time:            1.0 seconds
+[scale]   per_entity n=10 rep 2:   0.97s    10.4 ent/s    20.7 nodes/s  app;dur p50=151ms
+Created dataset container 'regbench_per_entity_n10_local_w8_r3_1787125404751'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n10_local_w8 (10 entities via HTTP, pool=8) ---
+  Progress: 5/10 entities (7.8/sec)
+  Progress: 10/10 entities (9.7/sec)
+
+Registration complete:
+  Entities:        10
+  Artifacts:       10
+  Skipped:         0
+  Artifact errors: 0
+  Time:            1.0 seconds
+[scale]   per_entity n=10 rep 3:   1.03s     9.7 ent/s    19.5 nodes/s  app;dur p50=123ms
+Created dataset container 'regbench_per_entity_n10_local_w8_r4_1787125405875'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n10_local_w8 (10 entities via HTTP, pool=8) ---
+  Progress: 5/10 entities (10.2/sec)
+  Progress: 10/10 entities (11.7/sec)
+
+Registration complete:
+  Entities:        10
+  Artifacts:       10
+  Skipped:         0
+  Artifact errors: 0
+  Time:            0.9 seconds
+[scale]   per_entity n=10 rep 4:   0.85s    11.7 ent/s    23.5 nodes/s  app;dur p50=139ms
+Found 100 HDF5 files
+Entities: 100 rows -> /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_bench_ws/after/per_entity_n100_local_w8/datasets/synth_per_entity_n100/manifests/synth_per_entity_n100/entities.parquet
+Artifacts: 100 rows -> /sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_bench_ws/after/per_entity_n100_local_w8/datasets/synth_per_entity_n100/manifests/synth_per_entity_n100/artifacts.parquet
+[scale] per_entity_n100_local_w8: 5 rep(s), 100 ent / 100 art
+Created dataset container 'regbench_per_entity_n100_local_w8_r0_1787125418167'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n100_local_w8 (100 entities via HTTP, pool=8) ---
+  Progress: 5/100 entities (7.0/sec)
+  Progress: 10/100 entities (10.3/sec)
+  Progress: 15/100 entities (11.7/sec)
+  Progress: 20/100 entities (12.3/sec)
+  Progress: 25/100 entities (12.5/sec)
+  Progress: 30/100 entities (12.9/sec)
+  Progress: 35/100 entities (13.2/sec)
+  Progress: 40/100 entities (12.8/sec)
+  Progress: 45/100 entities (13.0/sec)
+  Progress: 50/100 entities (13.2/sec)
+  Progress: 55/100 entities (13.1/sec)
+  Progress: 60/100 entities (13.3/sec)
+  Progress: 65/100 entities (13.4/sec)
+  Progress: 70/100 entities (13.4/sec)
+  Progress: 75/100 entities (13.5/sec)
+  Progress: 80/100 entities (13.5/sec)
+  Progress: 85/100 entities (13.2/sec)
+  Progress: 90/100 entities (13.1/sec)
+  Progress: 95/100 entities (13.1/sec)
+  Progress: 100/100 entities (13.1/sec)
+
+Registration complete:
+  Entities:        100
+  Artifacts:       100
+  Skipped:         0
+  Artifact errors: 0
+  Time:            7.6 seconds
+[scale]   per_entity n=100 rep 0:   7.62s    13.1 ent/s    26.2 nodes/s  app;dur p50=136ms
+Created dataset container 'regbench_per_entity_n100_local_w8_r1_1787125425895'
+Pre-grouping artifacts by uid...
+
+--- Registering per_entity_n100_local_w8 (100 entities via HTTP, pool=8) ---
+  Progress: 5/100 entities (6.6/sec)
+  Progress: 10/100 entities (8.2/sec)
+  Progress: 15/100 entities (9.0/sec)
+  Progress: 20/100 entities (9.2/sec)
+  Progress: 25/100 entities (9.8/sec)
+  Progress: 30/100 entities (10.1/sec)
+  Progress: 35/100 entities (9.7/sec)
+  Progress: 40/100 entities (9.4/sec)
+  Progress: 45/100 entities (9.4/sec)
+  Progress: 50/100 entities (9.2/sec)
+  ERROR ent=regbench_per_entity_n100_local_w8_r1_1787125425895_9deeef8d7828f art=art_0: 409: /regbench_per_entity_n100_local_w8_r1_1787125425895/regbench_per_entity_n100_local_w8_r1_1787125425895_9deeef8d7828f/art_0 http://127.0.0.1:49009/api/v1/register//regbench_per_entity_n100_local_w8_r1_1787125425895/regbench_per_entity_n100_local_w8_r1_1787125425895_9deeef8d7828f
+  ERROR ent=regbench_per_entity_n100_local_w8_r1_1787125425895_79986a18c2935 art=art_0: 409: /regbench_per_entity_n100_local_w8_r1_1787125425895/regbench_per_entity_n100_local_w8_r1_1787125425895_79986a18c2935/art_0 http://127.0.0.1:49009/api/v1/register//regbench_per_entity_n100_local_w8_r1_1787125425895/regbench_per_entity_n100_local_w8_r1_1787125425895_79986a18c2935
+  ERROR ent=regbench_per_entity_n100_local_w8_r1_1787125425895_badd6497c8dc8 art=art_0: 409: /regbench_per_entity_n100_local_w8_r1_1787125425895/regbench_per_entity_n100_local_w8_r1_1787125425895_badd6497c8dc8/art_0 http://127.0.0.1:49009/api/v1/register//regbench_per_entity_n100_local_w8_r1_1787125425895/regbench_per_entity_n100_local_w8_r1_1787125425895_badd6497c8dc8
+  ERROR ent=regbench_per_entity_n100_local_w8_r1_1787125425895_8d67fa995bc3b art=art_0: 409: /regbench_per_entity_n100_local_w8_r1_1787125425895/regbench_per_entity_n100_local_w8_r1_1787125425895_8d67fa995bc3b/art_0 http://127.0.0.1:49009/api/v1/register//regbench_per_entity_n100_local_w8_r1_1787125425895/regbench_per_entity_n100_local_w8_r1_1787125425895_8d67fa995bc3b
+  ERROR ent=regbench_per_entity_n100_local_w8_r1_1787125425895_ad94d496b6230 art=art_0: 409: /regbench_per_entity_n100_local_w8_r1_1787125425895/regbench_per_entity_n100_local_w8_r1_1787125425895_ad94d496b6230/art_0 http://127.0.0.1:49009/api/v1/register//regbench_per_entity_n100_local_w8_r1_1787125425895/regbench_per_entity_n100_local_w8_r1_1787125425895_ad94d496b6230
+[guardrail] results/ingress/after.csv: 6 rows, 0 violations; tcb_sha=['ba60ac6']
+== read-back check (after code) ==
+Traceback (most recent call last):
+  File "/sdf/data/lcls/ds/prj/prjmaiqmag01/results/ajshack/tiled-bench/_bench_ws/job/readback_check.py", line 11, in <module>
+    from regbench.config import RunConfig
+ModuleNotFoundError: No module named 'regbench'
+end: 2026-08-19T00:44:53-07:00
