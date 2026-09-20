@@ -1,0 +1,36 @@
+# Sam Klein — EDRIXS SBI Round 0 (broad sigma range)
+# 10,000 entities (5 files x 2,000 batch size), migrated from TCB contract
+# tiled-catalog-broker/datasets/sam_klein_v2.yml to the TileWright source-tag contract.
+# Migration note: old `extra_metadata` (/log_probs per-entity scalar) has no equivalent
+# in the TileWright contract and is dropped; old `provenance:` block folded into metadata.
+
+label: Bench Batched 5F
+key: BENCH_BATCHED_5F
+
+metadata:
+  method: [RIXS]
+  data_type: simulation
+  material: NiPS3
+  prior_distribution: uniform
+  producer: lajer2025Hamiltonian
+  project: MAIQMag
+  round: 0
+  amsc_public: false
+  provenance_created_at: "2026-02-13"
+  provenance_code_version: "v1.0.0"
+  provenance_code_commit: "b6b05b7"
+  description: "EDRIXS SBI round-0 spectra, 10k entities batched 5x2000, for the training-shaped retrieval benchmark."
+
+source:
+  batch:
+    directory: /sdf/data/lcls/ds/prj/prjmaiqmag01/results/data-source/sam/initial_data_proper
+    server_base_dir: /prjmaiqmag01/data-source/sam/initial_data_proper
+    pattern: "*/simulations.h5"
+    params: {group: /params}
+
+artifacts:
+  - {type: rixs_spectrum, dataset: /spectra}   # (151, 40) float64 per entity
+
+shared:
+  - {type: eloss, dataset: /eloss}             # (151,)
+  - {type: omega_bounds, dataset: /omega_bounds}  # (2,)

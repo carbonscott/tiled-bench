@@ -1,0 +1,27 @@
+ts,key,action,workers,n_entities,wall_s,ent_per_s,exit,tilewright_sha,server_version,node,notes
+2026-09-20T03:57:58Z,BENCH_BATCHED_5F,delete,8,10000,4,2500.0,0,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,
+2026-09-20T03:59:02Z,BENCH_PER_ENTITY,delete,8,7616,64,119.0,1,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,
+2026-09-20T04:04:51Z,BENCH_BATCHED_5F,register,8,10000,349,28.65,0,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,
+2026-09-20T04:17:58Z,BENCH_PER_ENTITY,register,8,7616,787,9.68,0,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,
+2026-09-20T04:20:40Z,BENCH_BATCHED_5F,verify,-,10000,162,61.73,1,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,
+2026-09-20T04:22:50Z,BENCH_PER_ENTITY,verify,-,7616,130,58.58,1,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,
+2026-09-20T04:27:19Z,BENCH_BATCHED_5F,resume,8,10000,269,37.17,0,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,
+2026-09-20T04:30:00Z,BENCH_BATCHED_5F,verify,-,10000,161,62.11,1,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,
+2026-09-20T04:33:34Z,BENCH_PER_ENTITY,resume,8,7616,214,35.59,0,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,
+2026-09-20T04:35:53Z,BENCH_PER_ENTITY,verify,-,7616,138,55.19,1,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,
+2026-09-20T04:41:06Z,BENCH_BATCHED_5F,delete,8,10000,7,1428.57,0,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,attempt2
+2026-09-20T04:41:17Z,BENCH_PER_ENTITY,delete,8,7616,11,692.36,0,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,attempt2
+2026-09-20T04:42:20Z,BENCH_BATCHED_5F,register_local_sqlite,8,10000,6,1666.67,1,b268731,local-sqlite,sdfiana006,catalog_size_probe
+2026-09-20T04:42:24Z,BENCH_PER_ENTITY,register_local_sqlite,8,7616,4,1904.0,1,b268731,local-sqlite,sdfiana006,catalog_size_probe
+2026-09-20T04:42:25Z,BENCH_BATCHED_5F,catalog_db_bytes,,10000,,,0,b268731,local-sqlite,sdfiana006,db after 10k-entity dataset
+2026-09-20T04:42:25Z,BOTH,catalog_db_bytes,,17616,,,0,b268731,local-sqlite,sdfiana006,db after both datasets (17616 ents; 55616 artifact rows)
+2026-09-20T04:47:08Z,BENCH_BATCHED_5F,register,8,10000,351,28.49,0,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,server_base_dir_fix
+2026-09-20T04:48:33Z,BENCH_BATCHED_5F,verify,-,10000,85,117.65,0,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,attempt2
+2026-09-20T04:48:40Z,BENCH_PER_ENTITY,register,8,7616,7,1088.0,1,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,server_base_dir_fix
+2026-09-20T04:51:21Z,BENCH_PER_ENTITY,manifest_regen,-,7616,160,47.6,0,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,after_server_base_dir
+2026-09-20T05:04:40Z,BENCH_PER_ENTITY,register,8,7616,799,9.53,0,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,server_base_dir_fix_retry
+2026-09-20T05:05:49Z,BENCH_PER_ENTITY,verify,-,7616,69,110.38,0,b268731,0.2.15b1.dev14+b7aafcd1,sdfiana006,attempt2
+2026-09-20T05:20:43Z,BENCH_BATCHED_5F,register_local_sqlite,8,10000,1800,5.56,0,b268731,local-sqlite,sdfiana006,catalog_size_probe
+2026-09-20T06:38:52Z,BENCH_PER_ENTITY,register_local_sqlite,8,7616,4688,1.62,0,b268731,local-sqlite,sdfiana006,catalog_size_probe
+2026-09-20T06:38:52Z,BENCH_BATCHED_5F,catalog_db_bytes,,10000,29233152,,0,b268731,local-sqlite,sdfiana006,db after 10k-entity dataset
+2026-09-20T06:38:52Z,BOTH,catalog_db_bytes,,17616,90185728,,0,b268731,local-sqlite,sdfiana006,db after both datasets (17616 ents; 55616 artifact rows)

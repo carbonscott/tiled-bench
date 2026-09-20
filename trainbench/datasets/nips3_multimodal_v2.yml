@@ -1,0 +1,37 @@
+# NiPS3 Multimodal Synthetic (Sunny.jl) — 7,616 entities, one HDF5 file per entity.
+# Migrated from tiled-catalog-broker/datasets/nips3_multimodal_v2.yml to the
+# TileWright source-tag contract (files source; 9 root-scalar params are the default).
+
+label: Bench Per Entity
+key: BENCH_PER_ENTITY
+
+metadata:
+  method: [INS, Magnetization, INS_powder]
+  data_type: simulation
+  material: NiPS3
+  producer: sunny_jl
+  project: MAIQMag
+  facility: ORNL
+  description: "Multimodal NiPS3 spin-dynamics data (INS + magnetization), 7,616 per-entity files, for the training-shaped retrieval benchmark."
+
+source:
+  files:
+    directory: /sdf/data/lcls/ds/prj/prjmaiqmag01/results/data-source/NiPS3_Multimodal_Synthetic/data
+    server_base_dir: /prjmaiqmag01/data-source/NiPS3_Multimodal_Synthetic/data
+    pattern: "*.h5"
+    # params default: every 0-dim dataset at the root (the 9 exchange/anisotropy scalars)
+
+artifacts:
+  - {type: hisym,       dataset: /hisym}        # (384, 384) high-symmetry INS spectrum
+  - {type: powder,      dataset: /powder}       # (512, 256) powder-averaged INS spectrum
+  - {type: powder_mask, dataset: /powder_mask}  # (512, 256) masked powder INS spectrum
+  - {type: mag_a,       dataset: /Ma}           # (51,) magnetization along a-axis
+  - {type: mag_b,       dataset: /Mb}           # (51,) magnetization along b-axis
+  - {type: mag_cs,      dataset: /Mcs}          # (51,) magnetization along c*-axis
+
+shared:
+  - {type: H,               dataset: /H}                # (51,) magnetic field axis
+  - {type: energies,        dataset: /energies}         # (384,) energy grid
+  - {type: qs,              dataset: /qs}               # (384, 3) Q-space coordinates
+  - {type: energies_powder, dataset: /energies_powder}  # (256,) powder energy grid
+  - {type: radii,           dataset: /radii}            # (512,) |Q| radial grid
