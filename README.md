@@ -1,74 +1,64 @@
 # tiled-bench
 
-Measurements of a [Tiled](https://blueskyproject.io/tiled/) server serving the MAIQMag
-datasets. The shape is: a small library of functions that work well with Tiled, a skill
-per question, and one directory per round of measurement.
+Measure a [Tiled](https://blueskyproject.io/tiled/) server as a model with a few
+parameters, keep every claim in a ledger with the conditions it was measured under, and
+let an agent and an operator work the loop together in conversation.
 
 ```
-tbench/            the library (~1,000 lines, 650 of them new; no CLI)
-  reads.py         the read paths under test, one function each
-  timing.py        every HTTP call with the full Server-Timing split (tok/acl/read/pack/app)
-  load.py          run(work, items, client, threads, procs) -> Run; Round for the directory
-  probes.py        server version, healthz, /metrics (pool gauges), pg_stat_activity sampler
-  server.py        a local SQLite tiled as a context manager
-  synth.py         synthetic datasets per layout
-.claude/skills/    one skill per question: bench-knee, bench-reads, bench-register, bench-epoch
-rounds/            one directory per round: the script that ran, raw records, FINDINGS.md
-results/           the 2026-07/09 campaigns (findings + CSVs), unchanged
-legacy/            the harnesses those campaigns used, kept so their results stay reproducible
-CONTEXT.md         domain language (entity, artifact, layout, dataset)
+tbench/
+  fingerprint.py   observed (server version, client) + operator-reported (workers, db, pooler, limits)
+  ledger.py        claims.jsonl, interventions.jsonl, reported.json, runs/<id>/
+  workload.py      request shapes over bare httpx: healthz, metadata, array, asset
+  drive.py         open_loop(rate) and closed_loop(concurrency); every call is a record
+  observe.py       TiledMetrics, PgActivity, Reported; a Sampler that says what it was blind to
+  model.py         little(), usl_fit(), knee(), Capacity.predict()
+  experiments.py   rate_ladder, concurrency_ladder, compare, replay
+questions/         one file per recurring question: hypotheses, prediction table, experiment, budget
+ledger/            what we know (committed)
+.claude/skills/ask the loop an agent runs for any question
+legacy/, results/  the 2026-07..09 campaigns and their harnesses, frozen
 ```
 
-## A round, end to end
+## The idea
 
-```python
-from tiled.client import from_uri
-from tbench import load, reads, probes
+- **A claim, not a row.** An experiment ends with `ledger.claim("metadata.capacity_rate",
+  228, fp, evidence=[run_id])`. Claims carry a fingerprint key.
+- **The fingerprint is half yours.** The server version is observed. Worker count, database,
+  pooler mode, pool sizes and CPU limits are what you tell the agent. When you change one
+  ("scaled workers to 16"), the agent records `ledger.intervene("workers", 16)`, the key
+  changes, and every earlier claim is stale without anyone remembering to mark it.
+- **Predictions first.** A question is a table of hypotheses and what the cheapest experiment
+  shows under each. `questions/knee.md` is the first.
+- **Open loop for capacity.** Arrivals at a fixed rate; latency inflects at capacity;
+  in-flight at capacity by Little's law is the slot count. Closed loop (N clients) is for
+  "what do N clients get" and for the USL fit that separates contention from coherence.
+- **Observers are optional and declared.** A run records which of `/metrics`,
+  `pg_stat_activity` and operator-reported pod numbers it had.
 
-URL, KEY = os.environ["TILED_URL"], os.environ["TILED_API_KEY"]
-client = lambda: from_uri(URL, api_key=KEY)["EGRESS_PE_64K_BROKER"]
-keys = list(client().keys())
+## A session
 
-with load.Round("knee", url=URL, api_key=KEY) as rd:
-    for threads in (1, 2, 4, 8):
-        before = probes.tiled_metrics(URL, KEY)
-        run = load.run(lambda node, k: reads.artifact_read(node, k, "signal"),
-                       keys, client, threads=threads, procs=8, label=f"t{threads:02d}")
-        run.meta["metrics_delta"] = probes.metrics_delta(before, probes.tiled_metrics(URL, KEY))
-        rd.save(run.assert_clean(expected_units=len(keys)))
 ```
-
-That writes `rounds/<date>-knee/{meta.json, t01.summary.json, t01.units.jsonl,
-t01.calls.jsonl, ...}`. `Run.summary()` gives req/s, per-segment p50/p95 and the
-Little's-law in-flight (app-seconds per wall-second). The records are plain JSONL: load
-them with pandas when reading the round.
-
-The library does not decide what to measure. The skill does, in a page: the question, the
-one metric that answers it, the protocol, the guardrails, how to read the result. An
-agent reads the skill, writes a script like the one above, runs it, and writes
-`FINDINGS.md` next to the records.
-
-## Rules
-
-- **Every round commits three things:** the script that ran, the raw records, and
-  `FINDINGS.md`. The numbers in a findings file are reproducible from the script beside
-  it or they do not go in.
-- **A fast-but-wrong run is a failed run.** `Run.assert_clean()` before saving; the
-  skills list the per-question checks on top of that.
-- **No retries in the read paths.** Server errors are data. The Tiled client retries on
-  its own; `reads.metadata_get` is the raw probe that does not.
-- **Scale by process.** One Python client process caps near 540 req/s and ~190 MB/s.
-- **Shared server etiquette.** Record the wall-clock window in `FINDINGS.md`; delete
-  what you registered.
+you:    where does the catalog path saturate now?
+agent:  fingerprint 3f9a…: server 0.2.10b2.dev493. I need workers, db, pooler, pool sizes.
+you:    16 workers, postgres-cnpg, pgbouncer-session, pool 5+10, max_connections 250
+agent:  recorded. No claims under this key; two stale ones from August (w16fix0811).
+        Prediction table in questions/knee.md. Running compare(healthz, metadata),
+        12 rungs × 20 s, ~60k requests, ~8 min. Window 14:02–14:10.
+agent:  healthz flat to 400/s. metadata knees at 240 offered: capacity 221 req/s, floor 48 ms,
+        in-flight 11.8; read_ms carried the growth; pg_activity shows active flat at 12.
+        H1 survives. Claimed. The intervention H1 and H2 disagree on: raise the pooler pool
+        from 12 to 24. If H1, capacity ≈ 440; if H2, unchanged.
+you:    done, pool is 24.
+agent:  recorded intervention; new key 81c0…; re-running metadata ladder.
+```
 
 ## Running
 
 ```bash
-source ../tiled-catalog-broker/.env.test            # TILED_URL, TILED_API_KEY (never print it)
-.venv/bin/python rounds/2026-11-02-knee/run.py --threads 1 2 4 --procs 2 --n 100   # smoke
-.venv/bin/python tests/test_tbench.py     # offline tests
+source ../tiled-catalog-broker/.env.test     # TILED_URL, TILED_API_KEY; never print it
+.venv/bin/python tests/test_tbench.py        # offline: fake server with a 4-slot semaphore
 ```
 
-Heavy rounds go through SLURM on an exclusive node; the round's `run.py` is the job
-script's only payload. Python imports are slow on a cold node of this filesystem
-(minutes); that is the filesystem, not the library.
+Experiments are run from a Python session or a short script the agent writes in the
+conversation; parameters are saved in the run directory and `experiments.replay` reruns
+them. Python imports are slow on a cold node of this filesystem; that is the filesystem.

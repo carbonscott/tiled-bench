@@ -1,164 +1,124 @@
-"""Offline tests for tbench: no server, no network. Run: .venv/bin/python tests/test_tbench.py"""
+"""Offline tests: a fake Tiled behind httpx.MockTransport with a 4-slot semaphore and 20 ms
+service time, so capacity is known (~200 req/s, in-flight 4) and the methodology itself is
+under test. Run: .venv/bin/python tests/test_tbench.py"""
 
+import asyncio
 import json
+import os
 import sys
 import tempfile
 import time
 from pathlib import Path
-from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+os.environ["TBENCH_LEDGER"] = tempfile.mkdtemp()
 
-from tbench import load, probes, timing  # noqa: E402
+import httpx  # noqa: E402
 
+from tbench import drive, experiments, fingerprint, ledger, model, observe, workload  # noqa: E402
 
-# ---- timing -------------------------------------------------------------------------
-
-def test_parse_server_timing():
-    got = timing.parse_server_timing("tok;dur=0.4, acl;dur=0.2, read;dur=12.1, pack;dur=0.9, app;dur=17.4")
-    assert got == {"tok": 0.4, "acl": 0.2, "read": 12.1, "pack": 0.9, "app": 17.4}
-    assert timing.parse_server_timing(None) == {}
-    assert timing.parse_server_timing("app;dur=x") == {}
+SLOTS, SERVICE = 4, 0.020
+_sems = {}   # one semaphore per event loop: every asyncio.run() is a new loop
 
 
-class _FakeHttp:
-    """Enough of httpx.Client for Collector: event hooks and a get() that fires them."""
-
-    def __init__(self, server_timing="tok;dur=1, app;dur=5", status=200, body=b"x" * 10):
-        self.event_hooks = {"request": [], "response": []}
-        self._st, self._status, self._body = server_timing, status, body
-
-    def get(self, path):
-        req = SimpleNamespace(method="GET", url=SimpleNamespace(path=path))
-        for h in self.event_hooks["request"]:
-            h(req)
-        time.sleep(0.002)
-        resp = SimpleNamespace(request=req, status_code=self._status, content=self._body,
-                               headers={"server-timing": self._st, "content-length": str(len(self._body))})
-        for h in self.event_hooks["response"]:
-            h(resp)
-        if self._status >= 400:
-            raise RuntimeError(f"HTTP {self._status}")
-        return resp
+async def _handler(request):
+    loop = asyncio.get_running_loop()
+    _sem = _sems.get(loop)
+    if _sem is None:
+        _sem = _sems[loop] = asyncio.Semaphore(SLOTS)
+    if request.url.path == "/healthz":
+        return httpx.Response(200, content=b"ok")
+    if request.url.path == "/api/v1/":
+        return httpx.Response(200, json={"library_version": "fake-1"})
+    t0 = time.perf_counter()
+    async with _sem:
+        await asyncio.sleep(SERVICE)
+    app = (time.perf_counter() - t0) * 1000
+    return httpx.Response(200, content=b"x" * 500,
+                          headers={"server-timing": f"tok;dur=0.1, read;dur={SERVICE*1000:.1f}, app;dur={app:.1f}"})
 
 
-def fake_node(**kw):
-    return SimpleNamespace(context=SimpleNamespace(http_client=_FakeHttp(**kw)))
+def _patch_client():
+    """Route tbench's AsyncClient through the fake server."""
+    real = drive._client
+
+    def fake(url, api_key, max_conn, timeout):
+        return httpx.AsyncClient(base_url="http://fake", transport=httpx.MockTransport(_handler))
+
+    drive._client = fake
+    return real
 
 
-def test_collector_keeps_every_segment_and_unhooks():
-    node = fake_node()
-    c = timing.Collector()
-    with c.attached([node]):
-        node.context.http_client.get("/api/v1/metadata/x")
-    assert len(c.records) == 1
-    r = c.records[0]
-    assert r["tok_ms"] == 1 and r["app_ms"] == 5 and r["status"] == 200 and r["bytes"] == 10
-    assert r["wall_ms"] > 0 and r["t1"] >= r["t0"] >= 0
-    assert node.context.http_client.event_hooks == {"request": [], "response": []}
+def test_server_timing_parse():
+    assert workload.parse_server_timing("tok;dur=0.4, app;dur=17.4") == {"tok": 0.4, "app": 17.4}
+    assert workload.parse_server_timing(None) == {}
 
 
-# ---- load ---------------------------------------------------------------------------
-
-def _work(node, item):
-    node.context.http_client.get(f"/api/v1/metadata/{item}")
-    node.context.http_client.get(f"/api/v1/array/full/{item}")
-    return {"entities": 1, "payload": 64, "note": "non-numeric stays per unit"}
-
-
-def test_run_single_process():
-    run = load.run(_work, range(10), fake_node, threads=2, procs=1, label="t2")
-    run.assert_clean(expected_units=10)
-    s = run.summary()
-    assert s["units_ok"] == 10 and s["calls"] == 20 and s["offered"] == 2
-    assert s["total_entities"] == 10 and s["total_payload"] == 640
-    assert "total_note" not in s and run.units[0]["note"].startswith("non-numeric")
-    assert "tok_p50_ms" in s and "app_sum_s" in s and s["in_flight"] > 0
-    assert run.wall_s > 0 and all(0 <= u["t0"] <= u["t1"] <= run.wall_s + 1e-3 for u in run.units)
+def test_little_and_usl():
+    assert model.little(100, 0.05) == 5
+    N = [1, 2, 4, 8, 16, 32]
+    X = model.usl(N, 50, 0.2, 0.001)
+    fit = model.usl_fit(N, X)
+    assert abs(fit["sigma"] - 0.2) < 0.03 and abs(fit["lambda"] - 50) < 3 and fit["r2"] > 0.99
 
 
-def test_run_multi_process_shards_every_item_once():
-    run = load.run(_work, range(12), fake_node, threads=2, procs=3, label="p3t2")
-    run.assert_clean(expected_units=12)
-    assert sorted(int(u["item"]) for u in run.units) == list(range(12))
-    assert {u["proc"] for u in run.units} == {0, 1, 2}
-    assert len(run.calls) == 24
-    assert all(c["t1"] <= run.wall_s + 1e-3 for c in run.calls)
+def test_open_loop_finds_the_semaphore():
+    _patch_client()
+    shapes = workload.Shapes("DS", "signal")
+    rungs = []
+    for rate in (50, 100, 150, 180, 250, 400):
+        tr = drive.open_loop("http://fake", None, shapes.metadata, ["k1", "k2"], rate, 1.5)
+        rungs.append(tr.summary())
+    k = model.knee(rungs)
+    assert k["knee_offered"] in (250, 400), k
+    cap = k["capacity_rung"]
+    assert 140 <= cap["achieved"] <= 200, cap
+    assert 3.0 <= cap["in_flight_app"] <= 4.5, cap["in_flight_app"]   # Little recovers the slot count
+    assert "read_p50" in cap and "tok_p50" in cap
 
 
-def test_failed_unit_is_data_and_assert_clean_catches_it():
-    def flaky(node, item):
-        if item == 3:
-            raise ValueError("boom?secret=1")
-        return _work(node, item)
-
-    run = load.run(flaky, range(5), fake_node, threads=1, procs=1)
-    bad = [u for u in run.units if not u["ok"]]
-    assert len(bad) == 1 and bad[0]["error"] == "ValueError: boom"
-    try:
-        run.assert_clean()
-    except AssertionError as e:
-        assert "1 failed units" in str(e)
-    else:
-        raise AssertionError("assert_clean should have raised")
+def test_closed_loop_usl_sees_contention():
+    _patch_client()
+    shapes = workload.Shapes("DS", "signal")
+    N, X = [], []
+    for n in (1, 2, 4, 8, 16):
+        s = drive.closed_loop("http://fake", None, shapes.metadata, ["k"], n, 1.0).summary()
+        N.append(n)
+        X.append(s["achieved"])
+    fit = model.usl_fit(N, X)
+    assert X[-1] >= 150 and fit["slots_if_semaphore"] < 12, (X, fit)
 
 
-def test_non_2xx_call_fails_assert_clean():
-    run = load.run(_work, range(2), lambda: fake_node(status=500), threads=1, procs=1)
-    assert run.summary()["calls_err"] == 2
-    try:
-        run.assert_clean()
-    except AssertionError as e:
-        assert "failed units" in str(e)  # the unit raised first
-    else:
-        raise AssertionError("expected failure")
+def test_ledger_round_trip_and_staleness():
+    obs = {"url": "http://fake", "server_version": "fake-1"}
+    fp1 = fingerprint.merge(obs, ledger.reported())
+    c = ledger.claim("metadata.capacity_rate", 190, fp1, ["run-a"], unit="req/s")
+    assert ledger.known(fp1)["metadata.capacity_rate"]["id"] == c["id"]
+    ledger.intervene("workers", 16, by="operator", note="scaled in conversation")
+    fp2 = fingerprint.merge(obs, ledger.reported())
+    assert fp2["key"] != fp1["key"] and fp2["reported"]["workers"] == 16
+    assert "metadata.capacity_rate" not in ledger.known(fp2)
+    assert fp1["key"] in ledger.stale(fp2)
+    assert ledger.interventions()[-1]["after"] == 16
 
 
-def test_save_and_round(tmp=None):
-    with tempfile.TemporaryDirectory() as d:
-        with load.Round("smoke", root=d, day="2026-01-01", extra={"k": "v"}) as rd:
-            assert rd.dir.name == "2026-01-01-smoke" and json.loads((rd.dir / "meta.json").read_text())["k"] == "v"
-            run = load.run(_work, range(4), fake_node, threads=2, procs=1, label="t2")
-            path = rd.save(run)
-        assert path.name == "t2.summary.json"
-        summ = json.loads(path.read_text())
-        assert summ["meta"]["k"] == "v" and summ["units_ok"] == 4
-        assert len((rd.dir / "t2.calls.jsonl").read_text().splitlines()) == 8
-        assert len((rd.dir / "t2.units.jsonl").read_text().splitlines()) == 4
+def test_experiment_writes_a_run():
+    _patch_client()
+    fp = fingerprint.merge({"url": "http://fake", "server_version": "fake-1"}, {})
+    run_id, rungs, k = experiments.rate_ladder("http://fake", None, "DS", "signal", "metadata", ["k1"],
+                                               [50, 150, 400], duration=1.0, fp=fp,
+                                               observers=[observe.Reported(cpu_limit=2)])
+    path = ledger.ROOT / "runs" / run_id
+    assert (path / "params.json").exists() and (path / "knee.json").exists()
+    assert len((path / "rungs.jsonl").read_text().splitlines()) == len(rungs)
+    assert json.loads((path / "coverage.json").read_text())["reported"] == 1.0
+    assert any(p.name.startswith("calls-metadata-rate50") for p in path.iterdir())
 
 
-# ---- probes -------------------------------------------------------------------------
-
-def test_prometheus_parse_and_delta():
-    text = ("# HELP db_pool_checkedout x\n"
-            'db_pool_checkedout{name="catalog"} 3\n'
-            'db_pool_at_max_total{name="catalog"} 0\n'
-            'http_request_duration_seconds_count{code="200"} 10\n'
-            "process_cpu_seconds_total 1.5\n")
-    import re
-    out = {}
-    for line in text.splitlines():
-        if line.startswith("#"):
-            continue
-        m = probes._PROM.match(line)
-        if m and m.group(1).startswith(("db_pool", "tiled", "http")):
-            out[m.group(1) + (m.group(2) or "")] = float(m.group(3))
-    assert out == {'db_pool_checkedout{name="catalog"}': 3.0, 'db_pool_at_max_total{name="catalog"}': 0.0,
-                   'http_request_duration_seconds_count{code="200"}': 10.0}
-    after = dict(out, **{'db_pool_at_max_total{name="catalog"}': 2.0})
-    assert probes.metrics_delta(out, after) == {'db_pool_at_max_total{name="catalog"}': 2.0}
-
-
-def test_pg_sampler_writes_jsonl_with_fake_psql():
-    with tempfile.TemporaryDirectory() as d:
-        fake = Path(d) / "psql"
-        fake.write_text("#!/bin/sh\nprintf 'now\\ttiled-test\\tactive\\t\\t\\t3\\n'\n")
-        fake.chmod(0o755)
-        out = Path(d) / "pg.jsonl"
-        with probes.PgSampler([str(fake)], out, hz=20):
-            time.sleep(0.3)
-        lines = [json.loads(l) for l in out.read_text().splitlines()]
-        assert len(lines) >= 2 and lines[0]["activity"] == [["now", "tiled-test", "active", "", "", "3"]]
+def test_capacity_predicts():
+    cap = model.Capacity({"metadata": 50, "array.nav": 50, "array.data": 60}, slots=12)
+    p = cap.predict({"array.nav": 2, "array.data": 1})
+    assert abs(p["units_per_s"] - 12 / 0.16) < 1e-6 and p["req_per_s"] == p["units_per_s"] * 3
 
 
 if __name__ == "__main__":

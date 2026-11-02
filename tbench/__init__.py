@@ -1,6 +1,14 @@
-"""tbench: small functions for measuring a Tiled server, meant to be driven by a script an
-agent writes for one question. See README.md for the shape and .claude/skills/ for the
-questions."""
+"""tbench: measure a Tiled server as a model, keep what you learn in a ledger.
 
-from . import load, probes, reads, timing  # noqa: F401
-from .load import Round, Run, run  # noqa: F401
+    fingerprint  what the measurements were taken against (observed + operator-reported)
+    ledger       claims, interventions, runs
+    workload     request shapes over bare httpx
+    drive        open-loop (rate) and closed-loop (concurrency) load
+    observe      server-side observers, each may be absent
+    model        Little, USL, knee, capacity prediction
+    experiments  rate_ladder, concurrency_ladder, compare, replay
+
+Read .claude/skills/ask/SKILL.md for the loop and questions/ for the questions.
+"""
+
+from . import drive, experiments, fingerprint, ledger, model, observe, workload  # noqa: F401
