@@ -101,7 +101,7 @@ def local_server(workspace: Path, api_key: str = DEFAULT_API_KEY, port: int | No
         port: Bind port; a free one is chosen if omitted.
         read_paths: Extra ``--read`` roots beyond the workspace (e.g. ``data-source/`` for
             the egress benchmark, whose HDF5 lives outside the workspace).
-        fresh_db: Delete any existing catalog and ``--init`` a new one (regbench's default —
+        fresh_db: Delete any existing catalog and ``--init`` a new one (the registration default —
             registration timing needs an empty catalog). The egress benchmark passes False
             to keep its registered datasets across server restarts.
 
