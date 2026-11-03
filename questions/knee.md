@@ -12,8 +12,8 @@ was measured, closed loop, which is why the slot count was never resolved).
 
 | # | Hypothesis | rate_ladder(metadata) | pg_activity during the ladder | after intervention |
 |---|---|---|---|---|
-| H1 | A fixed pool between tiled and Postgres (pooler pool, or tiled's per-worker pools summed) | latency inflects at a rate where in-flight ≈ pool size; `read_ms` carries the growth | `active` flat at the pool size, `idle` pool holds the rest, no wait events | raising the pool moves the knee proportionally |
-| H2 | Database CPU | inflects where the DB is pegged; in-flight at knee is whatever the arrival rate × latency happens to be | `active` tracks offered load, `wait_event` empty, DB CPU at limit | more tiled workers do nothing; DB CPU limit moves it |
+| H1 | Tiled's per-process catalog pools, summed: `pods × workers_per_pod × (catalog_pool_size + catalog_max_overflow)` | latency inflects where in-flight ≈ that sum; `read_ms` carries the growth | `active` flat at that sum, nothing waiting | raising `catalog_pool_size` moves the knee proportionally |
+| H2 | Database CPU: one CNPG primary serves every query, `db_cpu_limit` cores | inflects where the primary is pegged; in-flight at knee has no relation to the pool sum | `active` tracks offered load past the pool sum, `wait_event` empty | pool changes do nothing; the DB CPU limit moves it |
 | H3 | Tiled worker CPU or pod CPU quota | `app_ms` grows but no segment (`tok`,`read`,`pack`) grows with it | DB quiet, `active` small | more workers / higher quota moves it; pool changes do not |
 | H4 | Ingress or TLS fabric | `healthz` ladder knees at the same rate as `metadata` | nothing | — |
 
@@ -21,6 +21,10 @@ H4 is cheap and goes first (`compare(["healthz", "metadata"])`). It was refuted 
 August fingerprint (6,300 req/s on healthz) but that fingerprint is dead.
 
 ## Experiment
+
+Under the deployment read on 2026-11-03 (3 pods, catalog pool 3+3 per process, DB primary
+limited to 1 core) H1 predicts in-flight at capacity of 18 × workers_per_pod; H2 predicts
+a throughput cap set by the 1-core primary with in-flight well above that.
 
 ```python
 fp = ledger.current(URL, KEY)                       # ask operator for reported fields first

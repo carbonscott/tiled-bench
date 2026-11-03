@@ -20,14 +20,15 @@ import httpx
 
 # Operator-reported fields that change what the server can do. Add here, never remove.
 REPORTED_FIELDS = (
-    "workers",          # uvicorn workers per pod, times pods
-    "db",               # e.g. "postgres-cnpg", "sqlite"
-    "pooler",           # e.g. "pgbouncer-session", "pgbouncer-transaction", "none"
+    "pods",             # replicas of the tiled deployment
+    "workers_per_pod",  # uvicorn workers in each pod (image entrypoint / WEB_CONCURRENCY)
+    "db",               # e.g. "postgres-cnpg-18", "sqlite"
+    "pooler",           # e.g. "none", "pgbouncer-session", "pgbouncer-transaction"
     "db_max_connections",
-    "pool_size",        # tiled catalog_pool_size
-    "max_overflow",     # tiled catalog_max_overflow
+    "catalog_pool_size",      # per process
+    "catalog_max_overflow",   # per process
     "cpu_limit",        # tiled pod CPU limit, cores
-    "db_cpu_limit",     # database pod CPU limit, cores
+    "db_cpu_limit",     # database primary CPU limit, cores
 )
 
 
