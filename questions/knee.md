@@ -23,7 +23,7 @@ August fingerprint (6,300 req/s on healthz) but that fingerprint is dead.
 ## Experiment
 
 Under the deployment read on 2026-11-03 (3 pods, catalog pool 3+3 per process, DB primary
-limited to 1 core) H1 predicts in-flight at capacity of 18 × workers_per_pod; H2 predicts
+limited to 1 core) H1 predicts in-flight at capacity of about 18 (3 pods × 1 worker × 6); H2 predicts
 a throughput cap set by the 1-core primary with in-flight well above that.
 
 ```python

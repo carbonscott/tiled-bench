@@ -1,0 +1,11 @@
+{
+ "pods": 3,
+ "workers_per_pod": 1,
+ "db": "postgres-cnpg-18, 3 instances, one primary serves all reads and writes",
+ "pooler": "none",
+ "db_max_connections": 250,
+ "catalog_pool_size": 3,
+ "catalog_max_overflow": 3,
+ "cpu_limit": 2,
+ "db_cpu_limit": 1
+}

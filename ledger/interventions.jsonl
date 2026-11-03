@@ -1,0 +1,9 @@
+{"t": 1793730265.4313338, "what": "pods", "before": 16, "after": 3, "by": "operator", "note": "changed 2026-11-02 per Sam; was 16 pods through the 2026-08 campaign"}
+{"t": 1793730265.440148, "what": "workers_per_pod", "before": null, "after": 1, "by": "operator", "note": "from the deploy repo (apps/base/common.yaml, deployment.yaml, tiled-psql cluster.yaml) read 2026-11-03"}
+{"t": 1793730265.4461496, "what": "db", "before": null, "after": "postgres-cnpg-18, 3 instances, one primary serves all reads and writes", "by": "operator", "note": "from the deploy repo (apps/base/common.yaml, deployment.yaml, tiled-psql cluster.yaml) read 2026-11-03"}
+{"t": 1793730265.4504342, "what": "pooler", "before": null, "after": "none", "by": "operator", "note": "from the deploy repo (apps/base/common.yaml, deployment.yaml, tiled-psql cluster.yaml) read 2026-11-03"}
+{"t": 1793730265.4555533, "what": "db_max_connections", "before": null, "after": 250, "by": "operator", "note": "from the deploy repo (apps/base/common.yaml, deployment.yaml, tiled-psql cluster.yaml) read 2026-11-03"}
+{"t": 1793730265.4633584, "what": "catalog_pool_size", "before": null, "after": 3, "by": "operator", "note": "from the deploy repo (apps/base/common.yaml, deployment.yaml, tiled-psql cluster.yaml) read 2026-11-03"}
+{"t": 1793730265.47151, "what": "catalog_max_overflow", "before": null, "after": 3, "by": "operator", "note": "from the deploy repo (apps/base/common.yaml, deployment.yaml, tiled-psql cluster.yaml) read 2026-11-03"}
+{"t": 1793730265.4779806, "what": "cpu_limit", "before": null, "after": 2, "by": "operator", "note": "from the deploy repo (apps/base/common.yaml, deployment.yaml, tiled-psql cluster.yaml) read 2026-11-03"}
+{"t": 1793730265.4978726, "what": "db_cpu_limit", "before": null, "after": 1, "by": "operator", "note": "from the deploy repo (apps/base/common.yaml, deployment.yaml, tiled-psql cluster.yaml) read 2026-11-03"}
