@@ -82,11 +82,12 @@ def test_closed_loop_usl_sees_contention():
     shapes = workload.Shapes("DS", "signal")
     N, X = [], []
     for n in (1, 2, 4, 8, 16):
-        s = drive.closed_loop("http://fake", None, shapes.metadata, ["k"], n, 1.0).summary()
+        s = drive.closed_loop("http://fake", None, shapes.metadata, ["k"], n, 1.5).summary()
         N.append(n)
         X.append(s["achieved"])
     fit = model.usl_fit(N, X)
-    assert X[-1] >= 150 and fit["slots_if_semaphore"] < 12, (X, fit)
+    # Contention is seen (sigma > 0) and the fitted peak is the 4-slot / 20 ms ceiling, ~200/s.
+    assert fit["sigma"] > 0 and 150 <= fit["x_max"] <= 260 and X[-1] >= 150, (X, fit)
 
 
 def test_ledger_round_trip_and_staleness():
@@ -94,12 +95,12 @@ def test_ledger_round_trip_and_staleness():
     fp1 = fingerprint.merge(obs, ledger.reported())
     c = ledger.claim("metadata.capacity_rate", 190, fp1, ["run-a"], unit="req/s")
     assert ledger.known(fp1)["metadata.capacity_rate"]["id"] == c["id"]
-    ledger.intervene("workers", 16, by="operator", note="scaled in conversation")
+    ledger.intervene("pods", 3, by="operator", note="scaled in conversation")
     fp2 = fingerprint.merge(obs, ledger.reported())
-    assert fp2["key"] != fp1["key"] and fp2["reported"]["workers"] == 16
+    assert fp2["key"] != fp1["key"] and fp2["reported"]["pods"] == 3
     assert "metadata.capacity_rate" not in ledger.known(fp2)
     assert fp1["key"] in ledger.stale(fp2)
-    assert ledger.interventions()[-1]["after"] == 16
+    assert ledger.interventions()[-1]["after"] == 3
 
 
 def test_experiment_writes_a_run():
